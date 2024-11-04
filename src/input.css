@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input {
+  border-radius: 0.25rem;
+}
+
+.hambug {
+  display: grid;
+  gap: 4px;
+  position: relative;
+}
+.hambug .ham {
+  background-color: black;
+  width: 25px;
+  height: 5px;
+  border-radius: 0.25rem;
+}
+
+.hambug .ham:first-child::after {
+  content: "";
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 9px;
+  gap: 4px;
+  width: 25px;
+  height: 5px;
+  border-radius: 0.25rem;
+}
+.hambug .ham:last-child {
+  position: absolute;
+  top: 19px;
+  margin-bottom: 5px;
+}
