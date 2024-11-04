@@ -1,10 +1,9 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 function Logo() {
   return (
     <div>
-      <Link>Valid-Shop</Link>
+      <Link to={"/"}>Valid-Shop</Link>
     </div>
   );
 }
