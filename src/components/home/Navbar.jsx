@@ -1,7 +1,6 @@
 // This file consist of hero section too
 
 import { NavLink } from "react-router-dom";
-import Hero from "./hero";
 
 function Navbar() {
   const menuItems = [
@@ -30,7 +29,7 @@ function Navbar() {
   return (
     <>
       {/* ========== HEADER ========== */}
-      <div className="h-screen">
+      <div className="">
         <header className="z-50 flex w-full flex-wrap py-7 lg:flex-nowrap lg:justify-start">
           <nav className="relative mx-auto flex w-full max-w-7xl basis-full flex-wrap items-center px-4 md:px-6 lg:grid lg:grid-cols-12 lg:px-8">
             <div className="flex items-center lg:col-span-3">
@@ -137,7 +136,6 @@ function Navbar() {
             {/* End Collapse */}
           </nav>
         </header>
-        <Hero />
       </div>
 
       {/* ========== END HEADER ========== */}
