@@ -30,12 +30,12 @@ function Navbar() {
     <>
       {/* ========== HEADER ========== */}
       <div className="">
-        <header className="z-50 flex w-full flex-wrap py-7 lg:flex-nowrap lg:justify-start">
+        <header className="z-50 flex w-full flex-wrap border-b border-gray-200 bg-amber-50/50 py-7 lg:flex-nowrap lg:justify-start">
           <nav className="relative mx-auto flex w-full max-w-7xl basis-full flex-wrap items-center px-4 md:px-6 lg:grid lg:grid-cols-12 lg:px-8">
             <div className="flex items-center lg:col-span-3">
               {/* Logo */}
               <a
-                className="from-validGreen inline-block flex-none bg-gradient-to-r to-green-900 bg-clip-text text-xl font-bold text-transparent uppercase focus:opacity-80 focus:outline-hidden"
+                className="from-validGreen inline-block flex-none bg-gradient-to-r to-green-900 bg-clip-text text-2xl font-bold text-transparent uppercase focus:opacity-80 focus:outline-hidden"
                 href="../templates/creative-agency/index.html"
                 aria-label="Preline"
               >
@@ -120,7 +120,7 @@ function Navbar() {
                       <li>
                         <NavLink
                           className={({ isActive }) =>
-                            `relative inline-block text-black ${isActive ? "w-full rounded-md bg-gray-200 px-2 py-1" : ""}`
+                            `relative inline-block font-medium text-black uppercase ${isActive ? "w-full rounded-md bg-gray-200 px-2 py-1" : ""}`
                           }
                           to={item.link}
                           aria-current={item.name}
