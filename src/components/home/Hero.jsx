@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import homeCarousel from "/src/assets/home-carousel.jpg";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Hero() {
   const popularBrands = [
@@ -69,6 +71,26 @@ function Hero() {
       ),
     },
   ];
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userType = localStorage.getItem("userType");
+    if (userType === "buyer") {
+      navigate("/shop");
+    } else if (userType === "seller") {
+      navigate("/seller-dashboard");
+    }
+  }, [navigate]);
+
+  const handleSelection = (role) => {
+    localStorage.setItem("userType", role);
+    if (role === "buyer") {
+      navigate("/shop");
+    } else if (role === "seller") {
+      navigate("/seller-dashbard");
+    }
+  };
   return (
     <>
       <div className="grid h-[calc(100vh-110px)] bg-amber-50/50 md:grid-cols-2">
@@ -104,18 +126,20 @@ function Hero() {
             want to grow. Start exploring now!
           </p>
           <div className="mt-5 flex gap-5">
-            <a
+            <NavLink
               className="flex items-center gap-2 rounded-lg bg-green-950 px-5 py-2 text-lg text-amber-50"
-              href="shop"
+              onClick={() => handleSelection("buyer")}
+              to="/shop"
             >
               <i class="bx bx-cart"></i> Browse Products
-            </a>
-            <a
+            </NavLink>
+            <NavLink
               className="flex items-center gap-2 rounded-lg border-2 bg-amber-50 px-5 py-2 text-lg text-green-950"
-              href="shop"
+              onClick={() => handleSelection("seller")}
+              to="/seller-dashboard"
             >
               <i class="bx bx-dollar"></i> Start Selling
-            </a>
+            </NavLink>
           </div>
           <h4 className="mt-10 mb-2 text-lg font-semibold">
             Popular brands on{" "}
