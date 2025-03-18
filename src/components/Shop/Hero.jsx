@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Hero = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen((prev) => !prev);
+  };
+
   const categoryMenus = [
     {
       id: 1,
@@ -58,11 +64,15 @@ const Hero = () => {
       icon: <i class="bx bx-bookmark"></i>,
     },
   ];
+
   return (
     <>
       <div className="mb-1 flex h-13 w-full bg-black">
         <div className="mx-5 flex gap-2 text-white">
-          <div className="flex items-center bg-[#333333] px-5">
+          <div
+            className="flex cursor-pointer items-center bg-[#333333] px-5 select-none"
+            onClick={toggleMenu}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -146,7 +156,13 @@ const Hero = () => {
         </div>
       </div>
       <div className="mx-5 flex h-[calc(100vh-110px)] gap-5">
-        <div className="hidden w-[40%] bg-white px-3 pt-5 md:block">
+        <div
+          className={`hidden w-[40%] bg-white px-3 pt-5 transition-all duration-500 sm:block ${
+            isOpen
+              ? "h-full opacity-100"
+              : "hidden h-0 overflow-hidden opacity-0"
+          }`}
+        >
           <ul className="flex h-full flex-col gap-5">
             {categoryMenus.map((catItem) => (
               <li
@@ -154,12 +170,17 @@ const Hero = () => {
                 className="flex items-center gap-2 rounded-md border-b border-gray-200 text-lg"
               >
                 <span className="">{catItem.icon}</span>
-                {catItem.item}
+                <div className="flex w-full justify-between gap-10">
+                  <p>{catItem.item}</p>
+                  <i class="bx bx-chevron-right text-2xl"></i>
+                </div>
               </li>
             ))}
           </ul>
         </div>
-        <div className="w-full bg-red-300"></div>
+        <div
+          className={`bg-red-300 transition-all duration-500 ${isOpen ? "md:w-[60%]" : "w-full"}`}
+        ></div>{" "}
       </div>
     </>
   );
