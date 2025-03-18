@@ -1,16 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import Hero from "../components/Shop/Hero";
 
 const Shop = () => {
-  const navigate = useNavigate();
-
-  const returnHome = () => {
-    localStorage.removeItem("userType");
-    navigate("/");
-  };
   return (
     <>
-      <div>Shop</div>
-      <button onClick={() => returnHome()}>Hello</button>
+      <Hero />
     </>
   );
 };
