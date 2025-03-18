@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import homeCarousel from "/src/assets/home-carousel.jpg";
 import { NavLink, useNavigate } from "react-router-dom";
+let userType = localStorage.getItem("userType");
 
 function Hero() {
   const popularBrands = [
@@ -75,7 +76,7 @@ function Hero() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userType = localStorage.getItem("userType");
+    userType = localStorage.getItem("userType");
     if (userType === "buyer") {
       navigate("/shop");
     } else if (userType === "seller") {
@@ -85,11 +86,7 @@ function Hero() {
 
   const handleSelection = (role) => {
     localStorage.setItem("userType", role);
-    if (role === "buyer") {
-      navigate("/shop");
-    } else if (role === "seller") {
-      navigate("/seller-dashbard");
-    }
+    navigate(role === "buyer" ? "/shop" : "/seller-dashboard");
   };
   return (
     <>
@@ -116,12 +113,12 @@ function Hero() {
             </NavLink>
           </div>
         </div> */}
-        <div className="h-full ps-20 pt-10 text-green-900 md:pt-30">
+        <div className="h-full ps-10 pt-10 text-green-900 md:ps-20 md:pt-30">
           <div className="text-4xl font-semibold md:text-4xl lg:text-6xl">
             <h1 className="">Find What You Need</h1>
-            <h1 className="ps-7">Sell What You Have</h1>
+            <h1 className="ps-3 md:ps-7">Sell What You Have</h1>
           </div>
-          <p className="mt-2 text-lg text-gray-500">
+          <p className="mt-5 text-lg text-gray-500 md:mt-2">
             A platform designed for buyers who love convenience and sellers who
             want to grow. Start exploring now!
           </p>
@@ -141,15 +138,16 @@ function Hero() {
               <i class="bx bx-dollar"></i> Start Selling
             </NavLink>
           </div>
-          <h4 className="mt-10 mb-2 text-lg font-semibold">
-            Popular brands on{" "}
-            <span className="text-validGreen">Valid Shop</span>
-          </h4>
-          <div className="flex gap-10">
-            {popularBrands.map((popularBrand) => popularBrand.svg)}
+          <div className="fixed bottom-0 md:static">
+            <h4 className="mt-10 mb-2 text-lg font-semibold">
+              Popular brands on Valid Shop
+            </h4>
+            <div className="flex gap-10">
+              {popularBrands.map((popularBrand) => popularBrand.svg)}
+            </div>
           </div>
         </div>
-        <div className="">
+        <div className="hidden md:block">
           <img
             className="mt-2 h-full rounded-lg object-cover"
             src={homeCarousel}
