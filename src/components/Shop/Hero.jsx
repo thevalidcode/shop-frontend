@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css";
 
 const Hero = () => {
   const [isMobile, setIsMobile] = useState(false);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
@@ -65,6 +67,21 @@ const Hero = () => {
       id: 10,
       item: "Top 100 Offers",
       icon: <i class="bx bx-bookmark"></i>,
+    },
+  ];
+
+  const heroCarousel = [
+    {
+      id: 1,
+      img: "/src/assets/homeShop-carousel.jpg",
+      title: "Product Title 1",
+      des: "Product Description 1",
+    },
+    {
+      id: 2,
+      img: "https://images.pexels.com/photos/19803079/pexels-photo-19803079/free-photo-of-woman-drinking-coffee-with-milk.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load",
+      title: "Product Title 2",
+      des: "Product Description 2",
     },
   ];
 
@@ -228,7 +245,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="mx-5 flex h-[calc(100vh-110px)] gap-5">
+      <div className="mx-5 flex h-[calc(100vh-110px)] gap-5 overflow-hidden">
         <div
           className={`hidden w-[40%] bg-white px-3 pt-5 transition-all duration-700 sm:block ${
             isOpen
@@ -253,7 +270,27 @@ const Hero = () => {
         </div>
         <div
           className={`bg-red-300 transition-all duration-500 ${isOpen ? "w-full" : "w-full"}`}
-        ></div>
+        >
+          <Splide aria-label="My Favorite Images">
+            {heroCarousel.map((eachSlide) => (
+              <SplideSlide key={eachSlide.id} className="relative">
+                <img
+                  src={eachSlide.img}
+                  className="h-[calc(100vh)] w-full object-cover"
+                  alt="Image 1"
+                />
+                <div className="bg-validGreen/10 absolute bottom-[15%] h-full w-full">
+                  <p className="absolute bottom-40 ms-15 text-6xl font-medium text-red-500">
+                    {eachSlide.title}
+                  </p>
+                  <p className="absolute bottom-20 ms-15 text-6xl font-medium text-red-500">
+                    {eachSlide.des}
+                  </p>
+                </div>
+              </SplideSlide>
+            ))}
+          </Splide>
+        </div>
       </div>
     </>
   );

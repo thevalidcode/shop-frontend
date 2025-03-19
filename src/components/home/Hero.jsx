@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import homeCarousel from "/src/assets/home-carousel.jpg";
+import landImg from "/src/assets/landing-page.jpg";
 import { NavLink, useNavigate } from "react-router-dom";
 let userType = localStorage.getItem("userType");
 
@@ -150,7 +150,7 @@ function Hero() {
         <div className="hidden md:block">
           <img
             className="mt-2 h-full rounded-lg object-cover"
-            src={homeCarousel}
+            src={landImg}
             alt=""
           />
         </div>
