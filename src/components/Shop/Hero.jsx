@@ -64,7 +64,7 @@ const Hero = () => {
       icon: <i class="bx bx-bookmark"></i>,
     },
     {
-      id: 10,
+      id: 11,
       item: "Top 100 Offers",
       icon: <i class="bx bx-bookmark"></i>,
     },
@@ -75,14 +75,27 @@ const Hero = () => {
       id: 1,
       img: "/src/assets/homeShop-carousel.jpg",
       title: "Stereo Headset",
-      des: "Bluetooth 5.0 Technology】 ensures fast and stable connections to your Bluetooth devices with low latency during audio/video streaming. No more worries about audio dropouts during phone calls and music listening",
+      des: "Get a 42% discount off on every purchase of stereo headset.",
+      buttonText: "Go to categories",
+      buttonIcon: <i class="bx bx-right-arrow-alt"></i>,
+      buttonLink: "/categories",
     },
     {
       id: 2,
       img: "https://images.pexels.com/photos/19803079/pexels-photo-19803079/free-photo-of-woman-drinking-coffee-with-milk.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load",
       title: "Product Title 2",
       des: "Product Description 2",
+      buttonText: "Go to categories",
+      buttonIcon: <i class="bx bx-right-arrow-alt"></i>,
+      buttonLink: "/categories",
     },
+  ];
+  const brandsLogos = [
+    { id: 1, name: "LG", img: "/src/assets/brand-logos/lg.svg" },
+    { id: 2, name: "Hisense", img: "/src/assets/brand-logos/hisense.svg" },
+    { id: 3, name: "LG", img: "/src/assets/brand-logos/hollyland.svg" },
+    { id: 4, name: "LG", img: "/src/assets/brand-logos/oraimo.svg" },
+    { id: 5, name: "LG", img: "/src/assets/brand-logos/samsung.svg" },
   ];
 
   useEffect(() => {
@@ -224,18 +237,18 @@ const Hero = () => {
                 <path
                   id="Vector"
                   stroke="white"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="m0.71901 9.39099 3.89 3.89001c0.14063 0.1404 0.33125 0.2193 0.53 0.2193 0.19875 0 0.38938 -0.0789 0.53 -0.2193L13.389 5.56099c0.0388 -0.03708 0.0688 -0.08237 0.0878 -0.13255 0.0191 -0.05017 0.0266 -0.10397 0.0222 -0.15745l-0.59 -3.83c-0.0048 -0.09127 -0.0432 -0.17752 -0.1078 -0.24214 -0.0647 -0.06463 -0.1509 -0.10305 -0.2422 -0.10786l-3.82999 -0.59c-0.05348 -0.004439 -0.10728 0.003134 -0.15745 0.022167 -0.05018 0.019032 -0.09547 0.049042 -0.13255 0.087833l-7.72 7.72c-0.14045 0.14062 -0.21934 0.33125 -0.21934 0.53 0 0.19875 0.07889 0.38937 0.21934 0.53v0Z"
-                  stroke-width="1"
+                  strokeWidth="1"
                 ></path>
                 <path
                   id="Vector_2"
                   stroke="white"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M9.88904 4.61096c-0.27614 0 -0.5 -0.22386 -0.5 -0.5s0.22386 -0.5 0.5 -0.5c0.27616 0 0.49996 0.22386 0.49996 0.5s-0.2238 0.5 -0.49996 0.5Z"
-                  stroke-width="1"
+                  strokeWidth="1"
                 ></path>
               </g>
             </svg>
@@ -245,9 +258,9 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="mx-5 flex h-[calc(100vh-110px)] gap-5 overflow-hidden">
+      <div className="flex h-[calc(100vh-110px)] gap-5 overflow-hidden">
         <div
-          className={`hidden w-[40%] bg-white px-3 pt-5 transition-all duration-700 sm:block ${
+          className={`hidden w-[30%] bg-white px-3 pt-5 transition-all duration-700 sm:block ${
             isOpen
               ? "h-full overflow-hidden opacity-100"
               : "hidden h-0 overflow-hidden opacity-0"
@@ -269,27 +282,61 @@ const Hero = () => {
           </ul>
         </div>
         <div
-          className={`bg-red-300 transition-all duration-500 ${isOpen ? "w-full" : "w-full"}`}
+          className={`me-1 flex h-full flex-col transition-all duration-500 ${isOpen ? "w-full" : "w-full"}`}
         >
-          <Splide aria-label="My Favorite Images">
-            {heroCarousel.map((eachSlide) => (
-              <SplideSlide key={eachSlide.id} className="relative">
+          <div className="">
+            <Splide
+              aria-label="My Favorite Images"
+              options={
+                {
+                  // autoplay: true,
+                  // interval: 3000,
+                  // loop: true,
+                }
+              }
+            >
+              {heroCarousel.map((eachSlide) => (
+                <SplideSlide key={eachSlide.id} className="relative">
+                  <img
+                    src={eachSlide.img}
+                    className="h-[calc(70vh)] w-full rounded-md object-cover"
+                    alt="Image 1"
+                  />
+                  <div className="bg-validGreen/10 absolute bottom-0 h-screen w-full">
+                    <p className="font-orbitron absolute bottom-40 ms-15 mb-5 text-6xl font-bold text-gray-100 md:bottom-40 lg:bottom-50">
+                      {eachSlide.title}
+                    </p>
+                    <p className="absolute bottom-27 ms-15 text-xl font-medium text-gray-200 md:bottom-27 md:text-2xl lg:bottom-45">
+                      {eachSlide.des}
+                    </p>
+
+                    {eachSlide.buttonText ? (
+                      <NavLink
+                        className="absolute bottom-25 ms-15 rounded-md bg-green-600 px-2 py-1 text-lg font-medium text-gray-200 md:bottom-25 lg:bottom-35"
+                        to={eachSlide.buttonLink}
+                      >
+                        <span className="flex items-center gap-1">
+                          {eachSlide.buttonText} {eachSlide.buttonIcon}
+                        </span>
+                      </NavLink>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </SplideSlide>
+              ))}
+            </Splide>
+            <div className="mt-2 grid h-[15%] w-full grid-cols-5 place-items-center items-center rounded bg-white px-5">
+              {brandsLogos.map((brandLogo) => (
                 <img
-                  src={eachSlide.img}
-                  className="h-[calc(100vh)] w-full object-cover"
-                  alt="Image 1"
+                  key={brandLogo.id}
+                  className="relative w-20 pe-2"
+                  src={brandLogo.img}
+                  alt=""
                 />
-                <div className="bg-validGreen/10 absolute bottom-[15%] h-full w-full">
-                  <p className="font-orbitron absolute bottom-40 ms-15 text-6xl font-bold text-gray-100">
-                    {eachSlide.title}
-                  </p>
-                  <p className="absolute bottom-10 ms-15 text-sm font-medium text-gray-200 md:text-2xl">
-                    {eachSlide.des}
-                  </p>
-                </div>
-              </SplideSlide>
-            ))}
-          </Splide>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </>
