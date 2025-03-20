@@ -10,6 +10,7 @@ import RootLayout from "./layouts/RootLayout";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
+import NotFound from "./components/NotFound";
 
 function App() {
   const router = createBrowserRouter(
@@ -18,6 +19,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="contact" element={<Contact />} />
         <Route path="shop" element={<Shop />} />
+        <Route path="*" element={<NotFound />} />
       </Route>,
     ),
   );
