@@ -74,8 +74,8 @@ const Hero = () => {
     {
       id: 1,
       img: "/src/assets/homeShop-carousel.jpg",
-      title: "Product Title 1",
-      des: "Product Description 1",
+      title: "Stereo Headset",
+      des: "Bluetooth 5.0 Technology】 ensures fast and stable connections to your Bluetooth devices with low latency during audio/video streaming. No more worries about audio dropouts during phone calls and music listening",
     },
     {
       id: 2,
@@ -280,10 +280,10 @@ const Hero = () => {
                   alt="Image 1"
                 />
                 <div className="bg-validGreen/10 absolute bottom-[15%] h-full w-full">
-                  <p className="absolute bottom-40 ms-15 text-6xl font-medium text-red-500">
+                  <p className="font-orbitron absolute bottom-40 ms-15 text-6xl font-bold text-gray-100">
                     {eachSlide.title}
                   </p>
-                  <p className="absolute bottom-20 ms-15 text-6xl font-medium text-red-500">
+                  <p className="absolute bottom-10 ms-15 text-sm font-medium text-gray-200 md:text-2xl">
                     {eachSlide.des}
                   </p>
                 </div>
