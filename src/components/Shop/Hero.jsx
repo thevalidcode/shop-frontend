@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
+import { div } from "framer-motion/client";
 
 const Hero = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -90,12 +91,14 @@ const Hero = () => {
       buttonLink: "/categories",
     },
   ];
+
   const brandsLogos = [
     { id: 1, name: "LG", img: "/src/assets/brand-logos/lg.svg" },
     { id: 2, name: "Hisense", img: "/src/assets/brand-logos/hisense.svg" },
-    { id: 3, name: "LG", img: "/src/assets/brand-logos/hollyland.svg" },
-    { id: 4, name: "LG", img: "/src/assets/brand-logos/oraimo.svg" },
-    { id: 5, name: "LG", img: "/src/assets/brand-logos/samsung.svg" },
+    { id: 3, name: "Hollyland", img: "/src/assets/brand-logos/hollyland.svg" },
+    { id: 4, name: "Oraimo", img: "/src/assets/brand-logos/oraimo.svg" },
+    { id: 5, name: "Samsung", img: "/src/assets/brand-logos/samsung.svg" },
+    { id: 6, name: "ALl Brands", title: "All Brands", slug: "/brands" },
   ];
 
   useEffect(() => {
@@ -326,15 +329,25 @@ const Hero = () => {
                 </SplideSlide>
               ))}
             </Splide>
-            <div className="mt-2 grid h-[15%] w-full grid-cols-5 place-items-center items-center rounded bg-white px-5">
-              {brandsLogos.map((brandLogo) => (
-                <img
-                  key={brandLogo.id}
-                  className="relative w-20 pe-2"
-                  src={brandLogo.img}
-                  alt=""
-                />
-              ))}
+            <div className="mt-2 flex h-[15%] w-full place-items-center items-center justify-between gap-10 overflow-x-auto rounded bg-white px-5">
+              {brandsLogos.map((brandLogo) =>
+                brandLogo.title ? (
+                  <NavLink
+                    key={brandLogo.id}
+                    className="flex w-full items-center font-bold text-nowrap text-green-600"
+                    to={brandLogo.slug}
+                  >
+                    {brandLogo.title} <i class="bx bx-right-arrow-alt"></i>
+                  </NavLink>
+                ) : (
+                  <img
+                    key={brandLogo.id}
+                    className="relative w-20 pe-2"
+                    src={brandLogo.img}
+                    alt=""
+                  />
+                ),
+              )}
             </div>
           </div>
         </div>
