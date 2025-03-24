@@ -20,7 +20,7 @@ const NewProducts = () => {
                 src={productData.img}
                 alt={productData.name + " Image"}
               />
-              <div className="from-validGreen/80 absolute bottom-0 w-full bg-gradient-to-t ps-5 pt-50 pb-5">
+              <div className="from-validGreen/80 absolute bottom-0 w-full rounded-xl bg-gradient-to-t ps-5 pt-50 pb-5">
                 <h1 className="font-orbitron text-3xl font-black text-white">
                   {productData.name}
                 </h1>
