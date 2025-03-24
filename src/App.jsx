@@ -11,6 +11,7 @@ import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import NotFound from "./components/NotFound";
+import ProductsDetails from "./components/ProductDetail/ProductsDetails";
 
 function App() {
   const router = createBrowserRouter(
@@ -20,6 +21,7 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="shop" element={<Shop />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/product/:name/:productId" element={<ProductsDetails />} />
       </Route>,
     ),
   );

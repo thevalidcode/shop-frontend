@@ -34,13 +34,13 @@ function Navbar() {
           <nav className="relative mx-auto flex w-full max-w-7xl basis-full flex-wrap items-center px-4 md:px-6 lg:grid lg:grid-cols-12 lg:px-8">
             <div className="flex items-center lg:col-span-3">
               {/* Logo */}
-              <a
+              <NavLink
                 className="from-validGreen inline-block flex-none bg-gradient-to-r to-green-900 bg-clip-text text-2xl font-bold text-transparent uppercase focus:opacity-80 focus:outline-hidden"
-                href="../templates/creative-agency/index.html"
+                to="/"
                 aria-label="Preline"
               >
                 Valid Shop
-              </a>
+              </NavLink>
               {/* End Logo */}
 
               <div className="ms-1 sm:ms-2"></div>
