@@ -56,7 +56,7 @@ function Navbar() {
               </button>
               <button
                 type="button"
-                className="bg-validGreen inline-flex items-center gap-x-2 rounded-xl border border-transparent px-3 py-2 text-sm font-medium text-nowrap text-black text-white transition hover:bg-lime-500 focus:bg-lime-500 focus:outline-hidden disabled:pointer-events-none disabled:opacity-50"
+                className="bg-validGreen inline-flex items-center gap-x-2 rounded-xl border border-transparent px-3 py-2 text-sm font-medium text-nowrap transition hover:bg-lime-500 focus:bg-lime-500 focus:outline-hidden disabled:pointer-events-none disabled:opacity-50"
               >
                 Get started
               </button>
