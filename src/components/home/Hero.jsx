@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import landImg from "/src/assets/landing-page.jpg";
 import { NavLink, useNavigate } from "react-router-dom";
+import { div } from "framer-motion/client";
 let userType = localStorage.getItem("userType");
 
 function Hero() {
@@ -143,7 +144,9 @@ function Hero() {
               Popular brands on Valid Shop
             </h4>
             <div className="flex gap-10">
-              {popularBrands.map((popularBrand) => popularBrand.svg)}
+              {popularBrands.map((popularBrand, index) => (
+                <div key={index}>{popularBrand.svg}</div>
+              ))}
             </div>
           </div>
         </div>

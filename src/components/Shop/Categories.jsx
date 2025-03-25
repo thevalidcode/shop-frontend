@@ -9,7 +9,6 @@ const Categories = () => {
     <>
       <div className="mx-5 mt-5 mb-10">
         <h1 className="font-orbitron mb-2 text-3xl font-bold">
-          {" "}
           Explore categories
         </h1>
         <div className="flex w-full gap-5 overflow-x-auto">
