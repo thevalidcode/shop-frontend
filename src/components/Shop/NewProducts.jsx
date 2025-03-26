@@ -34,7 +34,7 @@ const NewProducts = () => {
                 </div>
               ))
             ) : (
-              <p>Loading products...</p>
+              <p>Loading products....</p>
             )}
           </div>
         </div>
