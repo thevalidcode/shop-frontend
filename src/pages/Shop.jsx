@@ -1,13 +1,13 @@
 import Hero from "../components/Shop/Hero";
 import Categories from "../components/Shop/Categories";
-import NewProducts from "../components/Shop/NewProducts";
+import ProductSellingPage from "../components/Shop/ProductSellingPage";
 
 const Shop = () => {
   return (
     <>
       <Hero />
       <Categories />
-      <NewProducts />
+      <ProductSellingPage />
     </>
   );
 };

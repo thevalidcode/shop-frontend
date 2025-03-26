@@ -18,7 +18,6 @@ const RootLayout = () => {
   return (
     <>
       <div style={{ "--color-validGreen": themeColor }}>
-        <h1 className="text-validGreen">Multivendor</h1>
         <div className="flex gap-2">
           <button
             onClick={() => handleChangeColor("#ff5733")}
