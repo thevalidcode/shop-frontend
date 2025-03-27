@@ -19,26 +19,18 @@ const ProductsDetails = () => {
           navigate("/404", { replace: true });
         } else {
           setProduct(foundProduct);
-
-          // Store the product in localStorage
-          const viewedProducts =
-            JSON.parse(localStorage.getItem("viewedProducts")) || [];
-
-          // Avoid duplicates
-          const isAlreadyViewed = viewedProducts.some(
-            (p) => p.productId === foundProduct.productId,
-          );
-          if (!isAlreadyViewed) {
-            const updatedViewedProducts = [
-              foundProduct,
-              ...viewedProducts,
-            ].slice(0, 5); // Keep only last 5
-            localStorage.setItem(
-              "viewedProducts",
-              JSON.stringify(updatedViewedProducts),
-            );
-          }
         }
+        let viewedProducts =
+          JSON.parse(localStorage.getItem("viewedProducts")) || [];
+        viewedProducts = viewedProducts.filter(
+          (p) => p.productId !== foundProduct.productId,
+        );
+        viewedProducts.unshift(foundProduct);
+        if (viewedProducts.length > 4) viewedProducts.pop;
+        viewedProducts = localStorage.setItem(
+          "viewedProducts",
+          JSON.stringify(viewedProducts),
+        );
       })
       .catch((error) => console.error("No product found:", error));
   }, [productId, slug, navigate]);
