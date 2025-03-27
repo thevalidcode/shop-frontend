@@ -3,21 +3,21 @@ import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 
 const RootLayout = () => {
-  const [themeColor, setThemeColor] = useState("#0cdd08");
+  // const [themeColor, setThemeColor] = useState("#0cdd08");
 
-  useEffect(() => {
-    const savedColor = localStorage.getItem("themeColor");
-    if (savedColor) {
-      setThemeColor(savedColor);
-    }
-  }, []);
-  const handleChangeColor = (color) => {
-    setThemeColor(color);
-    localStorage.setItem("themeColor", color);
-  };
+  // useEffect(() => {
+  //   const savedColor = localStorage.getItem("themeColor");
+  //   if (savedColor) {
+  //     setThemeColor(savedColor);
+  //   }
+  // }, []);
+  // const handleChangeColor = (color) => {
+  //   setThemeColor(color);
+  //   localStorage.setItem("themeColor", color);
+  // };
   return (
     <>
-      <div style={{ "--color-validGreen": themeColor }}>
+      {/* <div style={{ "--color-validGreen": themeColor }}>
         <div className="flex gap-2">
           <button
             onClick={() => handleChangeColor("#ff5733")}
@@ -37,10 +37,10 @@ const RootLayout = () => {
             className=""
             onChange={(e) => handleChangeColor(e.target.value)}
           />
-        </div>
-        <Navbar />
-        <Outlet />
-      </div>
+        </div> */}
+      <Navbar />
+      <Outlet />
+      {/* </div> */}
     </>
   );
 };

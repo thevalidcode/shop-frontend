@@ -27,7 +27,22 @@ const ProductsDetails = () => {
   return (
     <>
       <div>
-        <p> {product.name} </p>
+        <div className="mx-5 mt-5 grid gap-5 md:grid-cols-2">
+          <div className="">
+            <img
+              className="h-150 w-500 rounded-md object-cover object-right"
+              src={product.image}
+              alt=""
+            />
+          </div>
+          <div className="">
+            <p className="text-gray-600"> {product.category} </p>
+            <p className="font-orbitron text-4xl font-bold"> {product.name} </p>
+            <p className="font-orbitron mt-10 text-3xl font-bold">
+              {"₦" + product.price}
+            </p>
+          </div>
+        </div>
       </div>
     </>
   );
