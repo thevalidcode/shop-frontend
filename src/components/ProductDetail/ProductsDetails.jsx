@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ProductsDetails = () => {
-  const { name, productId } = useParams();
+  const { slug, productId } = useParams();
   const [product, setProduct] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -13,16 +13,35 @@ const ProductsDetails = () => {
         const foundProduct = response.data.find(
           (item) =>
             item.productId === parseInt(productId) &&
-            item.name.toLowerCase() === name.toLocaleLowerCase(),
+            item.slug.toLowerCase() === slug.toLowerCase(),
         );
         if (!foundProduct) {
           navigate("/404", { replace: true });
         } else {
           setProduct(foundProduct);
+
+          // Store the product in localStorage
+          const viewedProducts =
+            JSON.parse(localStorage.getItem("viewedProducts")) || [];
+
+          // Avoid duplicates
+          const isAlreadyViewed = viewedProducts.some(
+            (p) => p.productId === foundProduct.productId,
+          );
+          if (!isAlreadyViewed) {
+            const updatedViewedProducts = [
+              foundProduct,
+              ...viewedProducts,
+            ].slice(0, 5); // Keep only last 5
+            localStorage.setItem(
+              "viewedProducts",
+              JSON.stringify(updatedViewedProducts),
+            );
+          }
         }
       })
       .catch((error) => console.error("No product found:", error));
-  }, [productId, name, navigate]);
+  }, [productId, slug, navigate]);
   if (!product) return <p>Loading...</p>;
   return (
     <>

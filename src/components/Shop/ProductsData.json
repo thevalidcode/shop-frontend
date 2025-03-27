@@ -3,6 +3,7 @@
     {
       "productId": 1,
       "name": "Premium Steam Iron",
+      "slug": "premium-steam-iron",
       "price": 45,
       "description": "A high-quality steam iron for smooth and wrinkle-free clothes.",
       "image": "https://images.pexels.com/photos/53422/ironing-iron-press-clothing-53422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
@@ -11,14 +12,16 @@
     {
       "productId": 2,
       "name": "Wireless EarPods Pro",
+      "slug": "wireless-earpods-pro",
       "price": 120,
       "description": "Wireless EarPods with noise cancellation and superior sound quality.",
-      "image": "https://images.pexels.com/photos/6281166/pexels-photo-6281166.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "image": "/src/assets/products/items/airpod-pro.jpg",
       "category": "Electronics"
     },
     {
       "productId": 3,
       "name": "UV Protection Eyeglasses",
+      "slug": "uv-protection-eyeglasses",
       "price": 30,
       "description": "Stylish eyeglasses with UV protection for clear vision and eye safety.",
       "image": "https://images.pexels.com/photos/2035764/pexels-photo-2035764.jpeg?auto=compress&cs=tinysrgb&w=1600",
@@ -27,14 +30,16 @@
     {
       "productId": 4,
       "name": "Hydrating Face Cream",
+      "slug": "hydrating-face-cream",
       "price": 15,
       "description": "Moisturizing cream for smooth and hydrated skin.",
-      "image": "https://images.pexels.com/photos/3762875/pexels-photo-3762875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "image": "https://images.pexels.com/photos/5217926/pexels-photo-5217926.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Beauty"
     },
     {
       "productId": 5,
       "name": "Gold-Plated Hand Chain",
+      "slug": "gold-plated-hand-chain",
       "price": 50,
       "description": "Elegant gold-plated hand chain for a classic and stylish look.",
       "image": "https://images.pexels.com/photos/1191531/pexels-photo-1191531.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
@@ -43,6 +48,7 @@
     {
       "productId": 6,
       "name": "Durable Travel Backpack",
+      "slug": "durable-travel-backpack",
       "price": 80,
       "description": "Durable and spacious backpack perfect for travel or daily use.",
       "image": "https://images.pexels.com/photos/267202/pexels-photo-267202.jpeg?auto=compress&cs=tinysrgb&w=1200",
@@ -51,6 +57,7 @@
     {
       "productId": 7,
       "name": "High-Performance Laptop",
+      "slug": "high-performance-laptop",
       "price": 950,
       "description": "Powerful laptop with high performance and long battery life.",
       "image": "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1200",
@@ -59,6 +66,7 @@
     {
       "productId": 8,
       "name": "Stylish Running Sneakers",
+      "slug": "stylish-running-sneakers",
       "price": 100,
       "description": "Comfortable and stylish sneakers for casual wear.",
       "image": "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1200",
@@ -67,6 +75,7 @@
     {
       "productId": 9,
       "name": "Smart Fitness Watch",
+      "slug": "smart-fitness-watch",
       "price": 200,
       "description": "Smartwatch with fitness tracking, notifications, and stylish design.",
       "image": "https://images.pexels.com/photos/267394/pexels-photo-267394.jpeg?auto=compress&cs=tinysrgb&w=1200",
@@ -75,6 +84,7 @@
     {
       "productId": 10,
       "name": "Ceramic Coffee Mug",
+      "slug": "ceramic-coffee-mug",
       "price": 12,
       "description": "Premium ceramic coffee mug for your morning coffee.",
       "image": "https://images.pexels.com/photos/2228889/pexels-photo-2228889.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",

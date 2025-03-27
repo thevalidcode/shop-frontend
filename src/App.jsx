@@ -21,7 +21,7 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="shop" element={<Shop />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/product/:name/:productId" element={<ProductsDetails />} />
+        <Route path="/product/:slug/:productId" element={<ProductsDetails />} />
       </Route>,
     ),
   );

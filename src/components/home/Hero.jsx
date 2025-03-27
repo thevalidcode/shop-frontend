@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import landImg from "/src/assets/landing-page.jpg";
 import { NavLink, useNavigate } from "react-router-dom";
-import { div } from "framer-motion/client";
 let userType = localStorage.getItem("userType");
 
 function Hero() {
