@@ -20,17 +20,6 @@ const ProductsDetails = () => {
         } else {
           setProduct(foundProduct);
         }
-        let viewedProducts =
-          JSON.parse(localStorage.getItem("viewedProducts")) || [];
-        viewedProducts = viewedProducts.filter(
-          (p) => p.productId !== foundProduct.productId,
-        );
-        viewedProducts.unshift(foundProduct);
-        if (viewedProducts.length > 4) viewedProducts.pop;
-        viewedProducts = localStorage.setItem(
-          "viewedProducts",
-          JSON.stringify(viewedProducts),
-        );
       })
       .catch((error) => console.error("No product found:", error));
   }, [productId, slug, navigate]);

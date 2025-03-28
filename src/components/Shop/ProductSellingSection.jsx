@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 const ProductSellingSection = () => {
   const [products, setProducts] = useState("");
   const [randomProducts, setRandomProducts] = useState("");
-  const [viewedProducts, setViewedProduct] = useState([]);
   useEffect(() => {
     axios
       .get("http://localhost:2000/products")
@@ -16,9 +15,6 @@ const ProductSellingSection = () => {
             ? [...response.data].sort(() => Math.random() - 0.5).slice(0, 4)
             : [],
         );
-        const storedProducts =
-          JSON.parse(localStorage.getItem("viewedProducts")) || [];
-        setViewedProduct(storedProducts);
       })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
@@ -95,26 +91,7 @@ const ProductSellingSection = () => {
             </NavLink>
           </div>
           <div className="grid grid-cols-2 gap-2 rounded-md">
-            {viewedProducts.length > 0 ? (
-              viewedProducts.map((viewedProduct) => (
-                <div key={viewedProduct.productId} className="">
-                  <NavLink
-                    to={`/product/${viewedProduct.slug}/${viewedProduct.productId}`}
-                  >
-                    <img
-                      className="h-30 w-50 rounded-md object-cover"
-                      src={viewedProduct.image}
-                      alt=""
-                    />
-                    <p className="truncate font-medium text-gray-600">
-                      {viewedProduct.name}
-                    </p>
-                  </NavLink>
-                </div>
-              ))
-            ) : (
-              <p>You have not viewed any product</p>
-            )}
+            <p>No viewed product</p>
           </div>
         </div>
       </div>
