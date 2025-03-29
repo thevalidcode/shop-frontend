@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Lens } from "../magicui/lens";
 
 const ProductsDetails = () => {
   const { slug, productId } = useParams();
@@ -29,11 +30,18 @@ const ProductsDetails = () => {
       <div>
         <div className="mx-5 mt-5 grid gap-5 md:grid-cols-2">
           <div className="">
-            <img
-              className="h-150 w-500 rounded-md object-cover object-right"
-              src={product.image}
-              alt=""
-            />
+            <Lens
+              zoomFactor={3}
+              lensSize={350}
+              isStatic={false}
+              ariaLabel="Zoom Area"
+            >
+              <img
+                className="h-150 w-500 rounded-md object-cover object-right"
+                src={product.image}
+                alt=""
+              />
+            </Lens>
           </div>
           <div className="">
             <p className="text-gray-600"> {product.category} </p>
