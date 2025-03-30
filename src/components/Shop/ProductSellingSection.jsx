@@ -1,12 +1,24 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import Currency from "../Currency";
+import { getViewedProducts } from "@/lib/viewedProducts";
+import { Currency } from "@/lib/Currency";
 
 const ProductSellingSection = () => {
   const [products, setProducts] = useState("");
   const [randomProducts, setRandomProducts] = useState("");
   const [trendingProducts, setTrendingProducts] = useState("");
+  const [viewedProducts, setViewedProducts] = useState([]);
+
+  // Helper function to shuffle array
+  const shuffleArray = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
 
   useEffect(() => {
     axios
@@ -15,15 +27,17 @@ const ProductSellingSection = () => {
         setProducts(response.data);
         setRandomProducts(
           response.data.length > 0
-            ? [...response.data].sort(() => Math.random() - 0.5).slice(0, 4)
-            : [],
+            ? shuffleArray(response.data).slice(0, 4)
+            : []
         );
 
         setTrendingProducts(
           response.data
             .filter((trendingProduct) => trendingProduct.stat > 3000)
-            .slice(0, 4),
+            .slice(0, 4)
         );
+
+        setViewedProducts(getViewedProducts());
       })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
@@ -34,7 +48,7 @@ const ProductSellingSection = () => {
         {/* New Products */}
         <div className="m-2 rounded-md bg-white p-3 shadow">
           <div className="flex items-center justify-between">
-            <p className="text-lg font-semibold text-gray-600">New Products</p>
+            <p className="text-lg font-semibold text-gray-600">New Arrivals</p>
             <NavLink className="flex items-center text-sm font-semibold text-gray-600">
               View All <i className="bx bx-chevron-right"></i>
             </NavLink>
@@ -86,6 +100,9 @@ const ProductSellingSection = () => {
                     <p className="truncate font-medium text-gray-600">
                       {randomProduct.name}
                     </p>
+                    <p className="truncate font-bold">
+                      {Currency + randomProduct.price}
+                    </p>
                   </NavLink>
                 </div>
               ))
@@ -117,6 +134,9 @@ const ProductSellingSection = () => {
                     <p className="truncate font-medium text-gray-600">
                       {randomProduct.name}
                     </p>
+                    <p className="truncate font-bold">
+                      {Currency + randomProduct.price}
+                    </p>
                   </NavLink>
                 </div>
               ))
@@ -128,13 +148,41 @@ const ProductSellingSection = () => {
         {/* Products that customers have viewed */}
         <div className="m-2 rounded-md bg-white p-3 shadow">
           <div className="flex items-center justify-between">
-            <p className="text-lg font-semibold text-gray-600">You Viewed</p>
+            <p className="text-lg font-semibold text-gray-600">
+              Do you like this?
+            </p>
             <NavLink className="flex items-center text-sm font-semibold text-gray-600">
               View All <i className="bx bx-chevron-right"></i>
             </NavLink>
           </div>
           <div className="grid grid-cols-2 gap-2 rounded-md">
-            <p>No viewed product</p>
+            {viewedProducts.length > 0 ? (
+              viewedProducts.map((viewedProduct) => (
+                <div key={viewedProduct.productId} className="">
+                  <NavLink
+                    to={`/product/${viewedProduct.slug}/${viewedProduct.productId}`}
+                  >
+                    <div>
+                      <img
+                        className="h-30 w-50 rounded-md object-cover"
+                        src={viewedProduct.image}
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      <p className="truncate font-medium text-gray-600">
+                        {viewedProduct.name}
+                      </p>
+                      <p className="truncate font-bold">
+                        {Currency + viewedProduct.price}
+                      </p>
+                    </div>
+                  </NavLink>
+                </div>
+              ))
+            ) : (
+              <p>No viewed product</p>
+            )}
           </div>
         </div>
       </div>
@@ -167,7 +215,7 @@ const ProductSellingSection = () => {
                   </div>
                 ) : (
                   ""
-                ),
+                )
               )
             ) : (
               <p>Loading Products...</p>

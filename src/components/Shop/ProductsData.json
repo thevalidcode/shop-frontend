@@ -99,6 +99,206 @@
       "image": "https://images.pexels.com/photos/2228889/pexels-photo-2228889.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Kitchenware",
       "stat": 6985
+    },
+    {
+      "productId": 11,
+      "name": "Wireless Gaming Mouse",
+      "slug": "wireless-gaming-mouse",
+      "price": 75,
+      "description": "High-precision wireless gaming mouse with customizable buttons.",
+      "image": "https://images.unsplash.com/photo-1629429408209-1f912961dbd8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Electronics",
+      "stat": 5234
+    },
+    {
+      "productId": 12,
+      "name": "Leather Wallet",
+      "slug": "leather-wallet",
+      "price": 35,
+      "description": "Genuine leather wallet with multiple card slots and coin pocket.",
+      "image": "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Accessories",
+      "stat": 4123
+    },
+    {
+      "productId": 13,
+      "name": "JBL Bluetooth Speaker",
+      "slug": "jbl-bluetooth-speaker",
+      "price": 60,
+      "description": "Portable Bluetooth speaker with crystal clear sound.",
+      "image": "https://images.unsplash.com/photo-1588131153911-a4ea5189fe19?q=80&w=2901&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "category": "Electronics",
+      "stat": 6789
+    },
+    {
+      "productId": 14,
+      "name": "Yoga Mat",
+      "slug": "yoga-mat",
+      "price": 25,
+      "description": "Non-slip yoga mat with carrying strap.",
+      "image": "https://images.pexels.com/photos/3822621/pexels-photo-3822621.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Sports",
+      "stat": 3456
+    },
+    {
+      "productId": 15,
+      "name": "Digital Drawing Tablet",
+      "slug": "digital-drawing-tablet",
+      "price": 150,
+      "description": "Professional drawing tablet for digital artists.",
+      "image": "https://images.pexels.com/photos/1334598/pexels-photo-1334598.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Electronics",
+      "stat": 2345
+    },
+    {
+      "productId": 16,
+      "name": "Stainless Steel Water Bottle",
+      "slug": "stainless-steel-water-bottle",
+      "price": 20,
+      "description": "Double-walled insulated water bottle keeps drinks cold for 24 hours.",
+      "image": "https://images.pexels.com/photos/4389665/pexels-photo-4389665.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Accessories",
+      "stat": 5678
+    },
+    {
+      "productId": 17,
+      "name": "Wireless Keyboard",
+      "slug": "wireless-keyboard",
+      "price": 45,
+      "description": "Ergonomic wireless keyboard with quiet keys.",
+      "image": "https://images.pexels.com/photos/1334596/pexels-photo-1334596.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Electronics",
+      "stat": 4321
+    },
+    {
+      "productId": 18,
+      "name": "Sunglasses",
+      "slug": "sunglasses",
+      "price": 40,
+      "description": "UV-protected sunglasses with polarized lenses.",
+      "image": "https://s.alicdn.com/@sc04/kf/H400e4fe16d7a4294ac4cdede742747c6S.jpg_640x640.jpg",
+      "category": "Fashion",
+      "stat": 7890
+    },
+    {
+      "productId": 19,
+      "name": "Portable Power Bank",
+      "slug": "portable-power-bank",
+      "price": 30,
+      "description": "10000mAh power bank with fast charging capability.",
+      "image": "https://images.pexels.com/photos/1334595/pexels-photo-1334595.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Electronics",
+      "stat": 4567
+    },
+    {
+      "productId": 20,
+      "name": "Desk Chair",
+      "slug": "desk-chair",
+      "price": 85,
+      "description": "Ergonomic desk chair with adjustable height and lumbar support.",
+      "image": "https://s.alicdn.com/@sc04/kf/H5c64f0f45a574894906e21b678fc8b27i.jpg_640x640.jpg",
+      "category": "Furniture",
+      "stat": 3456
+    },
+    {
+      "productId": 21,
+      "name": "Smart Doorbell Camera",
+      "slug": "smart-doorbell-camera",
+      "price": 180,
+      "description": "WiFi-enabled doorbell camera with motion detection and two-way audio.",
+      "image": "https://images.pexels.com/photos/1334593/pexels-photo-1334593.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Smart Home",
+      "stat": 4567
+    },
+    {
+      "productId": 22,
+      "name": "Professional Hair Dryer",
+      "slug": "professional-hair-dryer",
+      "price": 65,
+      "description": "High-performance hair dryer with multiple heat settings and cool shot.",
+      "image": "https://images.pexels.com/photos/7755528/pexels-photo-7755528.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "category": "Beauty",
+      "stat": 3456
+    },
+    {
+      "productId": 23,
+      "name": "Gaming Headset",
+      "slug": "gaming-headset",
+      "price": 90,
+      "description": "7.1 surround sound gaming headset with noise-canceling microphone.",
+      "image": "https://s.alicdn.com/@sc04/kf/Hc23b4498c29b494681a23b9bca2fab39g.jpg_640x640.jpg",
+      "category": "Electronics",
+      "stat": 6789
+    },
+    {
+      "productId": 24,
+      "name": "Smart LED Bulb",
+      "slug": "smart-led-bulb",
+      "price": 25,
+      "description": "WiFi-enabled LED bulb with 16 million colors and voice control.",
+      "image": "https://images.pexels.com/photos/20943579/pexels-photo-20943579/free-photo-of-smart-lightbulb.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "category": "Smart Home",
+      "stat": 4321
+    },
+    {
+      "productId": 25,
+      "name": "Portable Air Conditioner",
+      "slug": "portable-air-conditioner",
+      "price": 300,
+      "description": "Energy-efficient portable AC unit with remote control and timer.",
+      "image": "https://s.alicdn.com/@sc04/kf/H213b7a8dbedd49579057eff8599ffb53v.jpg_640x640.jpg",
+      "category": "Home Appliances",
+      "stat": 5678
+    },
+    {
+      "productId": 26,
+      "name": "Wireless Charging Pad",
+      "slug": "wireless-charging-pad",
+      "price": 35,
+      "description": "Fast wireless charging pad compatible with all Qi-enabled devices.",
+      "image": "https://images.pexels.com/photos/1334588/pexels-photo-1334588.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Electronics",
+      "stat": 7890
+    },
+    {
+      "productId": 27,
+      "name": "Smart Scale",
+      "slug": "smart-scale",
+      "price": 45,
+      "description": "Digital scale with body composition analysis and smartphone sync.",
+      "image": "https://images.pexels.com/photos/1334587/pexels-photo-1334587.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Health",
+      "stat": 3456
+    },
+    {
+      "productId": 28,
+      "name": "Robot Vacuum Cleaner",
+      "slug": "robot-vacuum-cleaner",
+      "price": 250,
+      "description": "Smart robot vacuum with mapping technology and app control.",
+      "image": "https://images.pexels.com/photos/1334586/pexels-photo-1334586.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Smart Home",
+      "stat": 6789
+    },
+    {
+      "productId": 29,
+      "name": "Smart Door Lock",
+      "slug": "smart-door-lock",
+      "price": 150,
+      "description": "WiFi-enabled smart lock with fingerprint and keypad access.",
+      "image": "https://images.pexels.com/photos/1334585/pexels-photo-1334585.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "category": "Smart Home",
+      "stat": 4321
+    },
+    {
+      "productId": 30,
+      "name": "Portable Projector",
+      "slug": "portable-projector",
+      "price": 200,
+      "description": "Mini projector with built-in speakers and HDMI input.",
+      "image": "https://s.alicdn.com/@sc04/kf/H7383aeaec8e54274a0d8afd903e463c5U.jpg_640x640.jpg",
+      "category": "Electronics",
+      "stat": 5678
     }
   ]
 }

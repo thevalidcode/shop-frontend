@@ -2,11 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Lens } from "../magicui/lens";
+import { addViewedProduct } from "@/lib/viewedProducts";
 
 const ProductsDetails = () => {
   const { slug, productId } = useParams();
   const [product, setProduct] = useState(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     axios
       .get("http://localhost:2000/products/")
@@ -14,17 +16,20 @@ const ProductsDetails = () => {
         const foundProduct = response.data.find(
           (item) =>
             item.productId === parseInt(productId) &&
-            item.slug.toLowerCase() === slug.toLowerCase(),
+            item.slug.toLowerCase() === slug.toLowerCase()
         );
         if (!foundProduct) {
           navigate("/404", { replace: true });
         } else {
           setProduct(foundProduct);
+          addViewedProduct(foundProduct);
         }
       })
       .catch((error) => console.error("No product found:", error));
   }, [productId, slug, navigate]);
+
   if (!product) return <p>Loading...</p>;
+
   return (
     <>
       <div>
