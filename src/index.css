@@ -2,6 +2,17 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Remove arrows/spinners for Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  @apply appearance-none;
+}
+
+/* Remove arrows/spinners for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
