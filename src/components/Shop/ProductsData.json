@@ -10,7 +10,7 @@
       "image": "https://images.pexels.com/photos/53422/ironing-iron-press-clothing-53422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Home Appliances",
       "stat": 1636,
-      "availabilityStatus": "In Stock",
+
       "brand": "Philips",
       "sku": "PHI-SI-001",
       "stockQuantity": 25,
@@ -29,7 +29,7 @@
       "image": "/src/assets/products/items/airpod-pro.jpg",
       "category": "Electronics",
       "stat": 1738,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "Apple",
       "sku": "APP-AIR-002",
       "stockQuantity": 0,
@@ -48,7 +48,7 @@
       "image": "https://images.pexels.com/photos/2035764/pexels-photo-2035764.jpeg?auto=compress&cs=tinysrgb&w=1600",
       "category": "Fashion",
       "stat": 4253,
-      "availabilityStatus": "In Stock",
+
       "brand": "Ray-Ban",
       "sku": "RAY-UV-003",
       "stockQuantity": 42,
@@ -67,7 +67,7 @@
       "image": "https://images.pexels.com/photos/5217926/pexels-photo-5217926.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Beauty",
       "stat": 3728,
-      "availabilityStatus": "In Stock",
+
       "brand": "Neutrogena",
       "sku": "NEU-HC-004",
       "stockQuantity": 156,
@@ -86,7 +86,7 @@
       "image": "https://images.pexels.com/photos/1191531/pexels-photo-1191531.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Jewelry",
       "stat": 72728,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "Pandora",
       "sku": "PAN-HC-005",
       "stockQuantity": 0,
@@ -105,7 +105,7 @@
       "image": "https://images.pexels.com/photos/267202/pexels-photo-267202.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Accessories",
       "stat": 7473,
-      "availabilityStatus": "In Stock",
+
       "brand": "The North Face",
       "sku": "TNF-BP-006",
       "stockQuantity": 38,
@@ -124,7 +124,7 @@
       "image": "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Electronics",
       "stat": 73782,
-      "availabilityStatus": "In Stock",
+
       "brand": "Dell",
       "sku": "DEL-LP-007",
       "stockQuantity": 12,
@@ -143,7 +143,7 @@
       "image": "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Footwear",
       "stat": 3324,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "Nike",
       "sku": "NIK-SN-008",
       "stockQuantity": 0,
@@ -162,7 +162,7 @@
       "image": "https://images.pexels.com/photos/267394/pexels-photo-267394.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Electronics",
       "stat": 4663,
-      "availabilityStatus": "In Stock",
+
       "brand": "Fitbit",
       "sku": "FIT-WT-009",
       "stockQuantity": 28,
@@ -181,7 +181,7 @@
       "image": "https://images.pexels.com/photos/2228889/pexels-photo-2228889.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Kitchenware",
       "stat": 6985,
-      "availabilityStatus": "In Stock",
+
       "brand": "Starbucks",
       "sku": "STB-MG-010",
       "stockQuantity": 89,
@@ -200,7 +200,7 @@
       "image": "https://images.unsplash.com/photo-1629429408209-1f912961dbd8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "category": "Electronics",
       "stat": 5234,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "Logitech",
       "sku": "LOG-MS-011",
       "stockQuantity": 0,
@@ -219,7 +219,7 @@
       "image": "https://s.alicdn.com/@sc04/kf/He40ac2718c6c4218bed596906a98d3daH.png_640x640.png",
       "category": "Accessories",
       "stat": 4123,
-      "availabilityStatus": "In Stock",
+
       "brand": "Fossil",
       "sku": "FOS-WL-012",
       "stockQuantity": 45,
@@ -238,7 +238,7 @@
       "image": "https://images.unsplash.com/photo-1588131153911-a4ea5189fe19?q=80&w=2901&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "category": "Electronics",
       "stat": 6789,
-      "availabilityStatus": "In Stock",
+
       "brand": "JBL",
       "sku": "JBL-SP-013",
       "stockQuantity": 34,
@@ -257,7 +257,7 @@
       "image": "https://images.pexels.com/photos/3822621/pexels-photo-3822621.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Sports",
       "stat": 3456,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "Lululemon",
       "sku": "LUL-YM-014",
       "stockQuantity": 0,
@@ -276,7 +276,7 @@
       "image": "https://images.pexels.com/photos/1334598/pexels-photo-1334598.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Electronics",
       "stat": 2345,
-      "availabilityStatus": "In Stock",
+
       "brand": "Wacom",
       "sku": "WAC-DT-015",
       "stockQuantity": 15,
@@ -295,7 +295,7 @@
       "image": "https://images.pexels.com/photos/4389665/pexels-photo-4389665.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Accessories",
       "stat": 5678,
-      "availabilityStatus": "In Stock",
+
       "brand": "Hydro Flask",
       "sku": "HYD-WB-016",
       "stockQuantity": 67,
@@ -314,7 +314,7 @@
       "image": "https://images.pexels.com/photos/1334596/pexels-photo-1334596.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Electronics",
       "stat": 4321,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "Microsoft",
       "sku": "MIC-KB-017",
       "stockQuantity": 0,
@@ -333,7 +333,7 @@
       "image": "https://s.alicdn.com/@sc04/kf/H400e4fe16d7a4294ac4cdede742747c6S.jpg_640x640.jpg",
       "category": "Fashion",
       "stat": 7890,
-      "availabilityStatus": "In Stock",
+
       "brand": "Oakley",
       "sku": "OAK-SG-018",
       "stockQuantity": 52,
@@ -352,7 +352,7 @@
       "image": "https://images.pexels.com/photos/1334595/pexels-photo-1334595.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Electronics",
       "stat": 4567,
-      "availabilityStatus": "In Stock",
+
       "brand": "Anker",
       "sku": "ANK-PB-019",
       "stockQuantity": 78,
@@ -371,7 +371,7 @@
       "image": "https://s.alicdn.com/@sc04/kf/H5c64f0f45a574894906e21b678fc8b27i.jpg_640x640.jpg",
       "category": "Furniture",
       "stat": 3456,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "Herman Miller",
       "sku": "HER-DC-020",
       "stockQuantity": 0,
@@ -390,7 +390,7 @@
       "image": "https://s.alicdn.com/@sc04/kf/H588e9a76153e490393c358e24f5daba17.jpg_640x640.jpg",
       "category": "Smart Home",
       "stat": 4567,
-      "availabilityStatus": "In Stock",
+
       "brand": "Ring",
       "sku": "RIN-DC-021",
       "stockQuantity": 18,
@@ -409,7 +409,7 @@
       "image": "https://images.pexels.com/photos/7755528/pexels-photo-7755528.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Beauty",
       "stat": 3456,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "Dyson",
       "sku": "DYS-HD-022",
       "stockQuantity": 0,
@@ -428,7 +428,7 @@
       "image": "https://s.alicdn.com/@sc04/kf/Hc23b4498c29b494681a23b9bca2fab39g.jpg_640x640.jpg",
       "category": "Electronics",
       "stat": 6789,
-      "availabilityStatus": "In Stock",
+
       "brand": "Razer",
       "sku": "RAZ-HS-023",
       "stockQuantity": 31,
@@ -447,7 +447,7 @@
       "image": "https://images.pexels.com/photos/20943579/pexels-photo-20943579/free-photo-of-smart-lightbulb.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Smart Home",
       "stat": 4321,
-      "availabilityStatus": "In Stock",
+
       "brand": "Philips Hue",
       "sku": "PHI-LB-024",
       "stockQuantity": 95,
@@ -466,7 +466,7 @@
       "image": "https://s.alicdn.com/@sc04/kf/H213b7a8dbedd49579057eff8599ffb53v.jpg_640x640.jpg",
       "category": "Home Appliances",
       "stat": 5678,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "LG",
       "sku": "LGE-AC-025",
       "stockQuantity": 0,
@@ -485,7 +485,7 @@
       "image": "https://images.pexels.com/photos/1334588/pexels-photo-1334588.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Electronics",
       "stat": 7890,
-      "availabilityStatus": "In Stock",
+
       "brand": "Belkin",
       "sku": "BEL-CP-026",
       "stockQuantity": 48,
@@ -504,7 +504,7 @@
       "image": "https://images.pexels.com/photos/1334587/pexels-photo-1334587.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Health",
       "stat": 7456,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "Withings",
       "sku": "WIT-SC-027",
       "stockQuantity": 0,
@@ -523,7 +523,7 @@
       "image": "https://s.alicdn.com/@sc04/kf/H417cbd7a145d42e688b59936b59fc3e0r.jpg_640x640.jpg",
       "category": "Smart Home",
       "stat": 8789,
-      "availabilityStatus": "In Stock",
+
       "brand": "iRobot",
       "sku": "IRO-RV-028",
       "stockQuantity": 22,
@@ -542,7 +542,7 @@
       "image": "https://images.pexels.com/photos/1334585/pexels-photo-1334585.jpeg?auto=compress&cs=tinysrgb&w=1200",
       "category": "Smart Home",
       "stat": 6321,
-      "availabilityStatus": "In Stock",
+
       "brand": "August",
       "sku": "AUG-DL-029",
       "stockQuantity": 16,
@@ -561,7 +561,7 @@
       "image": "https://s.alicdn.com/@sc04/kf/H7383aeaec8e54274a0d8afd903e463c5U.jpg_640x640.jpg",
       "category": "Electronics",
       "stat": 7678,
-      "availabilityStatus": "Out of Stock",
+
       "brand": "Epson",
       "sku": "EPS-PJ-030",
       "stockQuantity": 0,

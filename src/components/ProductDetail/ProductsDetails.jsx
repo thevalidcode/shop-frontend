@@ -56,6 +56,15 @@ const ProductsDetails = () => {
           <div className="">
             <div className="flex items-center gap-5">
               <p
+                className={`text-sm  w-fit rounded-md px-2 py-1 ${
+                  product.stockQuantity === 0
+                    ? "text-red-500 bg-red-100"
+                    : "text-validGreen bg-validGreen/10"
+                }`}
+              >
+                {product.stockQuantity === 0 ? "Out of Stock" : "In Stock"}
+              </p>
+              {/* <p
                 className={` text-sm  w-fit rounded-md px-2 py-1 ${
                   product.availabilityStatus === "Out of Stock"
                     ? "text-red-500 bg-red-100"
@@ -65,7 +74,7 @@ const ProductsDetails = () => {
                 }`}
               >
                 {product.availabilityStatus}
-              </p>
+              </p> */}
               <p className="text-gray-600"> {product.category} </p>
             </div>
             <p className=" text-3xl font-bold"> {product.name} </p>
