@@ -28,13 +28,13 @@ const ProductSellingSection = () => {
         setRandomProducts(
           response.data.length > 0
             ? shuffleArray(response.data).slice(0, 4)
-            : []
+            : [],
         );
 
         setTrendingProducts(
           response.data
             .filter((trendingProduct) => trendingProduct.stat > 6000)
-            .slice(0, 4)
+            .slice(0, 4),
         );
 
         setViewedProducts(getViewedProducts());

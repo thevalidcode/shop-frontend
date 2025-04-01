@@ -17,6 +17,15 @@
       "reviews": {
         "rating": 4.5,
         "count": 128
+      },
+      "seller": {
+        "name": "HomeEssentials Store",
+        "rating": 4.8,
+        "location": "New York, USA",
+        "joinDate": "2020-03-15",
+        "totalSales": 1250,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -36,6 +45,15 @@
       "reviews": {
         "rating": 4.8,
         "count": 256
+      },
+      "seller": {
+        "name": "TechGadgets Pro",
+        "rating": 4.9,
+        "location": "San Francisco, USA",
+        "joinDate": "2019-08-20",
+        "totalSales": 3420,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -55,6 +73,15 @@
       "reviews": {
         "rating": 4.6,
         "count": 189
+      },
+      "seller": {
+        "name": "FashionVision",
+        "rating": 4.7,
+        "location": "Los Angeles, USA",
+        "joinDate": "2021-01-10",
+        "totalSales": 890,
+        "responseRate": "95%",
+        "responseTime": "3 hours"
       }
     },
     {
@@ -74,6 +101,15 @@
       "reviews": {
         "rating": 4.7,
         "count": 342
+      },
+      "seller": {
+        "name": "BeautyCare Plus",
+        "rating": 4.8,
+        "location": "Miami, USA",
+        "joinDate": "2020-06-25",
+        "totalSales": 2150,
+        "responseRate": "97%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -93,6 +129,15 @@
       "reviews": {
         "rating": 4.4,
         "count": 156
+      },
+      "seller": {
+        "name": "LuxuryJewelry Co",
+        "rating": 4.6,
+        "location": "London, UK",
+        "joinDate": "2019-11-30",
+        "totalSales": 980,
+        "responseRate": "96%",
+        "responseTime": "4 hours"
       }
     },
     {
@@ -112,6 +157,15 @@
       "reviews": {
         "rating": 4.8,
         "count": 289
+      },
+      "seller": {
+        "name": "TravelGear Hub",
+        "rating": 4.9,
+        "location": "Seattle, USA",
+        "joinDate": "2020-09-15",
+        "totalSales": 1670,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -131,6 +185,15 @@
       "reviews": {
         "rating": 4.9,
         "count": 412
+      },
+      "seller": {
+        "name": "TechElite Store",
+        "rating": 4.9,
+        "location": "Austin, USA",
+        "joinDate": "2018-12-01",
+        "totalSales": 4560,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -150,6 +213,15 @@
       "reviews": {
         "rating": 4.7,
         "count": 367
+      },
+      "seller": {
+        "name": "SportsFit Outlet",
+        "rating": 4.8,
+        "location": "Portland, USA",
+        "joinDate": "2021-03-20",
+        "totalSales": 780,
+        "responseRate": "97%",
+        "responseTime": "3 hours"
       }
     },
     {
@@ -169,6 +241,15 @@
       "reviews": {
         "rating": 4.6,
         "count": 298
+      },
+      "seller": {
+        "name": "FitnessTech Pro",
+        "rating": 4.7,
+        "location": "Chicago, USA",
+        "joinDate": "2020-04-12",
+        "totalSales": 1450,
+        "responseRate": "96%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -188,6 +269,15 @@
       "reviews": {
         "rating": 4.3,
         "count": 245
+      },
+      "seller": {
+        "name": "KitchenEssentials",
+        "rating": 4.5,
+        "location": "Toronto, Canada",
+        "joinDate": "2021-07-08",
+        "totalSales": 560,
+        "responseRate": "95%",
+        "responseTime": "4 hours"
       }
     },
     {
@@ -207,6 +297,15 @@
       "reviews": {
         "rating": 4.7,
         "count": 312
+      },
+      "seller": {
+        "name": "GamingGear Hub",
+        "rating": 4.8,
+        "location": "Seattle, USA",
+        "joinDate": "2020-09-15",
+        "totalSales": 1670,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -226,6 +325,15 @@
       "reviews": {
         "rating": 4.5,
         "count": 178
+      },
+      "seller": {
+        "name": "FashionAccessories",
+        "rating": 4.7,
+        "location": "New York, USA",
+        "joinDate": "2020-03-15",
+        "totalSales": 1250,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -245,6 +353,15 @@
       "reviews": {
         "rating": 4.8,
         "count": 423
+      },
+      "seller": {
+        "name": "TechGadgets Pro",
+        "rating": 4.9,
+        "location": "San Francisco, USA",
+        "joinDate": "2019-08-20",
+        "totalSales": 3420,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -264,6 +381,15 @@
       "reviews": {
         "rating": 4.6,
         "count": 267
+      },
+      "seller": {
+        "name": "SportsGear Hub",
+        "rating": 4.7,
+        "location": "Portland, USA",
+        "joinDate": "2021-03-20",
+        "totalSales": 780,
+        "responseRate": "97%",
+        "responseTime": "3 hours"
       }
     },
     {
@@ -283,6 +409,15 @@
       "reviews": {
         "rating": 4.9,
         "count": 189
+      },
+      "seller": {
+        "name": "TechGadgets Pro",
+        "rating": 4.9,
+        "location": "San Francisco, USA",
+        "joinDate": "2019-08-20",
+        "totalSales": 3420,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -302,6 +437,15 @@
       "reviews": {
         "rating": 4.7,
         "count": 345
+      },
+      "seller": {
+        "name": "TravelGear Hub",
+        "rating": 4.9,
+        "location": "Seattle, USA",
+        "joinDate": "2020-09-15",
+        "totalSales": 1670,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -321,6 +465,15 @@
       "reviews": {
         "rating": 4.4,
         "count": 234
+      },
+      "seller": {
+        "name": "TechGadgets Pro",
+        "rating": 4.9,
+        "location": "San Francisco, USA",
+        "joinDate": "2019-08-20",
+        "totalSales": 3420,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -340,6 +493,15 @@
       "reviews": {
         "rating": 4.8,
         "count": 456
+      },
+      "seller": {
+        "name": "FashionAccessories",
+        "rating": 4.7,
+        "location": "New York, USA",
+        "joinDate": "2020-03-15",
+        "totalSales": 1250,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -349,7 +511,7 @@
       "price": 30,
       "beforePrice": 45,
       "description": "Keep your devices charged on the go with our High-Capacity Portable Power Bank. The 10000mAh battery can charge most smartphones multiple times, while the dual USB ports allow for simultaneous charging of two devices. Features include fast charging technology, LED battery indicator, and built-in safety protections. The compact design includes a micro-USB cable and fits easily in your pocket or bag.",
-      "image": "https://images.pexels.com/photos/1334595/pexels-photo-1334595.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "image": "https://s.alicdn.com/@sc04/kf/Hc5986a29bcb342b188a036977477d2ecZ.jpg_640x640.jpg",
       "category": "Electronics",
       "stat": 4567,
 
@@ -359,6 +521,15 @@
       "reviews": {
         "rating": 4.6,
         "count": 312
+      },
+      "seller": {
+        "name": "TechGadgets Pro",
+        "rating": 4.9,
+        "location": "San Francisco, USA",
+        "joinDate": "2019-08-20",
+        "totalSales": 3420,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -378,6 +549,15 @@
       "reviews": {
         "rating": 4.7,
         "count": 289
+      },
+      "seller": {
+        "name": "FurnitureHub",
+        "rating": 4.8,
+        "location": "New York, USA",
+        "joinDate": "2020-03-15",
+        "totalSales": 1250,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -397,6 +577,15 @@
       "reviews": {
         "rating": 4.8,
         "count": 367
+      },
+      "seller": {
+        "name": "HomeSecurityPro",
+        "rating": 4.9,
+        "location": "San Francisco, USA",
+        "joinDate": "2019-08-20",
+        "totalSales": 3420,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -416,6 +605,15 @@
       "reviews": {
         "rating": 4.9,
         "count": 234
+      },
+      "seller": {
+        "name": "BeautyCare Plus",
+        "rating": 4.9,
+        "location": "Miami, USA",
+        "joinDate": "2020-06-25",
+        "totalSales": 2150,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -435,6 +633,15 @@
       "reviews": {
         "rating": 4.7,
         "count": 412
+      },
+      "seller": {
+        "name": "GamingGear Hub",
+        "rating": 4.8,
+        "location": "Seattle, USA",
+        "joinDate": "2020-09-15",
+        "totalSales": 1670,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -454,6 +661,15 @@
       "reviews": {
         "rating": 4.5,
         "count": 178
+      },
+      "seller": {
+        "name": "HomeEssentials Store",
+        "rating": 4.8,
+        "location": "New York, USA",
+        "joinDate": "2020-03-15",
+        "totalSales": 1250,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -473,6 +689,15 @@
       "reviews": {
         "rating": 1,
         "count": 289
+      },
+      "seller": {
+        "name": "HomeEssentials Store",
+        "rating": 4.8,
+        "location": "New York, USA",
+        "joinDate": "2020-03-15",
+        "totalSales": 1250,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -492,6 +717,15 @@
       "reviews": {
         "rating": 2.5,
         "count": 245
+      },
+      "seller": {
+        "name": "TechGadgets Pro",
+        "rating": 4.9,
+        "location": "San Francisco, USA",
+        "joinDate": "2019-08-20",
+        "totalSales": 3420,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -511,6 +745,15 @@
       "reviews": {
         "rating": 4.7,
         "count": 312
+      },
+      "seller": {
+        "name": "HealthTech Pro",
+        "rating": 4.8,
+        "location": "New York, USA",
+        "joinDate": "2020-03-15",
+        "totalSales": 1250,
+        "responseRate": "98%",
+        "responseTime": "2 hours"
       }
     },
     {
@@ -530,6 +773,15 @@
       "reviews": {
         "rating": 4.8,
         "count": 456
+      },
+      "seller": {
+        "name": "HomeSecurityPro",
+        "rating": 4.9,
+        "location": "San Francisco, USA",
+        "joinDate": "2019-08-20",
+        "totalSales": 3420,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -549,6 +801,15 @@
       "reviews": {
         "rating": 4.6,
         "count": 289
+      },
+      "seller": {
+        "name": "HomeSecurityPro",
+        "rating": 4.9,
+        "location": "San Francisco, USA",
+        "joinDate": "2019-08-20",
+        "totalSales": 3420,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     },
     {
@@ -568,6 +829,15 @@
       "reviews": {
         "rating": 4.7,
         "count": 345
+      },
+      "seller": {
+        "name": "TechGadgets Pro",
+        "rating": 4.9,
+        "location": "San Francisco, USA",
+        "joinDate": "2019-08-20",
+        "totalSales": 3420,
+        "responseRate": "99%",
+        "responseTime": "1 hour"
       }
     }
   ]
