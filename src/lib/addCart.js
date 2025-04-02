@@ -11,5 +11,6 @@ export const addToCart = ({ product, productQuantity }) => {
   }
   localStorage.setItem("addToCart", JSON.stringify(cart));
   console.table(cart);
+  window.dispatchEvent(new Event("cartUpdated"));
   return cart;
 };

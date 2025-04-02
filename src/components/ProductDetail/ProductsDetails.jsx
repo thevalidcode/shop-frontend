@@ -6,6 +6,7 @@ import { addViewedProduct } from "@/lib/viewedProducts";
 import { Currency } from "@/lib/Currency";
 import { StarRating } from "../StarRating";
 import { addToCart } from "@/lib/addCart";
+import RelatedProducts from "./RelatedProducts";
 
 const ProductsDetails = () => {
   const { slug, productId } = useParams();
@@ -16,12 +17,14 @@ const ProductsDetails = () => {
   const [showStickyCart, setShowStickyCart] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [sameCategoryProducts, setSameCategoryProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
 
   useEffect(() => {
     axios
       .get("http://localhost:2000/products/")
       .then((response) => {
         setSameCategoryProducts(response.data);
+        setAllProducts(response.data);
         const foundProduct = response.data.find(
           (item) =>
             item.productId === parseInt(productId) &&
@@ -222,7 +225,7 @@ const ProductsDetails = () => {
 
         {showStickyCart && (
           <div
-            className={`animate__animated ${isAnimating ? "animate__fadeInUp" : "animate__fadeOutDown"} fixed right-0 bottom-0 left-0 z-30 mb-15 border-t bg-white/10 p-4 shadow-lg backdrop-blur-lg md:mb-0`}
+            className={`animate__animated ${isAnimating ? "animate__fadeInUp" : "animate__fadeOutDown"} fixed right-0 bottom-0 left-0 z-30 mb-15 border-t bg-white/10 p-4 shadow-lg backdrop-blur-3xl md:mb-0`}
           >
             <div className="mx-auto flex max-w-7xl items-center justify-between">
               {/* Left side: Product Info */}
@@ -332,64 +335,12 @@ const ProductsDetails = () => {
           </div>
         )}
 
-        <div className="mt-10">
-          <p className="mb-3 text-xl font-medium">You may also like...</p>
-
-          <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-            {sameCategoryProducts
-              .filter(
-                (sameCategoryProduct) =>
-                  sameCategoryProduct.category === product.category &&
-                  sameCategoryProduct.productId !== product.productId,
-              )
-              .slice(0, 4)
-              .map((sameCategoryProduct) =>
-                sameCategoryProduct ? (
-                  <div key={sameCategoryProduct.productId}>
-                    <NavLink
-                      to={`/product/${sameCategoryProduct.slug}/${sameCategoryProduct.productId}`}
-                    >
-                      <div>
-                        <img
-                          src={sameCategoryProduct.image}
-                          className="mb-2 h-48 w-full rounded-md object-cover"
-                          alt={sameCategoryProduct.name}
-                        />
-                        <div className="flex justify-between">
-                          <div className="flex gap-2 text-gray-600">
-                            <p className="font-light line-through">
-                              {Currency + sameCategoryProduct.beforePrice}
-                            </p>
-                            <p className="font-light">
-                              {Currency + sameCategoryProduct.price}
-                            </p>
-                          </div>
-
-                          <StarRating
-                            rating={sameCategoryProduct.reviews.rating}
-                          />
-                        </div>
-                        <p className="text-lg font-medium">
-                          {sameCategoryProduct.name}
-                        </p>
-                      </div>
-                    </NavLink>
-                  </div>
-                ) : (
-                  <div>
-                    <p>No related products</p>
-                  </div>
-                ),
-              )}
-          </div>
-        </div>
-
-        <NavLink
-          to={`https://api.whatsapp.com/send?text=http://localhost:5173/product/${product.slug}/${product.productId}`}
-          target="_blank"
-        >
-          Whatsapp
-        </NavLink>
+        <RelatedProducts
+          sameCategoryProducts={sameCategoryProducts}
+          allProducts={allProducts}
+          product={product}
+          Currency={Currency}
+        />
       </div>
     </>
   );
