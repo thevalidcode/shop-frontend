@@ -14,6 +14,7 @@ const ProductsDetails = () => {
   const navigate = useNavigate();
   const cartSectionRef = useRef(null);
   const [showStickyCart, setShowStickyCart] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [sameCategoryProducts, setSameCategoryProducts] = useState([]);
 
   useEffect(() => {
@@ -39,7 +40,13 @@ const ProductsDetails = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setShowStickyCart(!entry.isIntersecting);
+        if (!entry.isIntersecting) {
+          setIsAnimating(true);
+          setShowStickyCart(true);
+        } else {
+          setIsAnimating(false);
+          setTimeout(() => setShowStickyCart(false), 300); // Match animation duration
+        }
       },
       { threshold: 0 },
     );
@@ -214,7 +221,9 @@ const ProductsDetails = () => {
         </div>
 
         {showStickyCart && (
-          <div className="fixed right-0 bottom-0 left-0 z-50 border-t bg-white/10 p-4 shadow-lg backdrop-blur-lg">
+          <div
+            className={`animate__animated ${isAnimating ? "animate__fadeInUp" : "animate__fadeOutDown"} fixed right-0 bottom-0 left-0 z-30 mb-15 border-t bg-white/10 p-4 shadow-lg backdrop-blur-lg md:mb-0`}
+          >
             <div className="mx-auto flex max-w-7xl items-center justify-between">
               {/* Left side: Product Info */}
               <div className="flex items-center gap-4">
@@ -334,37 +343,53 @@ const ProductsDetails = () => {
                   sameCategoryProduct.productId !== product.productId,
               )
               .slice(0, 4)
-              .map((sameCategoryProduct) => (
-                <NavLink
-                  key={sameCategoryProduct.productId}
-                  to={`/product/${sameCategoryProduct.slug}/${sameCategoryProduct.productId}`}
-                >
-                  <div>
-                    <img
-                      src={sameCategoryProduct.image}
-                      className="mb-2 h-48 w-full rounded-md object-cover"
-                      alt=""
-                    />
-                    <div className="flex justify-between">
-                      <div className="flex gap-2 text-gray-600">
-                        <p className="font-light line-through">
-                          {Currency + sameCategoryProduct.beforePrice}
-                        </p>
-                        <p className="font-light">
-                          {Currency + sameCategoryProduct.price}
+              .map((sameCategoryProduct) =>
+                sameCategoryProduct ? (
+                  <div key={sameCategoryProduct.productId}>
+                    <NavLink
+                      to={`/product/${sameCategoryProduct.slug}/${sameCategoryProduct.productId}`}
+                    >
+                      <div>
+                        <img
+                          src={sameCategoryProduct.image}
+                          className="mb-2 h-48 w-full rounded-md object-cover"
+                          alt={sameCategoryProduct.name}
+                        />
+                        <div className="flex justify-between">
+                          <div className="flex gap-2 text-gray-600">
+                            <p className="font-light line-through">
+                              {Currency + sameCategoryProduct.beforePrice}
+                            </p>
+                            <p className="font-light">
+                              {Currency + sameCategoryProduct.price}
+                            </p>
+                          </div>
+
+                          <StarRating
+                            rating={sameCategoryProduct.reviews.rating}
+                          />
+                        </div>
+                        <p className="text-lg font-medium">
+                          {sameCategoryProduct.name}
                         </p>
                       </div>
-
-                      <StarRating rating={sameCategoryProduct.reviews.rating} />
-                    </div>
-                    <p className="text-lg font-medium">
-                      {sameCategoryProduct.name}{" "}
-                    </p>
+                    </NavLink>
                   </div>
-                </NavLink>
-              ))}
+                ) : (
+                  <div>
+                    <p>No related products</p>
+                  </div>
+                ),
+              )}
           </div>
         </div>
+
+        <NavLink
+          to={`https://api.whatsapp.com/send?text=http://localhost:5173/product/${product.slug}/${product.productId}`}
+          target="_blank"
+        >
+          Whatsapp
+        </NavLink>
       </div>
     </>
   );

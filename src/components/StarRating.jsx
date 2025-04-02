@@ -17,7 +17,7 @@ export const StarRating = ({ rating, count, className }) => {
         {[...Array(emptyStar)].map((_, index) => (
           <i key={`empty-${index}`} class="bx bx-star text-yellow-400"></i>
         ))}
-        <span className="text-gray-500 text-sm ml-1 inline-flex items-center">
+        <span className="ml-1 inline-flex items-center text-sm text-gray-500">
           {count}
         </span>
       </div>
