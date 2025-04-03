@@ -31,7 +31,7 @@ function Navbar() {
       {/* ========== HEADER ========== */}
       <div className="">
         <header className="z-50 flex w-full flex-wrap border-b border-gray-200 bg-amber-50/50 py-7 lg:flex-nowrap lg:justify-start">
-          <nav className="relative mx-auto flex w-full max-w-7xl basis-full flex-wrap items-center px-4 md:px-6 lg:grid lg:grid-cols-12 lg:px-8">
+          <nav className="relative mx-auto flex w-full cs-container basis-full flex-wrap items-center px-4 md:px-6 lg:grid lg:grid-cols-12 lg:px-8">
             <div className="flex items-center lg:col-span-3">
               {/* Logo */}
               <NavLink

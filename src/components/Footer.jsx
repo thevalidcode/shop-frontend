@@ -164,8 +164,8 @@ const Footer = () => {
     },
   ];
   return (
-    <>
-      <div className="mt-20 grid grid-cols-2 gap-y-5 border-t border-gray-200 px-5 pt-3 md:grid-cols-4 lg:grid-cols-5">
+    <div className="my-20 border-t border-gray-200">
+      <div className="cs-container grid grid-cols-2 gap-5 pt-10 pb-20 md:grid-cols-4 lg:grid-cols-5">
         <div className="flex flex-col gap-2">
           {footerLinks.slice(0, 1).map((aboutFooterLink) => (
             <div key={aboutFooterLink.id}>
@@ -245,20 +245,28 @@ const Footer = () => {
             </div>
           ))}
         </div>
-        <div>
-          <h3 className="mb-2 text-lg font-medium"> Newsletter</h3>
+        <div className="flex flex-col gap-2">
+          <h3 className="text-lg font-medium"> Newsletter</h3>
           <input
             type="email"
-            className="mb-2 h-10 w-full rounded border border-gray-300 px-2"
+            className="h-10 w-full rounded border border-gray-300 px-2"
             placeholder="Enter your email"
           />
           <button className="w-full bg-black py-2 text-center text-white">
             Subscribe
           </button>
-          <input type="checkbox" name="checkbox" id="checkbox" />
-          <label htmlFor="checkbox" className="mx-2">
-            I have read and agree to the
-            <NavLink to="/privacy-policy">Privacy Policy</NavLink>
+          <label htmlFor="checkbox" className="flex gap-2">
+            <input type="checkbox" name="checkbox" id="checkbox" />
+            <span>
+              I have read and agree to the
+              <NavLink
+                to="/privacy-policy"
+                className="text-blue-600 hover:underline"
+              >
+                {" "}
+                privacy policy
+              </NavLink>
+            </span>
           </label>
         </div>
       </div>
@@ -281,7 +289,7 @@ const Footer = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

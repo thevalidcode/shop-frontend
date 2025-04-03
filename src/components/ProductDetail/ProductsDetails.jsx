@@ -62,8 +62,8 @@ const ProductsDetails = () => {
   if (!product) return <p>Loading...</p>;
 
   return (
-    <>
-      <div className="selection:bg-validGreen/70 mx-5 selection:text-white">
+    <div className="cs-container">
+      <div className="selection:bg-validGreen/70 selection:text-white">
         <div className="mt-5 grid gap-5 md:grid-cols-2">
           <div className="">
             <Lens
@@ -195,7 +195,7 @@ const ProductsDetails = () => {
               )}
             </div>
 
-            <div className="border-b border-gray-200 py-5">
+            {/* <div className="border-b border-gray-200 py-5">
               <p className="mb-2 font-semibold text-gray-700">
                 Seller Information
               </p>
@@ -219,7 +219,7 @@ const ProductsDetails = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -342,7 +342,7 @@ const ProductsDetails = () => {
           Currency={Currency}
         />
       </div>
-    </>
+    </div>
   );
 };
 

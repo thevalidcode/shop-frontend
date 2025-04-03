@@ -136,3 +136,35 @@ input[type="number"] {
     @apply bg-background text-foreground;
   }
 }
+
+@media (min-width: 1200px) {
+  .cs-container {
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1020px) and (max-width: 1200px) {
+  .cs-container {
+    max-width: 1020px;
+  }
+}
+
+@media (min-width: 720px) and (max-width: 1020px) {
+  .cs-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 720px) {
+  .cs-container {
+    max-width: 600px;
+  }
+}
+
+.cs-container {
+  width: 100%;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-right: auto;
+  margin-left: auto;
+}

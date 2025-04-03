@@ -44,10 +44,10 @@ const ProductSellingSection = () => {
 
   return (
     <>
-      <div className="mx-5 mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-5 mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {/* New Products */}
         <div className="m-2 rounded-md bg-white p-3 shadow">
-          <div className="flex items-center justify-between">
+          <div className="mb-3 flex items-center justify-between">
             <p className="text-lg font-semibold text-gray-600">New Arrivals</p>
             <NavLink className="flex items-center text-sm font-semibold text-gray-600">
               View All <i className="bx bx-chevron-right"></i>
@@ -79,7 +79,7 @@ const ProductSellingSection = () => {
         </div>
         {/* Random Products */}
         <div className="m-2 rounded-md bg-white p-3 shadow">
-          <div className="flex items-center justify-between">
+          <div className="mb-3 flex items-center justify-between">
             <p className="text-lg font-semibold text-gray-600">You may like</p>
             <NavLink className="flex items-center text-sm font-semibold text-gray-600">
               View All <i className="bx bx-chevron-right"></i>
@@ -111,43 +111,10 @@ const ProductSellingSection = () => {
             )}
           </div>
         </div>
-        {/* Random Products */}
-        <div className="m-2 rounded-md bg-white p-3 shadow">
-          <div className="flex items-center justify-between">
-            <p className="text-lg font-semibold text-gray-600">You may like</p>
-            <NavLink className="flex items-center text-sm font-semibold text-gray-600">
-              View All <i className="bx bx-chevron-right"></i>
-            </NavLink>
-          </div>
-          <div className="grid grid-cols-2 gap-2 rounded-md">
-            {randomProducts.length > 0 ? (
-              randomProducts.map((randomProduct) => (
-                <div key={randomProduct.productId} className="">
-                  <NavLink
-                    to={`/product/${randomProduct.slug}/${randomProduct.productId}`}
-                  >
-                    <img
-                      className="h-30 w-50 rounded-md object-cover"
-                      src={randomProduct.image}
-                      alt=""
-                    />
-                    <p className="truncate font-medium text-gray-600">
-                      {randomProduct.name}
-                    </p>
-                    <p className="truncate font-bold">
-                      {Currency + randomProduct.price}
-                    </p>
-                  </NavLink>
-                </div>
-              ))
-            ) : (
-              <p>Loading Products...</p>
-            )}
-          </div>
-        </div>
+
         {/* Products that customers have viewed */}
         <div className="m-2 rounded-md bg-white p-3 shadow">
-          <div className="flex items-center justify-between">
+          <div className="mb-3 flex items-center justify-between">
             <p className="text-lg font-semibold text-gray-600">
               Do you like these?
             </p>
@@ -186,10 +153,10 @@ const ProductSellingSection = () => {
           </div>
         </div>
       </div>
-      <div className="mx-5 mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-5 mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {/* Trending Products */}
         <div className="m-2 rounded-md bg-white p-3 shadow">
-          <div className="flex items-center justify-between">
+          <div className="mb-3 flex items-center justify-between">
             <p className="text-lg font-semibold text-gray-600">Trending</p>
             <NavLink className="flex items-center text-sm font-semibold text-gray-600">
               View All <i className="bx bx-chevron-right"></i>
@@ -220,7 +187,7 @@ const ProductSellingSection = () => {
         </div>
         {/* Random Products */}
         <div className="m-2 rounded-md bg-white p-3 shadow">
-          <div className="flex items-center justify-between">
+          <div className="mb-3 flex items-center justify-between">
             <p className="text-lg font-semibold text-gray-600">You may like</p>
             <NavLink className="flex items-center text-sm font-semibold text-gray-600">
               View All <i className="bx bx-chevron-right"></i>
@@ -252,43 +219,10 @@ const ProductSellingSection = () => {
             )}
           </div>
         </div>
-        {/* Random Products */}
-        <div className="m-2 rounded-md bg-white p-3 shadow">
-          <div className="flex items-center justify-between">
-            <p className="text-lg font-semibold text-gray-600">You may like</p>
-            <NavLink className="flex items-center text-sm font-semibold text-gray-600">
-              View All <i className="bx bx-chevron-right"></i>
-            </NavLink>
-          </div>
-          <div className="grid grid-cols-2 gap-2 rounded-md">
-            {randomProducts.length > 0 ? (
-              randomProducts.map((randomProduct) => (
-                <div key={randomProduct.productId} className="">
-                  <NavLink
-                    to={`/product/${randomProduct.slug}/${randomProduct.productId}`}
-                  >
-                    <img
-                      className="h-30 w-50 rounded-md object-cover"
-                      src={randomProduct.image}
-                      alt=""
-                    />
-                    <p className="truncate font-medium text-gray-600">
-                      {randomProduct.name}
-                    </p>
-                    <p className="truncate font-bold">
-                      {Currency + randomProduct.price}
-                    </p>
-                  </NavLink>
-                </div>
-              ))
-            ) : (
-              <p>Loading Products...</p>
-            )}
-          </div>
-        </div>
+
         {/* Products that customers have viewed */}
         <div className="m-2 rounded-md bg-white p-3 shadow">
-          <div className="flex items-center justify-between">
+          <div className="mb-3 flex items-center justify-between">
             <p className="text-lg font-semibold text-gray-600">
               Do you like these?
             </p>
