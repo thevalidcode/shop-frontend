@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
+import axios from "axios";
+import { Currency } from "@/lib/Currency";
 
 const Hero = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -112,6 +114,35 @@ const Hero = () => {
       window.removeEventListener("resize", checkScreenSize);
     };
   });
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:2000/products").then((response) => {
+      setProducts(response.data);
+      const categoryStats = response.data.reduce((acc, product) => {
+        if (!acc[product.category]) {
+          acc[product.category] = { totalStat: 0, products: [] };
+        }
+        acc[product.category].totalStat += product.stat;
+        acc[product.category].products.push(product);
+        // console.log(acc);
+        return acc;
+      }, {});
+      const highestStatCategory = Object.entries(categoryStats).reduce(
+        (max, [category, data]) => {
+          return data.totalStat > max.totalStat ? { category, ...data } : max;
+        },
+        { category: "", totalStat: 0, products: [] },
+      );
+      console.log(highestStatCategory.products);
+      const filteredCatProducts = highestStatCategory.products.filter(
+        (filteredProduct) => filteredProduct.stockQuantity > 0,
+      );
+      setProducts(filteredCatProducts);
+      console.log(filteredCatProducts);
+    });
+  }, []);
 
   return (
     <>
@@ -260,7 +291,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="flex h-[calc(100vh-110px)] gap-5 overflow-hidden">
+      <div className="mx-1 flex h-[calc(100vh-110px)] gap-5 overflow-hidden">
         <div
           className={`hidden w-[30%] bg-white px-3 pt-5 transition-all duration-700 sm:block ${
             isOpen
@@ -284,7 +315,7 @@ const Hero = () => {
           </ul>
         </div>
         <div
-          className={`me-1 flex h-full flex-col transition-all duration-500 ${isOpen ? "w-full" : "w-full"}`}
+          className={`flex h-full flex-col transition-all duration-500 ${isOpen ? "w-full" : "w-full"}`}
         >
           <div className="">
             <Splide
@@ -297,33 +328,29 @@ const Hero = () => {
                 }
               }
             >
-              {heroCarousel.map((eachSlide) => (
+              {products.slice(0, 4).map((eachSlide) => (
                 <SplideSlide key={eachSlide.id} className="relative">
                   <img
-                    src={eachSlide.img}
+                    src={eachSlide.image}
                     className="h-[calc(70vh)] w-full rounded-md object-cover"
                     alt="Image 1"
                   />
                   <div className="bg-validGreen/10 absolute bottom-0 h-screen w-full">
-                    <p className="font-orbitron absolute bottom-40 ms-15 mb-5 text-6xl font-bold text-gray-100 md:bottom-40 lg:bottom-50">
-                      {eachSlide.title}
+                    <p className="font-orbitron absolute bottom-40 ms-15 mb-5 text-4xl font-bold text-gray-100 md:bottom-40 md:text-6xl lg:bottom-50">
+                      {eachSlide.name}
                     </p>
-                    <p className="absolute bottom-27 ms-15 text-xl font-medium text-gray-200 md:bottom-27 md:text-2xl lg:bottom-45">
-                      {eachSlide.des}
+                    <p className="font-orbitron absolute bottom-30 ms-15 mb-5 text-3xl font-bold text-gray-100 md:bottom-40">
+                      {Currency + eachSlide.price}
                     </p>
 
-                    {eachSlide.buttonText ? (
-                      <NavLink
-                        className="absolute bottom-25 ms-15 rounded-md bg-green-600 px-2 py-1 text-lg font-medium text-gray-200 md:bottom-25 lg:bottom-35"
-                        to={eachSlide.buttonLink}
-                      >
-                        <span className="flex items-center gap-1">
-                          {eachSlide.buttonText} {eachSlide.buttonIcon}
-                        </span>
-                      </NavLink>
-                    ) : (
-                      ""
-                    )}
+                    <NavLink
+                      className="absolute bottom-25 ms-15 rounded-md bg-green-600 px-2 py-1 text-lg font-medium text-gray-200 md:bottom-25 lg:bottom-35"
+                      to={`/product/${eachSlide.slug}/${eachSlide.productId}`}
+                    >
+                      <span className="flex items-center gap-1">
+                        Get Product
+                      </span>
+                    </NavLink>
                   </div>
                 </SplideSlide>
               ))}
