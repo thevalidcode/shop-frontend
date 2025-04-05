@@ -7,6 +7,9 @@ export const addToCart = ({ product, productQuantity }) => {
     cart.push({
       id: product.productId,
       quantity: Number(productQuantity),
+      name: product.name,
+      image: product.image,
+      price: product.price,
     });
   }
   localStorage.setItem("addToCart", JSON.stringify(cart));

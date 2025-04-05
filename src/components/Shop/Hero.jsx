@@ -6,377 +6,79 @@ import axios from "axios";
 import { Currency } from "@/lib/Currency";
 
 const Hero = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  const [isOpen, setIsOpen] = useState(true);
-
-  const toggleMenu = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const categoryMenus = [
-    {
-      id: 1,
-      item: "Computer and Laptop",
-      icon: <i class="bx bx-laptop"></i>,
-    },
-    {
-      id: 2,
-      item: "Camera and Videos",
-      icon: <i class="bx bx-camera"></i>,
-    },
-    {
-      id: 3,
-      item: "Television",
-      icon: <i class="bx bx-tv"></i>,
-    },
-    {
-      id: 4,
-      item: "Smartwatches",
-      icon: <i class="bx bxs-watch"></i>,
-    },
-    {
-      id: 5,
-      item: "Gaming",
-      icon: <i class="bx bx-game"></i>,
-    },
-    {
-      id: 6,
-      item: "Mobile and Tablets",
-      icon: <i class="bx bx-tab"></i>,
-    },
-    {
-      id: 7,
-      item: "Headphone",
-      icon: <i class="bx bx-headphone"></i>,
-    },
-    {
-      id: 8,
-      item: "Accessories",
-      icon: <i class="bx bx-mouse-alt"></i>,
-    },
-    {
-      id: 9,
-      item: "Best Sellers",
-      icon: <i class="bx bx-trending-up"></i>,
-    },
-    {
-      id: 10,
-      item: "Top 100 Offers",
-      icon: <i class="bx bx-bookmark"></i>,
-    },
-    {
-      id: 11,
-      item: "Top 100 Offers",
-      icon: <i class="bx bx-bookmark"></i>,
-    },
-  ];
-
-  const heroCarousel = [
-    {
-      id: 1,
-      img: "/src/assets/homeShop-carousel.jpg",
-      title: "Stereo Headset",
-      des: "Get a 42% discount off on every purchase of stereo headset.",
-      buttonText: "Go to categories",
-      buttonIcon: <i class="bx bx-right-arrow-alt"></i>,
-      buttonLink: "/categories",
-    },
-    {
-      id: 2,
-      img: "https://images.pexels.com/photos/19803079/pexels-photo-19803079/free-photo-of-woman-drinking-coffee-with-milk.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load",
-      title: "Product Title 2",
-      des: "Product Description 2",
-      buttonText: "Go to categories",
-      buttonIcon: <i class="bx bx-right-arrow-alt"></i>,
-      buttonLink: "/categories",
-    },
-  ];
-
-  const brandsLogos = [
-    { id: 1, name: "LG", img: "/src/assets/brand-logos/lg.svg" },
-    { id: 2, name: "Hisense", img: "/src/assets/brand-logos/hisense.svg" },
-    { id: 3, name: "Hollyland", img: "/src/assets/brand-logos/hollyland.svg" },
-    { id: 4, name: "Oraimo", img: "/src/assets/brand-logos/oraimo.svg" },
-    { id: 5, name: "Samsung", img: "/src/assets/brand-logos/samsung.svg" },
-    { id: 6, name: "ALl Brands", title: "All Brands", slug: "/brands" },
-  ];
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-
-    return () => {
-      window.removeEventListener("resize", checkScreenSize);
-    };
-  });
-
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.get("http://localhost:2000/products").then((response) => {
       setProducts(response.data);
-      const categoryStats = response.data.reduce((acc, product) => {
-        if (!acc[product.category]) {
-          acc[product.category] = { totalStat: 0, products: [] };
-        }
-        acc[product.category].totalStat += product.stat;
-        acc[product.category].products.push(product);
-        // console.log(acc);
-        return acc;
-      }, {});
-      const highestStatCategory = Object.entries(categoryStats).reduce(
-        (max, [category, data]) => {
-          return data.totalStat > max.totalStat ? { category, ...data } : max;
-        },
-        { category: "", totalStat: 0, products: [] },
-      );
-      console.log(highestStatCategory.products);
-      const filteredCatProducts = highestStatCategory.products.filter(
-        (filteredProduct) => filteredProduct.stockQuantity > 0,
-      );
-      setProducts(filteredCatProducts);
-      console.log(filteredCatProducts);
+      setIsLoading(false);
     });
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="relative h-[calc(100vh-110px)] w-full overflow-hidden">
+        <div className="h-full w-full animate-pulse bg-gray-200"></div>
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="mb-1 flex h-13 w-full bg-black">
-        <div className="mx-5 flex gap-2 text-white">
-          {isMobile ? (
-            <div className="flex cursor-pointer items-center bg-[#333333] px-5 select-none">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-                id="Dashboard-3--Streamline-Core"
-                height={20}
-                width={20}
-              >
-                <desc>
-                  {"Dashboard 3 Streamline Icon: https://streamlinehq.com"}
-                </desc>
-                <g id="dashboard-3--app-application-dashboard-home-layout-vertical">
-                  <path
-                    id="Vector"
-                    stroke="white"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 6.5H9c-0.27614 0 -0.5 0.22386 -0.5 0.5v6c0 0.2761 0.22386 0.5 0.5 0.5h4c0.2761 0 0.5 -0.2239 0.5 -0.5V7c0 -0.27614 -0.2239 -0.5 -0.5 -0.5Z"
-                    strokeWidth={1}
-                  />
-                  <path
-                    id="Vector_2"
-                    stroke="white"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 0.5H9c-0.27614 0 -0.5 0.223858 -0.5 0.5v2.01c0 0.27614 0.22386 0.5 0.5 0.5h4c0.2761 0 0.5 -0.22386 0.5 -0.5V1c0 -0.276142 -0.2239 -0.5 -0.5 -0.5Z"
-                    strokeWidth={1}
-                  />
-                  <path
-                    id="Vector_3"
-                    stroke="white"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 0.5H1C0.723858 0.5 0.5 0.723858 0.5 1v6c0 0.27614 0.223858 0.5 0.5 0.5h4c0.27614 0 0.5 -0.22386 0.5 -0.5V1c0 -0.276142 -0.22386 -0.5 -0.5 -0.5Z"
-                    strokeWidth={1}
-                  />
-                  <path
-                    id="Vector_4"
-                    stroke="white"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 10.49H1c-0.276142 0 -0.5 0.2238 -0.5 0.5V13c0 0.2761 0.223858 0.5 0.5 0.5h4c0.27614 0 0.5 -0.2239 0.5 -0.5v-2.01c0 -0.2762 -0.22386 -0.5 -0.5 -0.5Z"
-                    strokeWidth={1}
-                  />
-                </g>
-              </svg>
-              <NavLink to="/categories" className="ms-2 me-1">
-                Categories
-              </NavLink>
-            </div>
-          ) : (
-            <div
-              className="flex cursor-pointer items-center bg-[#333333] px-5 select-none"
-              onClick={toggleMenu}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-                id="Dashboard-3--Streamline-Core"
-                height={20}
-                width={20}
-              >
-                <desc>
-                  {"Dashboard 3 Streamline Icon: https://streamlinehq.com"}
-                </desc>
-                <g id="dashboard-3--app-application-dashboard-home-layout-vertical">
-                  <path
-                    id="Vector"
-                    stroke="white"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 6.5H9c-0.27614 0 -0.5 0.22386 -0.5 0.5v6c0 0.2761 0.22386 0.5 0.5 0.5h4c0.2761 0 0.5 -0.2239 0.5 -0.5V7c0 -0.27614 -0.2239 -0.5 -0.5 -0.5Z"
-                    strokeWidth={1}
-                  />
-                  <path
-                    id="Vector_2"
-                    stroke="white"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 0.5H9c-0.27614 0 -0.5 0.223858 -0.5 0.5v2.01c0 0.27614 0.22386 0.5 0.5 0.5h4c0.2761 0 0.5 -0.22386 0.5 -0.5V1c0 -0.276142 -0.2239 -0.5 -0.5 -0.5Z"
-                    strokeWidth={1}
-                  />
-                  <path
-                    id="Vector_3"
-                    stroke="white"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 0.5H1C0.723858 0.5 0.5 0.723858 0.5 1v6c0 0.27614 0.223858 0.5 0.5 0.5h4c0.27614 0 0.5 -0.22386 0.5 -0.5V1c0 -0.276142 -0.22386 -0.5 -0.5 -0.5Z"
-                    strokeWidth={1}
-                  />
-                  <path
-                    id="Vector_4"
-                    stroke="white"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 10.49H1c-0.276142 0 -0.5 0.2238 -0.5 0.5V13c0 0.2761 0.223858 0.5 0.5 0.5h4c0.27614 0 0.5 -0.2239 0.5 -0.5v-2.01c0 -0.2762 -0.22386 -0.5 -0.5 -0.5Z"
-                    strokeWidth={1}
-                  />
-                </g>
-              </svg>
-              <p className="ms-2 me-1">Categories</p>
-            </div>
-          )}
-
-          <div className="flex items-center bg-[#333333] px-5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14"
-              id="Tag--Streamline-Core"
-              className="-rotate-90"
-              height="20"
-              width="20"
-            >
-              <desc>Tag Streamline Icon: https://streamlinehq.com</desc>
-              <g id="tag--tags-bookmark-favorite">
-                <path
-                  id="Vector"
-                  stroke="white"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m0.71901 9.39099 3.89 3.89001c0.14063 0.1404 0.33125 0.2193 0.53 0.2193 0.19875 0 0.38938 -0.0789 0.53 -0.2193L13.389 5.56099c0.0388 -0.03708 0.0688 -0.08237 0.0878 -0.13255 0.0191 -0.05017 0.0266 -0.10397 0.0222 -0.15745l-0.59 -3.83c-0.0048 -0.09127 -0.0432 -0.17752 -0.1078 -0.24214 -0.0647 -0.06463 -0.1509 -0.10305 -0.2422 -0.10786l-3.82999 -0.59c-0.05348 -0.004439 -0.10728 0.003134 -0.15745 0.022167 -0.05018 0.019032 -0.09547 0.049042 -0.13255 0.087833l-7.72 7.72c-0.14045 0.14062 -0.21934 0.33125 -0.21934 0.53 0 0.19875 0.07889 0.38937 0.21934 0.53v0Z"
-                  strokeWidth="1"
-                ></path>
-                <path
-                  id="Vector_2"
-                  stroke="white"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9.88904 4.61096c-0.27614 0 -0.5 -0.22386 -0.5 -0.5s0.22386 -0.5 0.5 -0.5c0.27616 0 0.49996 0.22386 0.49996 0.5s-0.2238 0.5 -0.49996 0.5Z"
-                  strokeWidth="1"
-                ></path>
-              </g>
-            </svg>
-            <NavLink to="/brand" className="ms-2 me-1">
-              Brand{" "}
-            </NavLink>
-          </div>
-        </div>
-      </div>
-      <div className="mx-1 flex h-[calc(100vh-110px)] gap-5 overflow-hidden">
-        <div
-          className={`hidden w-[30%] bg-white px-3 pt-5 transition-all duration-700 sm:block ${
-            isOpen
-              ? "h-full overflow-hidden opacity-100"
-              : "hidden h-0 overflow-hidden opacity-0"
-          }`}
+      <div className="cs-container relative mt-2 h-[calc(100vh-110px)] w-full overflow-hidden">
+        <Splide
+          aria-label="Featured Products"
+          options={{
+            type: "loop",
+            autoplay: true,
+            interval: 5000,
+            pauseOnHover: true,
+            arrows: true,
+            pagination: true,
+            speed: 1000,
+            easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+          }}
         >
-          <ul className="flex h-full flex-col gap-5">
-            {categoryMenus.map((catItem) => (
-              <li
-                key={catItem.id}
-                className="flex items-center gap-2 rounded-md border-b border-gray-200 text-lg"
-              >
-                <span className="">{catItem.icon}</span>
-                <div className="flex w-full justify-between gap-10">
-                  <p>{catItem.item}</p>
-                  <i class="bx bx-chevron-right text-2xl"></i>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div
-          className={`flex h-full flex-col transition-all duration-500 ${isOpen ? "w-full" : "w-full"}`}
-        >
-          <div className="">
-            <Splide
-              aria-label="My Favorite Images"
-              options={
-                {
-                  // autoplay: true,
-                  // interval: 3000,
-                  // loop: true,
-                }
-              }
-            >
-              {products.slice(0, 4).map((eachSlide) => (
-                <SplideSlide key={eachSlide.id} className="relative">
-                  <img
-                    src={eachSlide.image}
-                    className="h-[calc(70vh)] w-full rounded-md object-cover"
-                    alt="Image 1"
-                  />
-                  <div className="bg-validGreen/10 absolute bottom-0 h-screen w-full">
-                    <p className="font-orbitron absolute bottom-40 ms-15 mb-5 text-4xl font-bold text-gray-100 md:bottom-40 md:text-6xl lg:bottom-50">
+          {products.slice(0, 4).map((eachSlide) => (
+            <SplideSlide key={eachSlide.id} className="relative">
+              <div className="relative h-[calc(100vh-110px)] w-full">
+                <img
+                  src={eachSlide.image}
+                  className="h-full w-full object-cover brightness-75"
+                  alt={eachSlide.name}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent">
+                  <div className="absolute right-0 bottom-0 left-0 p-10 text-white md:p-20">
+                    <h2 className="font-orbitron mb-4 text-4xl font-bold md:text-6xl lg:text-7xl">
                       {eachSlide.name}
+                    </h2>
+                    <p className="mb-6 line-clamp-5 max-w-2xl text-lg text-gray-200 md:text-xl">
+                      {eachSlide.description}
                     </p>
-                    <p className="font-orbitron absolute bottom-30 ms-15 mb-5 text-3xl font-bold text-gray-100 md:bottom-40">
-                      {Currency + eachSlide.price}
-                    </p>
-
+                    <div className="flex items-center gap-4">
+                      <p className="text-2xl font-bold text-green-400 md:text-3xl">
+                        {Currency + eachSlide.price}
+                      </p>
+                      {eachSlide.beforePrice && (
+                        <p className="text-lg text-gray-400 line-through">
+                          {Currency + eachSlide.beforePrice}
+                        </p>
+                      )}
+                    </div>
                     <NavLink
-                      className="absolute bottom-25 ms-15 rounded-md bg-green-600 px-2 py-1 text-lg font-medium text-gray-200 md:bottom-25 lg:bottom-35"
+                      className="mt-6 inline-flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 text-lg font-medium text-white transition-all hover:bg-green-700"
                       to={`/product/${eachSlide.slug}/${eachSlide.productId}`}
                     >
-                      <span className="flex items-center gap-1">
-                        Get Product
-                      </span>
+                      Shop Now
+                      <i className="bx bx-right-arrow-alt text-xl"></i>
                     </NavLink>
                   </div>
-                </SplideSlide>
-              ))}
-            </Splide>
-            <div className="mt-2 flex h-[15%] w-full place-items-center items-center justify-between gap-10 overflow-x-auto rounded bg-white px-5">
-              {brandsLogos.map((brandLogo) =>
-                brandLogo.title ? (
-                  <NavLink
-                    key={brandLogo.id}
-                    className="flex w-full items-center font-bold text-nowrap text-green-600"
-                    to={brandLogo.slug}
-                  >
-                    {brandLogo.title} <i class="bx bx-right-arrow-alt"></i>
-                  </NavLink>
-                ) : (
-                  <img
-                    key={brandLogo.id}
-                    className="relative w-20 pe-2"
-                    src={brandLogo.img}
-                    alt=""
-                  />
-                ),
-              )}
-            </div>
-          </div>
-        </div>
+                </div>
+              </div>
+            </SplideSlide>
+          ))}
+        </Splide>
       </div>
     </>
   );

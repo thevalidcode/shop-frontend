@@ -10,7 +10,7 @@ const Categories = () => {
         <h1 className="font-orbitron mb-2 text-3xl font-bold">
           Explore categories
         </h1>
-        <div className="flex w-full gap-5 overflow-x-auto">
+        <div className="scrollbar-hide flex w-full gap-5 overflow-x-auto">
           {productsData.map((productData) => (
             <div key={productData.id} className="relative shrink-0">
               <img
@@ -27,9 +27,9 @@ const Categories = () => {
                 <NavLink
                   onClick={() => navigate("/")}
                   to={"/categories" + productData.slug}
-                  className="rounded-md bg-white px-2 py-2 text-sm font-medium text-gray-800"
+                  className="flex w-fit items-center gap-2 rounded-md bg-white px-2 py-2 text-sm font-medium text-gray-800"
                 >
-                  {productData.cta + productData.name}
+                  Explore <i className="bx bx-right-arrow-alt text-xl"></i>
                 </NavLink>
               </div>
             </div>
