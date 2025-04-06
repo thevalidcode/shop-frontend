@@ -28,7 +28,7 @@ const Cart = () => {
                   <div className="flex">
                     <img
                       src={product.image}
-                      className="h-20 w-20 rounded object-cover"
+                      className="h-21 w-20 rounded object-cover"
                       alt=""
                     />
                   </div>
