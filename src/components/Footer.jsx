@@ -8,6 +8,12 @@ const Footer = () => {
   useEffect(() => {
     const updateCartQuantity = () => {
       const cart = JSON.parse(localStorage.getItem("addToCart")) || [];
+      if (!Array.isArray(cart)) {
+        console.error("Cart is not an array:");
+        console.table(cart);
+        setCartQuantity(0);
+        return;
+      }
       const cartQtantity = cart.reduce(
         (total, item) => total + item.quantity,
         0,
