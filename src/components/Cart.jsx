@@ -36,7 +36,7 @@ const Cart = () => {
     <>
       <div className="cs-container">
         {!filteredProduct || filteredProduct.length === 0 ? (
-          <p> No product in cart</p>
+          <p> No produt in cart</p>
         ) : (
           <div>
             {filteredProduct.map((product) => (
