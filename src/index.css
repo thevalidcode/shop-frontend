@@ -185,12 +185,19 @@ input[type="number"] {
   @apply text-gray-800;
 }
 
+.successRateText {
+  @apply text-validGreen bg-validGreen/10;
+}
+.failureRateText {
+  @apply bg-red-500/10 text-red-500;
+}
+
 .secondaryText {
   @apply text-gray-500;
 }
 
 .successText {
-  @apply text-green-600;
+  @apply text-validGreen;
 }
 
 .warningText {

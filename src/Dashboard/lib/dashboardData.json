@@ -1,0 +1,119 @@
+{
+  "summaryMetrics": [
+    {
+      "title": "Total Revenue",
+      "amount": "₦1,200,500",
+      "change": "+12.4%",
+      "icon": "bx bx-dollar",
+      "trend": "up"
+    },
+    {
+      "title": "Total Orders",
+      "amount": "3,450",
+      "change": "+4.8%",
+      "icon": "bx bxs-shopping-bag",
+      "trend": "up"
+    },
+    {
+      "title": "Impressions",
+      "amount": "980K",
+      "change": "-3.1%",
+      "icon": "bx bx-trending-down",
+      "trend": "down"
+    },
+    {
+      "title": "New Customers",
+      "amount": "1,024",
+      "change": "+6.7%",
+      "icon": "bx bxs-user",
+      "trend": "up"
+    }
+  ],
+  "salesChart": {
+    "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    "data": [120000, 135000, 150000, 125000, 180000, 210000]
+  },
+  "trafficSources": [
+    { "source": "Direct", "percentage": 45 },
+    { "source": "Social Media", "percentage": 30 },
+    { "source": "Email", "percentage": 15 },
+    { "source": "Referral", "percentage": 10 }
+  ],
+  "recentOrders": [
+    {
+      "orderId": "#12345",
+      "customerName": "John Doe",
+      "status": "Pending",
+      "amount": "₦12,000",
+      "date": "2025-05-10"
+    },
+    {
+      "orderId": "#12346",
+      "customerName": "Ada B.",
+      "status": "Delivered",
+      "amount": "₦8,500",
+      "date": "2025-05-10"
+    },
+    {
+      "orderId": "#12347",
+      "customerName": "Samuel A.",
+      "status": "Shipped",
+      "amount": "₦15,000",
+      "date": "2025-05-09"
+    }
+  ],
+  "topProducts": [
+    {
+      "productId": "p101",
+      "name": "Wireless Earbuds",
+      "sales": 450,
+      "image": "/products/earbuds.png"
+    },
+    {
+      "productId": "p102",
+      "name": "Leather Backpack",
+      "sales": 320,
+      "image": "/products/backpack.png"
+    },
+    {
+      "productId": "p103",
+      "name": "Smart Watch",
+      "sales": 280,
+      "image": "/products/watch.png"
+    }
+  ],
+  "notifications": [
+    {
+      "id": 1,
+      "message": "You have 3 new reviews on your products",
+      "type": "info",
+      "time": "3 mins ago"
+    },
+    {
+      "id": 2,
+      "message": "New order from Grace A.",
+      "type": "success",
+      "time": "1 hour ago"
+    }
+  ],
+  "lowInventory": [
+    { "product": "Running Shoes", "stock": 4 },
+    { "product": "Phone Case", "stock": 2 }
+  ],
+  "tasks": [
+    { "id": 1, "task": "Verify 3 pending seller accounts", "completed": false },
+    { "id": 2, "task": "Respond to customer dispute #2334", "completed": true },
+    { "id": 3, "task": "Review flagged product listings", "completed": false }
+  ],
+  "topCategories": [
+    { "category": "Electronics", "sales": 340000 },
+    { "category": "Fashion", "sales": 275000 },
+    { "category": "Home & Garden", "sales": 190000 }
+  ],
+  "performanceMetrics": {
+    "pageLoad": "1.2s",
+    "conversionRate": "2.7%",
+    "bounceRate": "36%",
+    "cartAbandonment": "52%"
+  }
+}

@@ -24,13 +24,63 @@ export const Dashboard = () => {
             </div>
           </div>
 
-          <div className="flex gap-2">
-            {[...new Array(4)].map((i, idx) => (
-              <div
-                key={"first-array-demo-1" + idx}
-                className="h-20 w-full animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-800"
-              ></div>
-            ))}
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+            {/* Total Revenue */}
+            <div className="flex w-full flex-col gap-5 rounded-lg bg-gray-100 p-2">
+              <div className="flex justify-between">
+                <div className="flex flex-col">
+                  <h1 className="primaryText text-lg font-medium">
+                    Total Revenue
+                  </h1>
+                  <p className="successRateText flex w-15 items-center justify-center rounded-md">
+                    <i class="bx bx-plus"></i> 17.2%
+                  </p>
+                </div>
+
+                <div>
+                  <i className="bx bx-dollar rounded-full bg-gray-200 p-1"></i>
+                </div>
+              </div>
+              <p className="text-2xl font-semibold">₦27, 962</p>
+            </div>
+
+            {/* Total Orders */}
+            <div className="flex w-full flex-col gap-5 rounded-lg bg-gray-100 p-2">
+              <div className="flex justify-between">
+                <div className="flex flex-col">
+                  <h1 className="primaryText text-lg font-medium">
+                    Total Orders
+                  </h1>
+                  <p className="successRateText flex w-15 items-center justify-center rounded-md">
+                    <i class="bx bx-plus"></i> 17.2%
+                  </p>
+                </div>
+
+                <div>
+                  <i className="bx bxs-shopping-bag rounded-full bg-gray-200 p-1"></i>
+                </div>
+              </div>
+              <p className="text-2xl font-semibold">26</p>
+            </div>
+
+            {/* Impressions */}
+            <div className="flex w-full flex-col gap-5 rounded-lg bg-gray-100 p-2">
+              <div className="flex justify-between">
+                <div className="flex flex-col">
+                  <h1 className="primaryText text-lg font-medium">
+                    Impressions
+                  </h1>
+                  <p className="failureRateText flex w-15 items-center justify-center rounded-md">
+                    <i class="bx bx-minus"></i> 1.2%
+                  </p>
+                </div>
+
+                <div>
+                  <i className="bx bx-trending-down rounded-full bg-gray-200 p-1"></i>
+                </div>
+              </div>
+              <p className="text-2xl font-semibold">500K</p>
+            </div>
           </div>
           <div className="flex flex-1 gap-2">
             {[...new Array(2)].map((i, idx) => (
