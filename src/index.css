@@ -179,3 +179,72 @@ input[type="number"] {
   margin-right: auto;
   margin-left: auto;
 }
+
+/* === Global Utility Classes === */
+.primaryText {
+  @apply text-gray-800;
+}
+
+.secondaryText {
+  @apply text-gray-500;
+}
+
+.successText {
+  @apply text-green-600;
+}
+
+.warningText {
+  @apply text-yellow-600;
+}
+
+.errorText {
+  @apply text-red-600;
+}
+
+.primaryBg {
+  @apply bg-blue-900 text-white;
+}
+
+.secondaryBg {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.successBg {
+  @apply bg-green-100 text-green-800;
+}
+
+.warningBg {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.errorBg {
+  @apply bg-red-100 text-red-800;
+}
+
+.primaryButton {
+  @apply rounded-md bg-blue-900 px-4 py-2 font-medium text-white transition hover:bg-blue-800;
+}
+
+.secondaryButton {
+  @apply rounded-md bg-gray-200 px-4 py-2 font-medium text-gray-800 transition hover:bg-gray-300;
+}
+
+.successButton {
+  @apply rounded-md bg-green-600 px-4 py-2 font-medium text-white transition hover:bg-green-700;
+}
+
+.warningButton {
+  @apply rounded-md bg-yellow-500 px-4 py-2 font-medium text-white transition hover:bg-yellow-600;
+}
+
+.errorButton {
+  @apply rounded-md bg-red-600 px-4 py-2 font-medium text-white transition hover:bg-red-700;
+}
+
+.primaryBorder {
+  @apply border-blue-900;
+}
+
+.secondaryBorder {
+  @apply border-gray-300;
+}

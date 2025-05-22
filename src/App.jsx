@@ -14,6 +14,7 @@ import NotFound from "./components/NotFound";
 import ProductsDetails from "./components/ProductDetail/ProductsDetails";
 import HomeLayout from "./layouts/HomeLayout";
 import Cart from "./components/cart";
+import DashboardHome from "./Dashboard/home";
 
 function App() {
   const router = createBrowserRouter(
@@ -32,6 +33,10 @@ function App() {
 
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<Home />} />
+        </Route>
+
+        <Route>
+          <Route path="dashboard" element={<DashboardHome />} />
         </Route>
       </Route>,
     ),
