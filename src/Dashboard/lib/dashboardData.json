@@ -5,28 +5,32 @@
       "amount": "₦1,200,500",
       "change": "+12.4%",
       "icon": "bx bx-dollar",
-      "trend": "up"
+      "trend": "up",
+      "bgColor": "bg-[#ebf6ee]"
     },
     {
       "title": "Total Orders",
       "amount": "3,450",
       "change": "+4.8%",
       "icon": "bx bxs-shopping-bag",
-      "trend": "up"
-    },
-    {
-      "title": "Impressions",
-      "amount": "980K",
-      "change": "-3.1%",
-      "icon": "bx bx-trending-down",
-      "trend": "down"
+      "trend": "up",
+      "bgColor": "bg-[#e6f7ff]"
     },
     {
       "title": "New Customers",
       "amount": "1,024",
       "change": "+6.7%",
       "icon": "bx bxs-user",
-      "trend": "up"
+      "trend": "up",
+      "bgColor": "bg-[#fff8e6]"
+    },
+    {
+      "title": "Impressions",
+      "amount": "980K",
+      "change": "-3.1%",
+      "icon": "bx bx-trending-down",
+      "trend": "down",
+      "bgColor": "bg-[#fce8ea]"
     }
   ],
   "salesChart": {
