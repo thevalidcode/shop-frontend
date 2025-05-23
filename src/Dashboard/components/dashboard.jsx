@@ -3,6 +3,7 @@ import { PopOver } from "../ui/aceternity/popover";
 import { MetricsSummaryCard } from "./MetricsSummaryCard";
 import axios from "axios";
 import ChartComponent from "./chart";
+import ColorSwitch from "./colorSwitcher";
 
 export const Dashboard = () => {
   const [summaryMetrics, setSummaryMetrics] = useState([]);
@@ -12,11 +13,22 @@ export const Dashboard = () => {
       setSummaryMetrics(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    const savedColor = localStorage.getItem("themeColor");
+    if (savedColor) {
+      document.documentElement.style.setProperty(
+        "--color-validGreen",
+        savedColor,
+      );
+    }
+  }, []);
   return (
     <>
+      {/* <ColorSwitch /> */}
       <div className="flex min-h-screen flex-1">
         <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-5">
-          <h1 className="primaryText mt-3 text-lg font-semibold">
+          <h1 className="text-validGreen mt-3 text-lg font-semibold">
             Welcome back, Zion
           </h1>
 

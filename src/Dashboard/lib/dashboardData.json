@@ -68,22 +68,75 @@
   ],
   "topProducts": [
     {
-      "productId": "p101",
-      "name": "Wireless Earbuds",
-      "sales": 450,
-      "image": "/products/earbuds.png"
+      "productId": 1,
+      "name": "Premium Steam Iron",
+      "slug": "premium-steam-iron",
+      "price": 45,
+      "beforePrice": 65,
+      "description": "Experience professional-grade ironing with our Premium Steam Iron. Features include a powerful 1800W heating element, variable steam control, and a non-stick soleplate for smooth gliding. The large water tank provides up to 30 minutes of continuous steam, while the auto-shutoff safety feature ensures peace of mind. Perfect for all fabric types with its adjustable temperature settings and vertical steam function for hanging garments.",
+      "image": "https://images.pexels.com/photos/53422/ironing-iron-press-clothing-53422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "category": "Home Appliances",
+      "stat": 1636,
+      "brand": "Philips",
+      "sku": "PHI-SI-001",
+      "stockQuantity": 25
     },
     {
-      "productId": "p102",
-      "name": "Leather Backpack",
-      "sales": 320,
-      "image": "/products/backpack.png"
+      "productId": 2,
+      "name": "Wireless EarPods Pro",
+      "slug": "wireless-earpods-pro",
+      "price": 120,
+      "beforePrice": 160,
+      "description": "Immerse yourself in premium sound quality with our Wireless EarPods Pro. Featuring active noise cancellation, these earbuds create an immersive listening experience by blocking out external noise. The ergonomic design ensures a comfortable fit for extended wear, while the touch controls make it easy to manage your music and calls. With up to 24 hours of battery life including the charging case, and water resistance for worry-free use during workouts.",
+      "image": "/src/assets/products/items/airpod-pro.jpg",
+      "category": "Electronics",
+      "stat": 1738,
+
+      "brand": "Apple",
+      "sku": "APP-AIR-002",
+      "stockQuantity": 0
     },
     {
-      "productId": "p103",
-      "name": "Smart Watch",
-      "sales": 280,
-      "image": "/products/watch.png"
+      "productId": 3,
+      "name": "UV Protection Eyeglasses",
+      "slug": "uv-protection-eyeglasses",
+      "price": 30,
+      "beforePrice": 45,
+      "description": "Protect your eyes in style with our UV Protection Eyeglasses. These premium frames feature 100% UV400 protection, blocking harmful UVA and UVB rays. The lightweight acetate material provides durability and comfort, while the anti-reflective coating reduces eye strain. The modern design includes spring hinges for flexibility and comes with a protective case and cleaning cloth. Perfect for both fashion-conscious individuals and those prioritizing eye health.",
+      "image": "https://images.pexels.com/photos/2035764/pexels-photo-2035764.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "category": "Fashion",
+      "stat": 4253,
+      "brand": "Ray-Ban",
+      "sku": "RAY-UV-003",
+      "stockQuantity": 42
+    },
+    {
+      "productId": 4,
+      "name": "Hydrating Face Cream",
+      "slug": "hydrating-face-cream",
+      "price": 15,
+      "beforePrice": 25,
+      "description": "Achieve radiant, hydrated skin with our advanced Hydrating Face Cream. Formulated with hyaluronic acid and ceramides, this lightweight formula provides 24-hour moisture retention while strengthening your skin's natural barrier. The non-greasy texture absorbs quickly, leaving your skin feeling soft and supple. Suitable for all skin types, this dermatologist-tested cream helps reduce the appearance of fine lines and maintains optimal skin hydration throughout the day.",
+      "image": "https://images.pexels.com/photos/5217926/pexels-photo-5217926.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "category": "Beauty",
+      "stat": 3728,
+      "brand": "Neutrogena",
+      "sku": "NEU-HC-004",
+      "stockQuantity": 40
+    },
+    {
+      "productId": 5,
+      "name": "Gold-Plated Hand Chain",
+      "slug": "gold-plated-hand-chain",
+      "price": 50,
+      "beforePrice": 75,
+      "description": "Add a touch of elegance to your style with our Gold-Plated Hand Chain. Crafted from high-quality brass with a luxurious 18K gold plating, this delicate chain features a secure lobster clasp closure and adjustable length. The intricate design includes subtle detailing that catches the light beautifully. Perfect for layering with other jewelry or wearing as a standalone statement piece. Each chain comes in a protective pouch to maintain its luster.",
+      "image": "https://images.pexels.com/photos/1191531/pexels-photo-1191531.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "category": "Jewelry",
+      "stat": 72728,
+      "brand": "Pandora",
+      "sku": "PAN-HC-005",
+      "stockQuantity": 0
     }
   ],
   "notifications": [

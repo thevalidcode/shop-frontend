@@ -18,7 +18,7 @@ export const MetricsSummaryCard = ({
       </div>
 
       <div>
-        <i className={`${icon} rounded-full bg-white p-1`}></i>
+        <i className={`${icon} rounded-full bg-white p-1 text-neutral-600`}></i>
       </div>
     </div>
     <p className="text-2xl font-semibold">{amount}</p>
