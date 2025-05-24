@@ -6,7 +6,9 @@ export const MetricsSummaryCard = ({
   icon,
   bgColor,
 }) => (
-  <div className={`flex w-full flex-col gap-5 rounded-lg p-2 ${bgColor}`}>
+  <div
+    className={`flex w-full flex-col gap-5 rounded-lg border bg-gray-50 p-2`}
+  >
     <div className="flex justify-between">
       <div className="flex flex-col">
         <h1 className="primaryText text-lg font-medium">{title}</h1>

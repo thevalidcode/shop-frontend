@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -23,26 +22,50 @@ const chartData = [
   { month: "April", desktop: 73, mobile: 190 },
   { month: "May", desktop: 209, mobile: 130 },
   { month: "June", desktop: 214, mobile: 140 },
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
   { month: "April", desktop: 73, mobile: 190 },
   { month: "May", desktop: 209, mobile: 130 },
   { month: "June", desktop: 214, mobile: 140 },
 ];
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
-  },
-};
+function hexToRGBA(hex, opacity) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
 
 export default function ChartComponent() {
+  const [chartConfig, setChartConfig] = useState({
+    desktop: {
+      label: "Desktop",
+      color: "var(--color-validGreen)",
+    },
+    mobile: {
+      label: "Mobile",
+      color: "rgba(12, 221, 8, 0.3)", // default fallback
+    },
+  });
+
+  useEffect(() => {
+    const dynamicGreen = getComputedStyle(document.documentElement)
+      .getPropertyValue("--color-validGreen")
+      .trim();
+
+    // Only proceed if it's a valid hex
+    if (dynamicGreen.startsWith("#")) {
+      setChartConfig({
+        desktop: {
+          label: "Desktop",
+          color: dynamicGreen,
+        },
+        mobile: {
+          label: "Mobile",
+          color: hexToRGBA(dynamicGreen, 0.3),
+        },
+      });
+    }
+  }, []);
+
   return (
     <Card className={"mt-7"}>
       <CardHeader>
@@ -67,13 +90,13 @@ export default function ChartComponent() {
             />
             <Bar
               dataKey="desktop"
-              fill="var(--color-desktop)"
+              fill={chartConfig.desktop.color}
               radius={4}
               barSize={30}
             />
             <Bar
               dataKey="mobile"
-              fill="var(--color-mobile)"
+              fill={chartConfig.mobile.color}
               radius={4}
               barSize={30}
             />

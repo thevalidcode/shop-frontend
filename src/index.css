@@ -53,6 +53,7 @@ input[type="number"] {
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+  --chart-1: 112 85% 45%;
   --chart-2: 215 20% 50%;
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
@@ -238,7 +239,7 @@ input[type="number"] {
 }
 
 .successRateText {
-  @apply text-validGreen bg-validGreen/10;
+  @apply bg-[#0cdd08]/10 text-[#0cdd08];
 }
 .failureRateText {
   @apply bg-red-500/10 text-red-500;

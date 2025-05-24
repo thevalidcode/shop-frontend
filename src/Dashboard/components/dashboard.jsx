@@ -28,7 +28,7 @@ export const Dashboard = () => {
       {/* <ColorSwitch /> */}
       <div className="flex min-h-screen flex-1">
         <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-5">
-          <h1 className="text-validGreen mt-3 text-lg font-semibold">
+          <h1 className="secondaryText mt-3 text-lg font-semibold">
             Welcome back, Zion
           </h1>
 
