@@ -4,6 +4,15 @@ import { NavLink, useNavigate } from "react-router-dom";
 let userType = localStorage.getItem("userType");
 
 function Hero() {
+  useEffect(() => {
+    const savedColor = localStorage.getItem("themeColor");
+    if (savedColor) {
+      document.documentElement.style.setProperty(
+        "--color-validGreen",
+        savedColor,
+      );
+    }
+  }, []);
   const popularBrands = [
     {
       svg: (

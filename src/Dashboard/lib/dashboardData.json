@@ -172,5 +172,249 @@
     "conversionRate": "2.7%",
     "bounceRate": "36%",
     "cartAbandonment": "52%"
-  }
+  },
+  "topCountries": [
+    {
+      "country": "United States",
+      "totalAmount": 636,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/us.png"
+    },
+    {
+      "country": "Canada",
+      "totalAmount": 326,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/ca.png"
+    },
+    {
+      "country": "United Kingdom",
+      "totalAmount": 957,
+      "trend": "down",
+      "flag": "https://flagcdn.com/w320/gb.png"
+    },
+    {
+      "country": "Germany",
+      "totalAmount": 919,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/de.png"
+    },
+    {
+      "country": "France",
+      "totalAmount": 636,
+      "trend": "down",
+      "flag": "https://flagcdn.com/w320/fr.png"
+    },
+    {
+      "country": "Australia",
+      "totalAmount": 756,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/au.png"
+    },
+    {
+      "country": "Brazil",
+      "totalAmount": 427,
+      "trend": "down",
+      "flag": "https://flagcdn.com/w320/br.png"
+    },
+    {
+      "country": "India",
+      "totalAmount": 428,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/in.png"
+    },
+    {
+      "country": "China",
+      "totalAmount": 739,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/cn.png"
+    },
+    {
+      "country": "Japan",
+      "totalAmount": 198,
+      "trend": "down",
+      "flag": "https://flagcdn.com/w320/jp.png"
+    },
+    {
+      "country": "Mexico",
+      "totalAmount": 140000,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/mx.png"
+    },
+    {
+      "country": "Spain",
+      "totalAmount": 130000,
+      "trend": "down",
+      "flag": "https://flagcdn.com/w320/es.png"
+    },
+    {
+      "country": "Italy",
+      "totalAmount": 125000,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/it.png"
+    },
+    {
+      "country": "South Korea",
+      "totalAmount": 220000,
+      "trend": "down",
+      "flag": "https://flagcdn.com/w320/kr.png"
+    },
+    {
+      "country": "Russia",
+      "totalAmount": 180000,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/ru.png"
+    },
+    {
+      "country": "South Africa",
+      "totalAmount": 110000,
+      "trend": "down",
+      "flag": "https://flagcdn.com/w320/za.png"
+    },
+    {
+      "country": "Nigeria",
+      "totalAmount": 95000,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/ng.png"
+    },
+    {
+      "country": "Egypt",
+      "totalAmount": 85000,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/eg.png"
+    },
+    {
+      "country": "Saudi Arabia",
+      "totalAmount": 150000,
+      "trend": "down",
+      "flag": "https://flagcdn.com/w320/sa.png"
+    },
+    {
+      "country": "United Arab Emirates",
+      "totalAmount": 160000,
+      "trend": "up",
+      "flag": "https://flagcdn.com/w320/ae.png"
+    }
+  ],
+  "topCustomers": [
+    {
+      "name": "John Doe",
+      "purchases": 45,
+      "totalAmount": 12000,
+      "profile": "https://randomuser.me/api/portraits/men/1.jpg"
+    },
+    {
+      "name": "Jane Smith",
+      "purchases": 38,
+      "totalAmount": 11000,
+      "profile": "https://randomuser.me/api/portraits/women/2.jpg"
+    },
+    {
+      "name": "Alice Johnson",
+      "purchases": 32,
+      "totalAmount": 8500,
+      "profile": "https://randomuser.me/api/portraits/women/3.jpg"
+    },
+    {
+      "name": "Bob Williams",
+      "purchases": 29,
+      "totalAmount": 7900,
+      "profile": "https://randomuser.me/api/portraits/men/4.jpg"
+    },
+    {
+      "name": "Olivia Brown",
+      "purchases": 25,
+      "totalAmount": 7400,
+      "profile": "https://randomuser.me/api/portraits/women/5.jpg"
+    },
+    {
+      "name": "Ethan Davis",
+      "purchases": 22,
+      "totalAmount": 6700,
+      "profile": "https://randomuser.me/api/portraits/men/6.jpg"
+    },
+    {
+      "name": "Sophia Wilson",
+      "purchases": 19,
+      "totalAmount": 6300,
+      "profile": "https://randomuser.me/api/portraits/women/7.jpg"
+    },
+    {
+      "name": "Michael Lee",
+      "purchases": 17,
+      "totalAmount": 5900,
+      "profile": "https://randomuser.me/api/portraits/men/8.jpg"
+    },
+    {
+      "name": "Emma Harris",
+      "purchases": 15,
+      "totalAmount": 5400,
+      "profile": "https://randomuser.me/api/portraits/women/9.jpg"
+    },
+    {
+      "name": "Liam Clark",
+      "purchases": 14,
+      "totalAmount": 5200,
+      "profile": "https://randomuser.me/api/portraits/men/10.jpg"
+    },
+    {
+      "name": "Ava Martinez",
+      "purchases": 13,
+      "totalAmount": 4800,
+      "profile": "https://randomuser.me/api/portraits/women/11.jpg"
+    },
+    {
+      "name": "Noah Lewis",
+      "purchases": 12,
+      "totalAmount": 4600,
+      "profile": "https://randomuser.me/api/portraits/men/12.jpg"
+    },
+    {
+      "name": "Isabella Hall",
+      "purchases": 11,
+      "totalAmount": 4300,
+      "profile": "https://randomuser.me/api/portraits/women/13.jpg"
+    },
+    {
+      "name": "James Allen",
+      "purchases": 10,
+      "totalAmount": 4100,
+      "profile": "https://randomuser.me/api/portraits/men/14.jpg"
+    },
+    {
+      "name": "Mia Young",
+      "purchases": 9,
+      "totalAmount": 3900,
+      "profile": "https://randomuser.me/api/portraits/women/15.jpg"
+    },
+    {
+      "name": "Lucas King",
+      "purchases": 8,
+      "totalAmount": 3600,
+      "profile": "https://randomuser.me/api/portraits/men/16.jpg"
+    },
+    {
+      "name": "Amelia Wright",
+      "purchases": 7,
+      "totalAmount": 3400,
+      "profile": "https://randomuser.me/api/portraits/women/17.jpg"
+    },
+    {
+      "name": "Henry Scott",
+      "purchases": 6,
+      "totalAmount": 3200,
+      "profile": "https://randomuser.me/api/portraits/men/18.jpg"
+    },
+    {
+      "name": "Charlotte Green",
+      "purchases": 5,
+      "totalAmount": 3000,
+      "profile": "https://randomuser.me/api/portraits/women/19.jpg"
+    },
+    {
+      "name": "Alexander Adams",
+      "purchases": 4,
+      "totalAmount": 2700,
+      "profile": "https://randomuser.me/api/portraits/men/20.jpg"
+    }
+  ]
 }

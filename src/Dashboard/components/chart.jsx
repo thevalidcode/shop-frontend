@@ -34,7 +34,7 @@ function hexToRGBA(hex, opacity) {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
 
-export default function ChartComponent() {
+export default function ChartComponent({ className }) {
   const [chartConfig, setChartConfig] = useState({
     desktop: {
       label: "Desktop",
@@ -67,10 +67,25 @@ export default function ChartComponent() {
   }, []);
 
   return (
-    <Card className={"mt-7"}>
+    <Card className={`" ${className}`}>
       <CardHeader>
-        <CardTitle>Bar Chart - Multiple</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <div className="flex w-full items-center justify-between">
+          <div>
+            <CardTitle>Bar Chart - Multiple</CardTitle>
+            <CardDescription>January - June 2024</CardDescription>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <p className="text-sm">Option 1</p>
+              <div className="bg-validGreen h-3 w-3 rounded"></div>
+            </div>
+            <div className="flex items-center gap-2">
+              <p className="text-sm">Option 2</p>
+              <div className="bg-validGreen/30 h-3 w-3 rounded"></div>
+            </div>
+          </div>
+        </div>
       </CardHeader>
 
       <CardContent className="w-full overflow-x-auto">
@@ -105,6 +120,7 @@ export default function ChartComponent() {
       </CardContent>
 
       <CardFooter className="flex-col items-start gap-2 text-sm">
+        {/*  */}
         <div className="flex gap-2 leading-none font-medium">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>

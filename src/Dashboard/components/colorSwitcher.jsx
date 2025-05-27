@@ -52,27 +52,28 @@ const ColorSwitch = () => {
               <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={() => handleColorChange("#F97316")}
-                  className="cursor-pointer rounded-md bg-orange-500 py-2 text-center text-lg font-semibold text-white"
+                  className="flex cursor-pointer items-center justify-center gap-2 rounded-md bg-orange-500 py-2 text-lg font-semibold text-white"
                 >
-                  Sunset Orange
+                  <i class="bx bx-sun"></i> Sunset Orange
                 </button>
                 <button
                   onClick={() => handleColorChange("#3B82F6")}
-                  className="cursor-pointer rounded-md bg-blue-500 py-2 text-center text-lg font-semibold text-white"
+                  className="flex cursor-pointer items-center justify-center gap-2 rounded-md bg-blue-500 py-2 text-lg font-semibold text-white"
                 >
-                  Ocean Blue
+                  <i class="bx bx-water"></i> Ocean Blue
                 </button>
-                <button
-                  onClick={() => handleColorChange("#15803D")}
-                  className="cursor-pointer rounded-md bg-green-700 py-2 text-center text-lg font-semibold text-white"
-                >
-                  Forest Green
-                </button>
+
                 <button
                   onClick={() => handleColorChange("#7C3AED")}
-                  className="cursor-pointer rounded-md bg-purple-600 py-2 text-center text-lg font-semibold text-white"
+                  className="flex cursor-pointer items-center justify-center gap-2 rounded-md bg-purple-600 py-2 text-lg font-semibold text-white"
                 >
-                  Royal Purple
+                  <i class="bx bx-crown"></i> Royal Purple
+                </button>
+                <button
+                  onClick={() => handleColorChange("#0cdd08")}
+                  className="flex cursor-pointer items-center justify-center gap-2 rounded-md bg-[#0cdd08] py-2 text-lg font-semibold text-white"
+                >
+                  <i class="bx bx-reset"></i> Reset
                 </button>
               </div>
             </div>

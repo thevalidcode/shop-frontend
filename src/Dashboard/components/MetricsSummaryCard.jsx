@@ -7,7 +7,7 @@ export const MetricsSummaryCard = ({
   bgColor,
 }) => (
   <div
-    className={`flex w-full flex-col gap-6 rounded-lg border bg-gray-50 p-2`}
+    className={`flex w-full flex-col gap-5 rounded-lg border bg-gray-50 p-2`}
   >
     <div className="flex justify-between">
       <div className="flex flex-col">
