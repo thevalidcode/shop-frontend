@@ -17,11 +17,26 @@ import Cart from "./components/cart";
 import DashboardHome from "./Dashboard/home";
 import DashboardLayout from "./layouts/DashboardLayout";
 import { SidebarUi } from "./Dashboard/ui/aceternity/sidebarUi";
-import UserProfile from "./Dashboard/components/profile";
+import UserProfile from "./Dashboard/components/UserAccount/Profile";
 import { Dashboard } from "./Dashboard/components/dashboard";
-import ColorSwitch from "./Dashboard/components/colorSwitcher";
+import Settings from "./Dashboard/Pages/Settings";
+import { useEffect } from "react";
+import SettingsLayout from "./layouts/SettingsLayout";
+import { Branding } from "./Dashboard/components/UserAccount/Branding";
+import { Toaster } from "@/components/ui/sonner";
+import Transactions from "./Dashboard/Pages/Transactions";
 
 function App() {
+  useEffect(() => {
+    const savedColor = localStorage.getItem("themeColor");
+    if (savedColor) {
+      document.documentElement.style.setProperty(
+        "--color-validGreen",
+        savedColor,
+      );
+    }
+  }, []);
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
@@ -40,10 +55,15 @@ function App() {
           <Route index element={<Home />} />
         </Route>
 
-        <Route path="/" element={<DashboardLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="transactions" element={<Transactions />}></Route>
+        </Route>
+
+        <Route path="/dashboard/settings" element={<SettingsLayout />}>
           <Route path="profile" element={<UserProfile />} />
-          <Route path="color-switch" element={<ColorSwitch />} />
+          <Route path="branding" element={<Branding />} />
         </Route>
 
         {/* <Route>
@@ -53,7 +73,12 @@ function App() {
     ),
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Toaster richColors />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;

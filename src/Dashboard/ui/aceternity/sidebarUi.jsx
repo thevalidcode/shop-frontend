@@ -1,6 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
+import {
+  Sidebar,
+  SidebarBody,
+  SidebarLink,
+} from "@/components/ui/Sidebars/DashBoardSidebar";
 
 import {
   IconArrowLeft,
@@ -20,6 +24,11 @@ export function SidebarUi() {
       icon: (
         <IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
+    },
+    {
+      label: "Transactions",
+      href: "/dashboard/transactions",
+      icon: <i className="bx bx-transfer"></i>,
     },
     {
       label: "Profile",
@@ -93,7 +102,7 @@ export const Logo = () => {
         </motion.span>
       </a>
 
-      <div className="bg-validGreen/5 mx-5 mt-5 flex items-center gap-3 rounded-md px-2 py-3">
+      <div className="bg-validGreen/5 me-5 mt-5 flex items-center gap-3 rounded-md px-2 py-3">
         <img
           src="https://images.pexels.com/photos/32141424/pexels-photo-32141424/free-photo-of-serene-field-of-wildflowers-in-bloom.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
           alt=""

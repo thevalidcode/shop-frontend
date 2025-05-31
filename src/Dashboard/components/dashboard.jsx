@@ -3,7 +3,6 @@ import { PopOver } from "../ui/aceternity/popover";
 import { MetricsSummaryCard } from "./MetricsSummaryCard";
 import axios from "axios";
 import ChartComponent from "./chart";
-import ColorSwitch from "./colorSwitcher";
 import PopularProducts from "./PopularProducts";
 import RecentOrders from "./RecentOrders";
 import TopCountries from "./TopCountries";
@@ -23,16 +22,6 @@ export const Dashboard = () => {
       console.log(res.data);
       setSummaryMetrics(res.data);
     });
-  }, []);
-
-  useEffect(() => {
-    const savedColor = localStorage.getItem("themeColor");
-    if (savedColor) {
-      document.documentElement.style.setProperty(
-        "--color-validGreen",
-        savedColor,
-      );
-    }
   }, []);
 
   useEffect(() => {

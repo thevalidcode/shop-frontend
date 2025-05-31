@@ -6,7 +6,12 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-
+/* Example in your global CSS */
+.toaster button {
+  padding: 0 !important; /* Remove padding */
+  width: auto !important; /* Adjust width if needed */
+  height: auto !important;
+}
 /* Hide scrollbar for IE, Edge and Firefox */
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */

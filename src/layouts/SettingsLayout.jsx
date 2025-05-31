@@ -1,16 +1,19 @@
+import SettingsComponent from "@/Dashboard/components/SettingsComponent";
 import { SidebarUi } from "@/Dashboard/ui/aceternity/sidebarUi";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-const DashboardLayout = () => {
+const SettingsLayout = () => {
   return (
     <>
       <div className="flex flex-col md:flex-row">
         <SidebarUi />
-        <Outlet />
+        <SettingsComponent>
+          <Outlet />
+        </SettingsComponent>
       </div>
     </>
   );
 };
 
-export default DashboardLayout;
+export default SettingsLayout;
