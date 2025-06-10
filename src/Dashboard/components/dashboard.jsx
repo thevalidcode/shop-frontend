@@ -131,9 +131,9 @@ export const Dashboard = () => {
                           />
                         ))
                       ) : (
-                        <tr>
-                          <td colSpan="6">No products available</td>
-                        </tr>
+                        <div className="py-4 text-center">
+                          No products available
+                        </div>
                       )}
                     </tbody>
                   </table>

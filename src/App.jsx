@@ -25,6 +25,9 @@ import SettingsLayout from "./layouts/SettingsLayout";
 import { Branding } from "./Dashboard/components/UserAccount/Branding";
 import { Toaster } from "@/components/ui/sonner";
 import Transactions from "./Dashboard/Pages/Transactions";
+import Orders from "./Dashboard/Pages/Orders";
+import AddProducts from "./Dashboard/Pages/AddProducts";
+import ProductsList from "./Dashboard/components/AddProductsandList/ProductsList";
 
 function App() {
   useEffect(() => {
@@ -59,6 +62,9 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="settings" element={<Settings />} />
           <Route path="transactions" element={<Transactions />}></Route>
+          <Route path="orders" element={<Orders />} />
+          <Route path="products" element={<ProductsList />} />
+          <Route path="add-product" element={<AddProducts />} />
         </Route>
 
         <Route path="/dashboard/settings" element={<SettingsLayout />}>

@@ -55,14 +55,14 @@ export const DesktopSidebar = ({ className, children, ...props }) => {
     <>
       <motion.div
         className={cn(
-          "bg-validGreen/10 sticky top-0 hidden h-screen shrink-0 border-r-2 px-4 py-4 md:flex md:flex-col",
+          "bg-validGreen/10 sticky top-0 hidden h-screen w-70 shrink-0 border-r-2 px-4 py-4 md:flex md:flex-col",
           className,
         )}
-        animate={{
-          width: animate ? (open ? "300px" : "60px") : "300px",
-        }}
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
+        // animate={{
+        //   width: animate ? (open ? "300px" : "60px") : "300px",
+        // }}
+        // onMouseEnter={() => setOpen(true)}
+        // onMouseLeave={() => setOpen(true)}
         {...props}
       >
         {children}
@@ -131,11 +131,11 @@ export const SidebarLink = ({ link, className, ...props }) => {
     >
       {link.icon}
       <motion.span
-        animate={{
-          display: animate ? (open ? "inline-block" : "none") : "inline-block",
-          opacity: animate ? (open ? 1 : 0) : 1,
-        }}
-        className="!m-0 inline-block !p-0 text-sm whitespace-pre text-neutral-700 transition duration-150 group-hover/sidebar:translate-x-1 dark:text-neutral-200"
+        // animate={{
+        //   display: animate ? (open ? "inline-block" : "none") : "inline-block",
+        //   opacity: animate ? (open ? 1 : 0) : 1,
+        // }}
+        className="!m-0 inline-block !p-0 text-sm whitespace-pre transition duration-150 group-hover/sidebar:translate-x-1"
       >
         {link.label}
       </motion.span>

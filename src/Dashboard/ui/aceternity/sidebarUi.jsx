@@ -12,80 +12,131 @@ import {
   IconSettings,
   IconUserBolt,
 } from "@tabler/icons-react";
+
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Dashboard } from "@/Dashboard/components/dashboard";
+import { useLocation } from "react-router-dom";
 
 export function SidebarUi() {
-  const links = [
+  const locaction = useLocation();
+  const currentPath = locaction.pathname;
+
+  // const pageTitle = "Settings";
+
+  const menuSections = [
     {
-      label: "Dashboard",
-      href: "#",
-      icon: (
-        <IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-      ),
+      title: "Main Menu",
+      links: [
+        {
+          label: "Dashboard",
+          href: "/dashboard",
+          icon: <i className="bx bxs-dashboard"></i>,
+        },
+        {
+          label: "Orders",
+          href: "/dashboard/orders", // 🆕 Order Management
+          icon: <i className="bx bx-cart"></i>,
+        },
+        {
+          label: "Products",
+          href: "/dashboard/products", // 🆕 Product Management
+          icon: <i className="bx bx-package"></i>,
+        },
+        {
+          label: "Customers",
+          href: "/dashboard/customers", // 🆕 Customer Management
+          icon: <i className="bx bx-user"></i>,
+        },
+        {
+          label: "Reports",
+          href: "/dashboard/reports", // 🆕 Analytics & Reports
+          icon: <i className="bx bx-bar-chart"></i>,
+        },
+      ],
     },
     {
-      label: "Transactions",
-      href: "/dashboard/transactions",
-      icon: <i className="bx bx-transfer"></i>,
+      title: "Payment",
+      links: [
+        {
+          label: "Transactions",
+          href: "/dashboard/transactions",
+          icon: <i className="bx bx-transfer"></i>,
+        },
+        {
+          label: "Payouts",
+          href: "/dashboard/payouts", // 🆕 Payout/Withdrawal
+          icon: <i className="bx bx-credit-card"></i>,
+        },
+      ],
     },
     {
-      label: "Profile",
-      href: "#",
-      icon: (
-        <IconUserBolt className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-      ),
-    },
-    {
-      label: "Settings",
-      href: "#",
-      icon: (
-        <IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-      ),
-    },
-    {
-      label: "Logout",
-      href: "#",
-      icon: (
-        <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-      ),
+      title: "Account",
+      links: [
+        // {
+        //   label: "Profile",
+        //   href: "/dashboard/profile",
+        //   icon: <IconUserBolt className="h-5 w-5 shrink-0" />,
+        // },
+        {
+          label: "Settings",
+          href: "/dashboard/settings/profile",
+          icon: <IconSettings className="h-5 w-5 shrink-0" />,
+        },
+        {
+          label: "Support",
+          href: "/dashboard/support", // 🆕 Support/Ticket System
+          icon: <i className="bx bx-help-circle"></i>,
+        },
+        {
+          label: "Logout",
+          href: "/logout",
+          icon: <IconArrowLeft className="h-5 w-5 shrink-0" />,
+        },
+      ],
     },
   ];
   const [open, setOpen] = useState(false);
   return (
-    <Sidebar open={open} setOpen={setOpen}>
-      <SidebarBody className="justify-between gap-10">
-        <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
-          {open ? <Logo /> : <LogoIcon />}
-          <div className="mt-8 flex flex-col gap-2">
-            {links.map((link, idx) => (
-              <SidebarLink key={idx} link={link} />
-            ))}
+    <div className="flex">
+      {" "}
+      <Sidebar open={open} setOpen={setOpen}>
+        <SidebarBody className="justify-between gap-10">
+          <div className="scrollbar-hide flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+            <LogoIcon />
+            <div className="mt-8 flex flex-col gap-2">
+              {menuSections.map((section, idx) => {
+                return (
+                  <div>
+                    <p
+                      key={idx}
+                      className="mb-2 text-sm font-semibold text-neutral-700"
+                    >
+                      {section.title}
+                    </p>
+
+                    {section.links.map((link, i) => {
+                      const isActive = currentPath === link.href;
+                      return (
+                        <SidebarLink
+                          key={i}
+                          link={link}
+                          className={`flex rounded px-2 ${isActive ? "bg-validGreen/50 text-white" : ""} `}
+                        />
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-        <div>
-          <SidebarLink
-            link={{
-              label: "Zion",
-              href: "/profile",
-              icon: (
-                <img
-                  src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                  className="h-7 w-7 shrink-0 rounded-full"
-                  width={50}
-                  height={50}
-                  alt="Avatar"
-                />
-              ),
-            }}
-          />
-        </div>
-      </SidebarBody>
-    </Sidebar>
+        </SidebarBody>
+      </Sidebar>
+    </div>
   );
 }
-export const Logo = () => {
+
+export const LogoIcon = () => {
   return (
     <>
       <a
@@ -93,13 +144,7 @@ export const Logo = () => {
         className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
       >
         <div className="bg-validGreen h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm dark:bg-white" />
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="font-medium whitespace-pre text-black dark:text-white"
-        >
-          <p className="text-xl font-semibold text-neutral-800">Valid Shops</p>
-        </motion.span>
+        <p className="text-xl font-semibold text-neutral-800">Valid Shops</p>
       </a>
 
       <div className="bg-validGreen/5 me-5 mt-5 flex items-center gap-3 rounded-md px-2 py-3">
@@ -114,15 +159,5 @@ export const Logo = () => {
         </div>
       </div>
     </>
-  );
-};
-export const LogoIcon = () => {
-  return (
-    <a
-      href="#"
-      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
-    >
-      <div className="bg-validGreen h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm dark:bg-white" />
-    </a>
   );
 };
