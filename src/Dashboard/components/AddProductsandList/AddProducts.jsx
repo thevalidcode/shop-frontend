@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { FileUpload } from "@/components/ui/file-upload";
+import { useTablet } from "@/Dashboard/utils/UseBreakPoint";
 
 const AddProductsComponent = () => {
   const [genderState, setGenderState] = useState("");
   const [sizeSelected, setSizeSelected] = useState([]);
   const [basePricing, setBasePricing] = useState("");
+  const isTablet = useTablet();
 
   const handleSizeSelect = (size) => {
     if (sizeSelected.includes(size)) {
       setSizeSelected(sizeSelected.filter((s) => s !== size));
     } else setSizeSelected([...sizeSelected, size]);
+  };
+
+  const [files, setFiles] = useState([]);
+  const handleFileUpload = (files) => {
+    setFiles((prev) => [...prev, ...files]);
+    console.log(files);
   };
 
   useEffect(() => {
@@ -26,7 +35,7 @@ const AddProductsComponent = () => {
     <>
       <>
         <div className="px-5">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col items-start justify-between gap-y-3 lg:flex-row lg:items-center">
             <div className="flex items-center gap-1 text-xl">
               <i className="bx bx-store"></i>
               <p className="">Add New Product</p>
@@ -35,14 +44,14 @@ const AddProductsComponent = () => {
             <div className="flex gap-2">
               <a
                 href="#"
-                className="border-validGreen/10 flex items-center gap-1 rounded border-2 px-5 py-2"
+                className="border-validGreen/10 hover:bg-validGreen flex items-center gap-1 rounded border-2 px-5 py-2 transition-all duration-500 hover:text-white"
               >
                 <i className="bx bx-notepad"></i>
                 Save Draft
               </a>
               <a
                 href="#"
-                className="border-validGreen/10 flex items-center gap-1 rounded border-2 px-5 py-2"
+                className="border-validGreen/10 hover:bg-validGreen flex items-center gap-1 rounded border-2 px-5 py-2 transition-all duration-500 hover:text-white"
               >
                 <i className="bx bx-check"></i>
                 Publish Product
@@ -51,7 +60,9 @@ const AddProductsComponent = () => {
           </div>
           {/*  */}
 
-          <div className="mt-2 flex">
+          <div
+            className={`mt-2 flex gap-5 ${isTablet ? "flex-col" : "flex-row"}`}
+          >
             <div className="flex-2">
               <div className="rounded-md p-3 shadow">
                 <h2 className="text-xl font-medium">General Information</h2>
@@ -186,7 +197,42 @@ const AddProductsComponent = () => {
                 </div>
               </div>
             </div>
-            <div className="flex-1"></div>
+            {/* Other side */}
+            <div className="flex flex-1 flex-col gap-y-5">
+              <div className="mx-auto min-h-96 w-full max-w-4xl rounded-lg border border-dashed border-neutral-200 bg-white shadow">
+                <FileUpload onChange={handleFileUpload} />
+
+                <div className="flex justify-start gap-3 overflow-scroll">
+                  {files &&
+                    [...files]
+                      .reverse()
+                      .map((file, idx) => (
+                        <img
+                          src={URL.createObjectURL(file)}
+                          key={idx}
+                          alt=""
+                          className="mx-auto mt-3 h-30 w-30 rounded-md border-2 object-cover object-top shadow"
+                        />
+                      ))}
+                </div>
+              </div>
+              {/* */}
+              <div className="mx-auto w-full max-w-4xl rounded-lg border border-dashed border-neutral-200 px-3 py-6 shadow">
+                <h2 className="text-lg font-semibold">Category</h2>
+                <p className="mt-3 font-medium">Product Category</p>
+                <select
+                  name=""
+                  id=""
+                  className="w-full rounded-md bg-gray-200 py-2 outline-none"
+                >
+                  <option value="" className="hidden">
+                    Select a category
+                  </option>
+                  <option value="">CAT 1</option>
+                  <option value="">CAT 2</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
       </>
