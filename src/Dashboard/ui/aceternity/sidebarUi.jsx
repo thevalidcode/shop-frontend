@@ -13,8 +13,6 @@ import {
   IconUserBolt,
 } from "@tabler/icons-react";
 
-import { motion } from "motion/react";
-import { cn } from "@/lib/utils";
 import { Dashboard } from "@/Dashboard/components/dashboard";
 import { useLocation } from "react-router-dom";
 
@@ -34,12 +32,12 @@ export function SidebarUi() {
           icon: <i className="bx bxs-dashboard"></i>,
         },
         {
-          label: "Orders",
+          label: "Products",
           href: "/dashboard/orders", // 🆕 Order Management
           icon: <i className="bx bx-cart"></i>,
         },
         {
-          label: "Products",
+          label: "Orders",
           href: "/dashboard/products", // 🆕 Product Management
           icon: <i className="bx bx-package"></i>,
         },
@@ -49,52 +47,57 @@ export function SidebarUi() {
           icon: <i className="bx bx-user"></i>,
         },
         {
-          label: "Reports",
+          label: "Analytics",
           href: "/dashboard/reports", // 🆕 Analytics & Reports
+          icon: <i className="bx bx-bar-chart"></i>,
+        },
+        {
+          label: "Discounts & Promotions",
+          href: "/discounts", // Discounts and promotions
           icon: <i className="bx bx-bar-chart"></i>,
         },
       ],
     },
-    {
-      title: "Payment",
-      links: [
-        {
-          label: "Transactions",
-          href: "/dashboard/transactions",
-          icon: <i className="bx bx-transfer"></i>,
-        },
-        {
-          label: "Payouts",
-          href: "/dashboard/payouts", // 🆕 Payout/Withdrawal
-          icon: <i className="bx bx-credit-card"></i>,
-        },
-      ],
-    },
-    {
-      title: "Account",
-      links: [
-        // {
-        //   label: "Profile",
-        //   href: "/dashboard/profile",
-        //   icon: <IconUserBolt className="h-5 w-5 shrink-0" />,
-        // },
-        {
-          label: "Settings",
-          href: "/dashboard/settings/profile",
-          icon: <IconSettings className="h-5 w-5 shrink-0" />,
-        },
-        {
-          label: "Support",
-          href: "/dashboard/support", // 🆕 Support/Ticket System
-          icon: <i className="bx bx-help-circle"></i>,
-        },
-        {
-          label: "Logout",
-          href: "/logout",
-          icon: <IconArrowLeft className="h-5 w-5 shrink-0" />,
-        },
-      ],
-    },
+    // {
+    //   title: "Payment",
+    //   links: [
+    //     {
+    //       label: "Transactions",
+    //       href: "/dashboard/transactions",
+    //       icon: <i className="bx bx-transfer"></i>,
+    //     },
+    //     {
+    //       label: "Payouts",
+    //       href: "/dashboard/payouts", // 🆕 Payout/Withdrawal
+    //       icon: <i className="bx bx-credit-card"></i>,
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Account",
+    //   links: [
+    //     // {
+    //     //   label: "Profile",
+    //     //   href: "/dashboard/profile",
+    //     //   icon: <IconUserBolt className="h-5 w-5 shrink-0" />,
+    //     // },
+    //     {
+    //       label: "Settings",
+    //       href: "/dashboard/settings/profile",
+    //       icon: <IconSettings className="h-5 w-5 shrink-0" />,
+    //     },
+    //     {
+    //       label: "Support",
+    //       href: "/dashboard/support", // 🆕 Support/Ticket System
+    //       icon: <i className="bx bx-help-circle"></i>,
+    //     },
+    //     {
+    //       label: "Logout",
+    //       href: "/logout",
+    //       icon: <IconArrowLeft className="h-5 w-5 shrink-0" />,
+    //     },
+    //   ],
+    // },
   ];
   const [open, setOpen] = useState(false);
   return (
@@ -105,23 +108,16 @@ export function SidebarUi() {
           <div className="scrollbar-hide flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
             <LogoIcon />
             <div className="mt-8 flex flex-col gap-2">
-              {menuSections.map((section, idx) => {
+              {menuSections.map((section) => {
                 return (
                   <div>
-                    <p
-                      key={idx}
-                      className="mb-2 text-sm font-semibold text-neutral-700"
-                    >
-                      {section.title}
-                    </p>
-
                     {section.links.map((link, i) => {
                       const isActive = currentPath === link.href;
                       return (
                         <SidebarLink
                           key={i}
                           link={link}
-                          className={`flex rounded px-2 ${isActive ? "bg-validGreen/50 text-white" : ""} `}
+                          className={`mb-1 flex rounded px-2 text-lg ${isActive ? "bg-validGreen text-white" : ""} `}
                         />
                       );
                     })}
