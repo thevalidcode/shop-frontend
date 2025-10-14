@@ -1,9 +1,12 @@
-"use client";
 import React from "react";
+import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+export const metadata: Metadata = {
+  title: "Checkout",
+};
 const CheckoutPage = () => {
   return (
     <div className="w-full h-screen bg-white">
