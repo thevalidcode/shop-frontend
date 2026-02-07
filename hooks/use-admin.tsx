@@ -163,7 +163,7 @@ export function useVerifySessionCode() {
       }
       const res = await api.post<{ admin: Admin }>(
         `/admins/verify-session`,
-        { code: data.sessionCode, shopId },
+        { sessionCode: data.sessionCode, shopId },
         {
           withCredentials: true,
         },
