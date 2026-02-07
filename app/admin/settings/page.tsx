@@ -1,0 +1,213 @@
+"use client";
+
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Settings2, Palette, Shield, Menu, FileText } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import GeneralSettingsForm from "../components/pages/general-setting";
+import BrandingThemeSettings from "../components/pages/branding-theme";
+import PageManager from "../components/pages/PageManager";
+import { TypographyH2 } from "@/components/typography";
+import { cn } from "@/lib/utils";
+import SettingsHeader from "./components/SettingsHeader";
+
+export default function SettingsPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const navigationItems = useMemo(
+    () => [
+      {
+        id: "general",
+        label: "General",
+        description: "Shop settings and basic configuration",
+        icon: Settings2,
+        component: GeneralSettingsForm,
+      },
+      {
+        id: "design",
+        label: "Branding & Theme",
+        description: "Logos, favicon, and visual system",
+        icon: Palette,
+        component: BrandingThemeSettings,
+      },
+      {
+        id: "pages",
+        label: "Pages",
+        description: "Manage page content and policies",
+        icon: FileText,
+        component: PageManager,
+      },
+      {
+        id: "security",
+        label: "Security",
+        description: "Security and access management",
+        icon: Shield,
+        component: () => (
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <Shield className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+              <TypographyH2 className="text-xl mb-2">
+                Security Settings
+              </TypographyH2>
+              <p className="text-muted-foreground">Coming soon...</p>
+            </div>
+          </div>
+        ),
+      },
+    ],
+    [],
+  );
+
+  const resolvePage = useCallback(
+    (pageId: string | null) =>
+      navigationItems.some((item) => item.id === pageId) && pageId
+        ? pageId
+        : "general",
+    [navigationItems],
+  );
+
+  const [activePage, setActivePage] = useState(() =>
+    resolvePage(searchParams.get("tab")),
+  );
+
+  // Sync URL on mount if tab param is missing or invalid
+  useEffect(() => {
+    const tabParam = searchParams.get("tab");
+    const isValidTab =
+      navigationItems.some((item) => item.id === tabParam) && Boolean(tabParam);
+
+    // Only update URL if tab is missing or invalid
+    if (!isValidTab) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("tab", activePage);
+      router.replace(`${pathname}?${params.toString()}`, {
+        shallow: true,
+      } as any);
+    }
+  }, []); // Only run once on mount
+
+  const handlePageChange = useCallback(
+    (pageId: string) => {
+      const nextPage = resolvePage(pageId);
+      setActivePage(nextPage);
+
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("tab", nextPage);
+
+      router.replace(`${pathname}?${params.toString()}`);
+    },
+    [pathname, resolvePage, router, searchParams],
+  );
+
+  const activeItem = navigationItems.find((item) => item.id === activePage);
+  const ActiveComponent = activeItem?.component;
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Mobile Header */}
+      <SettingsHeader
+        navigationItems={navigationItems}
+        handlePageChange={handlePageChange}
+        activePage={activePage}
+      />
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Desktop Sidebar */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+            className="hidden lg:block w-full max-w-xs"
+          >
+            <div className="sticky top-24">
+              <div className="space-y-2">
+                {navigationItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activePage === item.id;
+
+                  return (
+                    <motion.div
+                      key={item.id}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button
+                        variant={isActive ? "secondary" : "ghost"}
+                        className={cn(
+                          "w-full justify-start gap-3 h-auto p-4 text-left",
+                          isActive &&
+                            "bg-secondary shadow-sm border border-border/50",
+                        )}
+                        onClick={() => handlePageChange(item.id)}
+                      >
+                        <div className="flex items-center gap-3 flex-1">
+                          <div
+                            className={cn(
+                              "p-2 rounded-lg transition-colors",
+                              isActive
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted text-muted-foreground",
+                            )}
+                          >
+                            <Icon className="h-4 w-4" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div
+                              className={cn(
+                                "font-medium text-sm",
+                                isActive
+                                  ? "text-foreground"
+                                  : "text-muted-foreground",
+                              )}
+                            >
+                              {item.label}
+                            </div>
+                            <div className="text-xs text-muted-foreground mt-0.5">
+                              {item.description}
+                            </div>
+                          </div>
+                        </div>
+                      </Button>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Main Content */}
+          <motion.div
+            className="flex-1"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            <div className="bg-card rounded-xl border shadow-sm overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activePage}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.2 }}
+                  className="min-h-150"
+                >
+                  <ScrollArea className="h-g">
+                    <div className="p-4 sm:p-6 lg:p-8">
+                      {ActiveComponent && <ActiveComponent />}
+                    </div>
+                  </ScrollArea>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}

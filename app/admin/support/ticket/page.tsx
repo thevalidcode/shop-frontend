@@ -1,0 +1,47 @@
+"use client";
+
+import { useRouter, useSearchParams } from "next/navigation";
+import SupportDetails from "../components/SupportDetails";
+import { SupportTicket } from "@/types";
+import { useEffect, useState } from "react";
+import { useGetSupportTicket } from "@/hooks/use-support";
+import Loading from "@/app/loading";
+import { MessageCircle } from "lucide-react";
+import { EmptyState } from "@/components/empty-state";
+
+export default function TicketDetailPage() {
+  const searchParams = useSearchParams();
+  const uid = searchParams.get("uid");
+  const [tickets, setTickets] = useState<SupportTicket[]>([]);
+  const { data: ticketsData, isLoading } = useGetSupportTicket();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (ticketsData) {
+      setTickets(ticketsData);
+    }
+  }, [ticketsData]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  const ticket = tickets.find((t) => t.uid === uid);
+
+  if (!ticket) {
+    return (
+      <EmptyState
+        icon={MessageCircle}
+        title="No Ticket Found"
+        description="No ticket have been created yet."
+      />
+    );
+  }
+
+  return (
+    <SupportDetails
+      ticket={ticket}
+      onClose={() => router.push("/admin/support")}
+    />
+  );
+}
