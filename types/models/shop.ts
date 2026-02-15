@@ -21,7 +21,6 @@ export type ShopFeatures = {
   staff_accounts: number;
   social_store_order_sync: boolean;
   social_store_service_sync: boolean;
-  automated_shipping_allowed: boolean;
   max_shipping_accounts: number;
   [k: string]: any;
 };

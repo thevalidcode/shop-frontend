@@ -49,8 +49,6 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { motion } from "framer-motion";
-import { FeatureGate } from "@/components/FeatureGate";
-import { useAppContext } from "@/context/appContext";
 
 const platformLogos: Record<ShippingPlatform, string> = {
   SENDBOX: "/images/sendbox.png",
@@ -69,10 +67,6 @@ export function ConnectAccountDialog({ onSuccess }: ConnectAccountDialogProps) {
   const [webhookSecret, setWebhookSecret] = useState("");
 
   const connectMutation = useConnectShippingAccount();
-  const { shopInfo } = useAppContext();
-
-  const automatedShippingAllowed = shopInfo?.features?.automated_shipping_allowed ?? false;
-  const maxShippingAccounts = shopInfo?.features?.max_shipping_accounts ?? 0;
 
   const handleConnect = async () => {
     await connectMutation.mutateAsync({
@@ -306,7 +300,9 @@ export function ShippingAccountCard({ account }: ShippingAccountCardProps) {
                   <DropdownMenuItem onClick={() => setShowStatusConfirm(true)}>
                     {account.isActive ? "Deactivate" : "Activate"}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setShowPreferredConfirm(true)}>
+                  <DropdownMenuItem
+                    onClick={() => setShowPreferredConfirm(true)}
+                  >
                     {account.isPreferred ? (
                       <>
                         <StarOff className="h-4 w-4 mr-2" />
@@ -372,4 +368,3 @@ export function ShippingAccountCard({ account }: ShippingAccountCardProps) {
     </>
   );
 }
-

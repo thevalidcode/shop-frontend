@@ -16,8 +16,6 @@ export default function ShippingSettingsPage() {
   const { data: accounts, isLoading } = useGetShippingAccounts();
   const { shopInfo } = useAppContext();
 
-  const automatedShippingAllowed =
-    shopInfo?.features?.automated_shipping_allowed ?? false;
   const maxShippingAccounts = shopInfo?.features?.max_shipping_accounts ?? 0;
   const canAddMoreAccounts = (accounts?.length ?? 0) < maxShippingAccounts;
 
@@ -54,13 +52,13 @@ export default function ShippingSettingsPage() {
           </p>
         </div>
         <FeatureGate
-          isAllowed={automatedShippingAllowed && canAddMoreAccounts}
+          isAllowed={canAddMoreAccounts}
           featureLabel="Automated shipping"
           variant="tooltip"
           description={
-            !automatedShippingAllowed
-              ? "Upgrade your plan to enable automated shipping features."
-              : `You've reached the maximum of ${maxShippingAccounts} shipping accounts. Upgrade to add more.`
+            !canAddMoreAccounts
+              ? "You've reached the maximum of shipping accounts allowed for your plan."
+              : `You can add up to ${maxShippingAccounts} shipping accounts.`
           }
         >
           <ConnectAccountDialog />
@@ -85,7 +83,7 @@ export default function ShippingSettingsPage() {
               automatically create and manage shipments for your orders.
             </p>
             <FeatureGate
-              isAllowed={automatedShippingAllowed}
+              isAllowed={canAddMoreAccounts}
               featureLabel="Automated shipping"
               variant="inline"
               description="Upgrade your plan to enable automated shipping features and connect shipping providers."
