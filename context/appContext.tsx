@@ -10,7 +10,6 @@ import { CurrencyCode } from "@/lib/currencyConverter";
 import { Admin, User } from "@/types";
 import { Shop } from "@/types";
 import { timezoneToCurrency } from "@/app/_docs/doc";
-import { isNull } from "util";
 
 export interface GeneralSettingProps {
   shopName: string;

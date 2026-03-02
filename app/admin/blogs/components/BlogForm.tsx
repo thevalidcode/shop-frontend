@@ -9,6 +9,8 @@ import { toast } from "sonner";
 import WysiwygEditor from "@/components/WysiwygEditor";
 import { Blog } from "@/types";
 import ImagePicker from "../../components/ImagePicker";
+import { useAppContext } from "@/context/appContext";
+import { FeatureGate } from "@/components/FeatureGate";
 
 interface BlogFormProps {
   blog: Blog;
@@ -22,6 +24,8 @@ export default function BlogForm({ blog, onSave, onCancel }: BlogFormProps) {
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
   const [img, setImg] = useState("");
+  const { shopInfo } = useAppContext();
+  const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
 
   useEffect(() => {
     if (blog) {
@@ -130,9 +134,16 @@ export default function BlogForm({ blog, onSave, onCancel }: BlogFormProps) {
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="submit">
-          {blog?.id ? "Save Changes" : "Create Blog"}
-        </Button>
+        <FeatureGate
+          isAllowed={isSubscriptionActive}
+          featureLabel="Blog Management"
+          description="Your subscription must be active to create or update blog posts. Please renew your subscription to continue."
+          variant="tooltip"
+        >
+          <Button type="submit">
+            {blog?.id ? "Save Changes" : "Create Blog"}
+          </Button>
+        </FeatureGate>
       </div>
     </form>
   );

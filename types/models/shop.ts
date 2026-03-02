@@ -25,6 +25,15 @@ export type ShopFeatures = {
   [k: string]: any;
 };
 
+export type SubscriptionStatus =
+  | "ACTIVE"
+  | "PENDING"
+  | "FAILED"
+  | "EXPIRED"
+  | "TRIAL"
+  | "CANCELED";
+
+export type BillingInterval = "MONTHLY" | "YEARLY";
 export interface Shop {
   shopId: number;
   uid: string;
@@ -33,12 +42,12 @@ export interface Shop {
   status: ShopStatus;
   features: ShopFeatures;
   planId?: number | null;
-  createdAt: string;
   updatedAt: string;
-  settings?: {
-    currency?: string;
-    language?: string;
-    timezone?: string;
-    [k: string]: any;
-  };
+  planName: string;
+  subscriptionStatus: SubscriptionStatus;
+  startedAt: string;
+  createdAt: string;
+  expiresAt: string;
+  gracePeriod: number;
+  billingCycle: BillingInterval;
 }

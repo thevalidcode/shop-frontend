@@ -13,6 +13,8 @@ import { useInitializePayment } from "@/hooks/use-payment";
 import { PaymentGatewayPlatform } from "@/types";
 import { toast } from "sonner";
 import parse from "html-react-parser";
+import { useAppContext } from "@/context/appContext";
+import { FeatureGate } from "@/components/FeatureGate";
 
 const platformLogos: Record<PaymentGatewayPlatform, string> = {
   PAYSTACK: "/images/paystack.png",
@@ -47,6 +49,9 @@ export function PaymentGatewaySelector({
   const initializePayment = useInitializePayment();
   const [selected, setSelected] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const { shopInfo } = useAppContext();
+  
+  const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
 
   const handleSelect = (uid: string) => setSelected(uid);
 
@@ -151,14 +156,21 @@ export function PaymentGatewaySelector({
                 </button>
               ))}
             </div>
-            <Button
-              size="lg"
-              className="w-full h-12 text-base font-semibold mt-2"
-              onClick={handlePay}
-              disabled={submitting || !selected}
+            <FeatureGate
+              isAllowed={isSubscriptionActive}
+              featureLabel="Payment Processing"
+              description="Your subscription must be active to process payments. Please contact the shop owner to renew the subscription to continue accepting payments."
+              variant="inline"
             >
-              {submitting ? "Processing..." : "Proceed to Payment"}
-            </Button>
+              <Button
+                size="lg"
+                className="w-full h-12 text-base font-semibold mt-2"
+                onClick={handlePay}
+                disabled={submitting || !selected}
+              >
+                {submitting ? "Processing..." : "Proceed to Payment"}
+              </Button>
+            </FeatureGate>
           </CardContent>
         </Card>
       </div>

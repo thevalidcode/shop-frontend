@@ -11,7 +11,12 @@ import {
   MailQuestion,
   Zap,
   ShieldAlert,
+  Clock,
+  XCircle,
+  AlertTriangle,
 } from "lucide-react";
+import { useAppContext } from "@/context/appContext";
+import { useEffect, useState } from "react";
 
 interface ShopNotFoundProps {
   reason?: "not-found" | "missing-settings" | "error" | "page-not-found";
@@ -64,29 +69,83 @@ const pulseVariants: Variants = {
   },
 };
 
-const getErrorConfig = (reason: string) => {
+const getErrorConfig = (
+  reason: string,
+  subscriptionStatus?: string,
+  expiresAt?: string,
+  planName?: string,
+) => {
+  // Check subscription status first if available
+  if (subscriptionStatus) {
+    switch (subscriptionStatus) {
+      case "EXPIRED":
+        return {
+          icon: Clock,
+          title: "Store Subscription Expired",
+          description: `This store's subscription has expired${expiresAt ? ` on ${new Date(expiresAt).toLocaleDateString()}` : ""}. Please contact the store owner to renew their subscription.`,
+          actionText: "Contact Support",
+          color: "text-destructive",
+          bgColor: "bg-destructive/10",
+          borderColor: "border-destructive/20",
+        };
+      case "CANCELED":
+        return {
+          icon: XCircle,
+          title: "Store Subscription Canceled",
+          description: `This store's ${planName || ""} subscription has been canceled. The store is no longer active.`,
+          actionText: "Go Home",
+          color: "text-destructive",
+          bgColor: "bg-destructive/10",
+          borderColor: "border-destructive/20",
+        };
+      case "PENDING":
+        return {
+          icon: Clock,
+          title: "Store Setup Pending",
+          description:
+            "This store is currently being set up. Please check back shortly or contact the store owner.",
+          actionText: "Try Again",
+          color: "text-muted-foreground",
+          bgColor: "bg-muted/50",
+          borderColor: "border-muted",
+        };
+      case "FAILED":
+        return {
+          icon: AlertTriangle,
+          title: "Store Subscription Issue",
+          description:
+            "There was an issue with this store's subscription. Please contact support for assistance.",
+          actionText: "Contact Support",
+          color: "text-destructive",
+          bgColor: "bg-destructive/10",
+          borderColor: "border-destructive/20",
+        };
+    }
+  }
+
+  // Fallback to reason-based errors
   switch (reason) {
     case "missing-settings":
       return {
         icon: AlertCircle,
-        title: "Shop Configuration Incomplete",
+        title: "Store Configuration Incomplete",
         description:
-          "Your shop is missing some essential settings. Please complete the setup to proceed.",
+          "Your store is missing some essential settings. Please complete the setup to proceed.",
         actionText: "Complete Setup",
-        color: "text-amber-600 dark:text-amber-400",
-        bgColor: "bg-amber-50 dark:bg-amber-950/20",
-        borderColor: "border-amber-200 dark:border-amber-800",
+        color: "text-orange-600 dark:text-orange-400",
+        bgColor: "bg-orange-500/10",
+        borderColor: "border-orange-500/20",
       };
     case "error":
       return {
         icon: ShieldAlert,
         title: "Something Went Wrong",
         description:
-          "We encountered an error while loading your shop. Our team has been notified.",
+          "We encountered an error while loading your store. Our team has been notified.",
         actionText: "Try Again",
-        color: "text-red-600 dark:text-red-400",
-        bgColor: "bg-red-50 dark:bg-red-950/20",
-        borderColor: "border-red-200 dark:border-red-800",
+        color: "text-destructive",
+        bgColor: "bg-destructive/10",
+        borderColor: "border-destructive/20",
       };
     case "page-not-found":
       return {
@@ -95,21 +154,21 @@ const getErrorConfig = (reason: string) => {
         description:
           "The page you're looking for doesn't exist. It may have been moved or deleted.",
         actionText: "Go Home",
-        color: "text-purple-600 dark:text-purple-400",
-        bgColor: "bg-purple-50 dark:bg-purple-950/20",
-        borderColor: "border-purple-200 dark:border-purple-800",
+        color: "text-primary",
+        bgColor: "bg-primary/10",
+        borderColor: "border-primary/20",
       };
     case "not-found":
     default:
       return {
         icon: ShieldAlert,
-        title: "Shop Not Found",
+        title: "Store Not Found",
         description:
-          "The shop you're looking for doesn't exist or has been removed.",
+          "This store doesn't exist or is no longer active. It may have been removed or the subscription may have ended.",
         actionText: "Go Home",
-        color: "text-slate-600 dark:text-slate-400",
-        bgColor: "bg-slate-50 dark:bg-slate-950/20",
-        borderColor: "border-slate-200 dark:border-slate-800",
+        color: "text-muted-foreground",
+        bgColor: "bg-muted/50",
+        borderColor: "border-muted",
       };
   }
 };
@@ -118,8 +177,30 @@ export const ShopNotFound = ({
   reason = "not-found",
   showAnimation = true,
 }: ShopNotFoundProps) => {
-  const config = getErrorConfig(reason);
+  const { shopInfo } = useAppContext();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Use shopInfo to determine actual status
+  const subscriptionStatus = shopInfo?.subscriptionStatus;
+  const expiresAt = shopInfo?.expiresAt;
+  const planName = shopInfo?.planName;
+  const gracePeriod = shopInfo?.gracePeriod;
+
+  const config = getErrorConfig(
+    reason,
+    subscriptionStatus,
+    expiresAt,
+    planName,
+  );
   const IconComponent = config.icon;
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-linear-to-br from-background via-background to-slate-50 dark:to-slate-950 px-4 py-8">
@@ -234,7 +315,7 @@ export const ShopNotFound = ({
                       Quick Help
                     </h3>
                     <ul className="space-y-1 text-sm text-muted-foreground">
-                      <li>• Check your shop URL</li>
+                      <li>• Check your store URL</li>
                       <li>• Verify domain settings</li>
                       <li>• Clear browser cache</li>
                     </ul>
@@ -254,7 +335,7 @@ export const ShopNotFound = ({
                         rel="noopener noreferrer"
                         className="text-primary hover:underline font-medium"
                       >
-                        ValidPanel
+                        Valid Panel
                       </a>
                     </p>
                   </div>
@@ -269,8 +350,10 @@ export const ShopNotFound = ({
           variants={itemVariants}
           className="text-center text-sm text-muted-foreground mt-8"
         >
-          Reason: {reason.toUpperCase().replace(/-/g, "_")} •{" "}
-          {new Date().toLocaleDateString()}
+          {subscriptionStatus
+            ? `Store Status: ${subscriptionStatus}`
+            : `Reason: ${reason.toUpperCase().replace(/-/g, "_")}`}{" "}
+          • {new Date().toLocaleDateString()}
         </motion.p>
       </motion.div>
     </div>

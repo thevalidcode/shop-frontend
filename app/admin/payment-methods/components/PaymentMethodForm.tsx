@@ -30,6 +30,7 @@ import { useAppContext } from "@/context/appContext";
 import { PaymentGatewayFormResponse } from "@/hooks/use-paymentGateway";
 import PaymentMethodFormFields from "./PaymentMethodFormFields";
 import { useCurrencyConverter } from "@/lib/currencyConverter";
+import { FeatureGate } from "@/components/FeatureGate";
 
 interface NewPaymentGateway extends PaymentGateway {
   secretKey?: string;
@@ -56,11 +57,13 @@ export default function PaymentMethodForm({
   onSave: (gateway: PaymentGateway) => Promise<PaymentGatewayFormResponse>;
   initialData?: PaymentGateway;
 }) {
-  const { domain, userCurrency } = useAppContext();
+  const { domain, userCurrency, shopInfo } = useAppContext();
   const [mode, setMode] = useState<DialogMode>("select");
   const [selectedPlatform, setSelectedPlatform] =
     useState<PlatformOption | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  
+  const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
 
   const [form, setForm] = useState<NewPaymentGateway>(
     (initialData as any) || {
@@ -223,6 +226,12 @@ export default function PaymentMethodForm({
             </DialogDescription>
           </DialogHeader>
 
+          <FeatureGate
+            isAllowed={isSubscriptionActive}
+            featureLabel="Payment Gateway Management"
+            description="Your subscription must be active to add or modify payment gateways. Please renew your subscription to continue."
+            variant="page"
+          >
           {!initialData && (
             <Tabs
               value={mode}
@@ -385,6 +394,7 @@ export default function PaymentMethodForm({
               </AnimatePresence>
             </div>
           )}
+          </FeatureGate>
         </DialogContent>
       </Dialog>
 

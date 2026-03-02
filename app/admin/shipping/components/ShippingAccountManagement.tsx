@@ -49,6 +49,8 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { motion } from "framer-motion";
+import { useAppContext } from "@/context/appContext";
+import { FeatureGate } from "@/components/FeatureGate";
 
 const platformLogos: Record<ShippingPlatform, string> = {
   SENDBOX: "/images/sendbox.png",
@@ -65,8 +67,10 @@ export function ConnectAccountDialog({ onSuccess }: ConnectAccountDialogProps) {
   const [apiKey, setApiKey] = useState("");
   const [testMode, setTestMode] = useState(true);
   const [webhookSecret, setWebhookSecret] = useState("");
+  const { shopInfo } = useAppContext();
 
   const connectMutation = useConnectShippingAccount();
+  const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
 
   const handleConnect = async () => {
     await connectMutation.mutateAsync({
@@ -86,7 +90,14 @@ export function ConnectAccountDialog({ onSuccess }: ConnectAccountDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Connect Shipping Account</Button>
+        <FeatureGate
+          isAllowed={isSubscriptionActive}
+          featureLabel="Shipping Account Connection"
+          description="Your subscription must be active to connect shipping accounts. Please renew your subscription to continue."
+          variant="tooltip"
+        >
+          <Button>Connect Shipping Account</Button>
+        </FeatureGate>
       </DialogTrigger>
       <DialogContent className="sm:max-w-125 max-h-[90vh] p-0 overflow-y-auto">
         <DialogHeader className="px-6 py-4 border-b">
@@ -210,6 +221,8 @@ export function ShippingAccountCard({ account }: ShippingAccountCardProps) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showStatusConfirm, setShowStatusConfirm] = useState(false);
   const [showPreferredConfirm, setShowPreferredConfirm] = useState(false);
+  const { shopInfo } = useAppContext();
+  const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
 
   const handleToggleActive = async () => {
     await updateMutation.mutateAsync({
@@ -290,41 +303,48 @@ export function ShippingAccountCard({ account }: ShippingAccountCardProps) {
 
             {/* Actions Menu */}
             <div className="shrink-0">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <MoreVertical className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setShowStatusConfirm(true)}>
-                    {account.isActive ? "Deactivate" : "Activate"}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setShowPreferredConfirm(true)}
-                  >
-                    {account.isPreferred ? (
-                      <>
-                        <StarOff className="h-4 w-4 mr-2" />
-                        Remove as Preferred
-                      </>
-                    ) : (
-                      <>
-                        <Star className="h-4 w-4 mr-2" />
-                        Set as Preferred
-                      </>
-                    )}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => setShowDeleteConfirm(true)}
-                    className="text-destructive"
-                  >
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Disconnect
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <FeatureGate
+                isAllowed={isSubscriptionActive}
+                featureLabel="Shipping Account Management"
+                description="Your subscription must be active to manage shipping accounts. Please renew your subscription to continue."
+                variant="tooltip"
+              >
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => setShowStatusConfirm(true)}>
+                      {account.isActive ? "Deactivate" : "Activate"}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setShowPreferredConfirm(true)}
+                    >
+                      {account.isPreferred ? (
+                        <>
+                          <StarOff className="h-4 w-4 mr-2" />
+                          Remove as Preferred
+                        </>
+                      ) : (
+                        <>
+                          <Star className="h-4 w-4 mr-2" />
+                          Set as Preferred
+                        </>
+                      )}
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => setShowDeleteConfirm(true)}
+                      className="text-destructive"
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Disconnect
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </FeatureGate>
             </div>
           </div>
         </Card>

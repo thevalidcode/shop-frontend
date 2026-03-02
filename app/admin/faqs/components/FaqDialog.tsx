@@ -18,6 +18,8 @@ import { Pencil, Plus } from "lucide-react";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useAppContext } from "@/context/appContext";
+import { FeatureGate } from "@/components/FeatureGate";
 
 interface Faq {
   uid?: string;
@@ -43,6 +45,8 @@ export default function FaqDialog({
   const { mutate: createFaq } = useCreateFaq();
   const { mutate: updateFaq } = useUpdateFaq();
   const queryClient = useQueryClient();
+  const { shopInfo } = useAppContext();
+  const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
 
   useEffect(() => {
     if (faq) {
@@ -164,19 +168,26 @@ export default function FaqDialog({
             >
               Cancel
             </Button>
-            <Button type="submit" className="gap-2 cursor-pointer">
-              {isEdit ? (
-                <>
-                  <Pencil className="h-4 w-4" />
-                  Update FAQ
-                </>
-              ) : (
-                <>
-                  <Plus className="h-4 w-4" />
-                  Create FAQ
-                </>
-              )}
-            </Button>
+            <FeatureGate
+              isAllowed={isSubscriptionActive}
+              featureLabel="FAQ Management"
+              description="Your subscription must be active to create or update FAQs. Please renew your subscription to continue."
+              variant="tooltip"
+            >
+              <Button type="submit" className="gap-2 cursor-pointer">
+                {isEdit ? (
+                  <>
+                    <Pencil className="h-4 w-4" />
+                    Update FAQ
+                  </>
+                ) : (
+                  <>
+                    <Plus className="h-4 w-4" />
+                    Create FAQ
+                  </>
+                )}
+              </Button>
+            </FeatureGate>
           </DialogFooter>
         </form>
       </DialogContent>

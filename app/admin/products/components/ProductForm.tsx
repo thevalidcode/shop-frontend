@@ -23,6 +23,7 @@ import ProductPreview from "./ProductPreview";
 import ImagePicker, { ImageData } from "../../components/ImagePicker";
 import { useCurrencyConverter } from "@/lib/currencyConverter";
 import { useAppContext } from "@/context/appContext";
+import { FeatureGate } from "@/components/FeatureGate";
 
 interface ProductFormProps {
   product?: Product | null;
@@ -41,7 +42,9 @@ export default function ProductForm({
     useUpdateProduct();
   const { data: categories } = useGetCategories();
   const convert = useCurrencyConverter();
-  const { userCurrency } = useAppContext();
+  const { userCurrency, shopInfo } = useAppContext();
+
+  const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
 
   const [formData, setFormData] = useState({
     name: product?.name || "",
@@ -451,10 +454,17 @@ export default function ProductForm({
           <Button type="button" variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit" disabled={isPending}>
-            {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-            {product ? "Update Product" : "Create Product"}
-          </Button>
+          <FeatureGate
+            isAllowed={isSubscriptionActive}
+            featureLabel="Product Management"
+            description="Your subscription must be active to create or update products. Please renew your subscription to continue."
+            variant="tooltip"
+          >
+            <Button type="submit" disabled={isPending}>
+              {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              {product ? "Update Product" : "Create Product"}
+            </Button>
+          </FeatureGate>
         </DialogFooter>
       </form>
 

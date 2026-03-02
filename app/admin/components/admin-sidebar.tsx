@@ -11,7 +11,6 @@ import {
   MessageCircle,
   Network,
   Settings,
-  Shield,
   ShoppingCart,
   User,
   Users,
@@ -38,6 +37,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -129,6 +129,8 @@ export function AdminSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
+  const { setOpenMobile, isMobile } = useSidebar();
+
   const isActive = (path: string) => {
     return pathname === path;
   };
@@ -150,13 +152,19 @@ export function AdminSidebar({
     router.push("/admin/auth/signin");
   };
 
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="md" asChild>
-              <Link href="/admin/users">
+              <Link href="/admin/users" onClick={handleLinkClick}>
                 {generalSetting?.logoUrl && (
                   <Image
                     src={generalSetting?.logoUrl || ""}
@@ -187,6 +195,7 @@ export function AdminSidebar({
                     <SidebarMenuButton size="md" asChild>
                       <Link
                         href={item.url}
+                        onClick={handleLinkClick}
                         className={
                           isActive(item.url)
                             ? "bg-sidebar-accent text-sidebar-accent-foreground"

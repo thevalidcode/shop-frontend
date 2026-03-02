@@ -14,6 +14,8 @@ import Loading from "@/app/loading";
 import { useCreateCategory, useUpdateCategory } from "@/hooks/use-category";
 import { Category, CategoryStatus } from "@/types";
 import CategoryForm, { CategoryFormValues } from "../components/CategoryForm";
+import { useAppContext } from "@/context/appContext";
+import { FeatureGate } from "@/components/FeatureGate";
 
 export default function CategoryDialog({
   open,
@@ -43,8 +45,10 @@ export default function CategoryDialog({
 
   const { mutate: createCategory, isPending: isCreating } = useCreateCategory();
   const { mutate: updateCategory, isPending: isUpdating } = useUpdateCategory();
+  const { shopInfo } = useAppContext();
 
   const isLoading = isCreating || isUpdating;
+  const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
 
   const slugify = (value: string) =>
     value
@@ -146,9 +150,16 @@ export default function CategoryDialog({
                 >
                   Cancel
                 </Button>
-                <Button type="submit">
-                  {category && category.uid ? "Update Category" : "Add Category"}
-                </Button>
+                <FeatureGate
+                  isAllowed={isSubscriptionActive}
+                  featureLabel="Category Management"
+                  description="Your subscription must be active to create or update categories. Please renew your subscription to continue."
+                  variant="tooltip"
+                >
+                  <Button type="submit">
+                    {category && category.uid ? "Update Category" : "Add Category"}
+                  </Button>
+                </FeatureGate>
               </DialogFooter>
             </div>
           </form>

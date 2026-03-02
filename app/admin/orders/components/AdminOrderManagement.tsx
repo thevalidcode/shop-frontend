@@ -26,6 +26,8 @@ import {
 import { Order } from "@/types/models/order";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { useAppContext } from "@/context/appContext";
+import { FeatureGate } from "@/components/FeatureGate";
 
 interface AdminOrderManagementProps {
   order: Order;
@@ -53,6 +55,8 @@ export function AdminOrderManagement({
   onCreateShipment,
 }: AdminOrderManagementProps) {
   const isVerifyingPayment = order.status === "VERIFYING_PAYMENT";
+  const { shopInfo } = useAppContext();
+  const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
 
   const statusActions = [
     { status: "PENDING", label: "Pending", icon: Clock, color: "yellow" },
@@ -128,6 +132,12 @@ export function AdminOrderManagement({
           </>
         ) : (
           <>
+            <FeatureGate
+              isAllowed={isSubscriptionActive}
+              featureLabel="Order Status Management"
+              description="Your subscription must be active to update order status. Please renew your subscription to continue."
+              variant="inline"
+            >
             <div>
               <p className="text-sm font-medium mb-3">Update Order Status</p>
               <div className="grid grid-cols-2 gap-2">
@@ -153,23 +163,31 @@ export function AdminOrderManagement({
                 })}
               </div>
             </div>
+            </FeatureGate>
 
             <Separator />
 
             {/* Shipping Integration */}
             {onCreateShipment && (
               <>
-                <div>
-                  <p className="text-sm font-medium mb-3">Automated Shipping</p>
-                  <Button
-                    onClick={onCreateShipment}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    <PackagePlus className="w-4 h-4 mr-2" />
-                    Create Shipment Label
-                  </Button>
-                </div>
+                <FeatureGate
+                  isAllowed={isSubscriptionActive}
+                  featureLabel="Automated Shipping"
+                  description="Your subscription must be active to create shipment labels. Please renew your subscription to continue."
+                  variant="inline"
+                >
+                  <div>
+                    <p className="text-sm font-medium mb-3">Automated Shipping</p>
+                    <Button
+                      onClick={onCreateShipment}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      <PackagePlus className="w-4 h-4 mr-2" />
+                      Create Shipment Label
+                    </Button>
+                  </div>
+                </FeatureGate>
                 <Separator />
               </>
             )}
