@@ -327,9 +327,9 @@ export function PaymentGatewaySelector({
                         )}
                       </div>
                       {gateway.description && (
-                        <div className="text-sm bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200 rounded flex items-center gap-2 mt-2 px-3 py-2 border border-yellow-300 dark:border-yellow-700">
+                        <div className="richtext-content richtext-render text-sm bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200 rounded flex items-center gap-2 mt-2 px-3 py-2 border border-yellow-300 dark:border-yellow-700">
                           <AlertTriangle className="h-4 w-4 shrink-0" />
-                          <span>{parse(gateway.description)}</span>
+                          <div>{parse(gateway.description)}</div>
                         </div>
                       )}
                     </div>
