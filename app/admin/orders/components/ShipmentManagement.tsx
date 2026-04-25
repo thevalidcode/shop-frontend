@@ -77,15 +77,15 @@ export function CreateShipmentDialog({
           <div className="space-y-1.5">
             <Label>Shipping Address</Label>
             <div className="rounded-md border p-3 bg-muted/50 space-y-1 text-sm">
-              <p className="font-medium">{order.billingInfo.fullName}</p>
-              <p>{order.billingInfo.address}</p>
+              <p className="font-medium">{order.shippingInfo.fullName}</p>
+              <p>{order.shippingInfo.address}</p>
               <p>
-                {order.billingInfo.city}, {order.billingInfo.state}{" "}
-                {order.billingInfo.postalCode}
+                {order.shippingInfo.city}, {order.shippingInfo.state}{" "}
+                {order.shippingInfo.postalCode}
               </p>
-              <p>{order.billingInfo.country}</p>
-              {order.billingInfo.phone && (
-                <p>Phone: {order.billingInfo.phone}</p>
+              <p>{order.shippingInfo.country}</p>
+              {order.shippingInfo.phone && (
+                <p>Phone: {order.shippingInfo.phone}</p>
               )}
             </div>
           </div>

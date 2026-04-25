@@ -129,8 +129,35 @@ export default function UsersPage() {
   };
 
   const handleSaveUser = (updatedUser: UpdateUserByAdminProps) => {
-    setUsers((prev: any[]) =>
-      prev.map((u) => (u.email === updatedUser.email ? updatedUser : u))
+    setUsers((prev) =>
+      prev.map((u) => {
+        if (u.uid !== updatedUser.uid) return u;
+
+        const {
+          balanceAction,
+          balanceAdjustment,
+          ...safeFields
+        } = updatedUser as UpdateUserByAdminProps & {
+          balanceAction?: "ADD" | "REMOVE";
+          balanceAdjustment?: number;
+        };
+
+        let nextBalance = u.balance;
+        if (balanceAction && balanceAdjustment && balanceAdjustment > 0) {
+          const current = Number(u.balance || 0);
+          const adjusted =
+            balanceAction === "ADD"
+              ? current + balanceAdjustment
+              : Math.max(0, current - balanceAdjustment);
+          nextBalance = adjusted.toFixed(2);
+        }
+
+        return {
+          ...u,
+          ...safeFields,
+          balance: nextBalance,
+        };
+      })
     );
     updateUser(updatedUser);
   };

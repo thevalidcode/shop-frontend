@@ -107,6 +107,10 @@ export default function AdminProductDetail({
         )
       : null;
 
+  const supplierLinked = Boolean(
+    product.supplierProductUid && product.syncWithSupplier,
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[95vw] sm:max-w-[90vw] lg:max-w-5xl xl:max-w-6xl max-h-[95vh] p-0 gap-0 overflow-y-auto">
@@ -265,6 +269,148 @@ export default function AdminProductDetail({
                           </p>
                         </div>
                         <div>
+                          {/* Supplier */}
+                          {supplierLinked && (
+                            <Card className="p-4 space-y-3 bg-muted/30">
+                              <h4 className="font-semibold flex items-center gap-2">
+                                <DollarSign className="h-4 w-4" />
+                                Supplier Sync
+                              </h4>
+                              <div className="space-y-2 text-sm">
+                                <div className="flex justify-between gap-4">
+                                  <span className="text-muted-foreground">
+                                    Supplier UID
+                                  </span>
+                                  <span className="font-mono text-right break-all">
+                                    {product.supplierUid || "-"}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between gap-4">
+                                  <span className="text-muted-foreground">
+                                    Source Product
+                                  </span>
+                                  <span className="font-mono text-right break-all">
+                                    {product.supplierProductUid || "-"}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between gap-4">
+                                  <span className="text-muted-foreground">
+                                    Supplier Price
+                                  </span>
+                                  <span className="font-semibold">
+                                    {product.supplierPrice || "-"}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between gap-4">
+                                  <span className="text-muted-foreground">
+                                    Supplier Currency
+                                  </span>
+                                  <span className="font-semibold">
+                                    {product.supplierCurrency ||
+                                      product.currency}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between gap-4">
+                                  <span className="text-muted-foreground">
+                                    Sync Mode
+                                  </span>
+                                  <span className="font-semibold">
+                                    {product.syncCatAndName
+                                      ? "Name + category"
+                                      : "Price only"}
+                                  </span>
+                                </div>
+                              </div>
+                            </Card>
+                          )}
+
+                          {/* Images */}
+                          {product.galleryUrls &&
+                            product.galleryUrls.length > 0 && (
+                              <Card className="p-4 space-y-3 bg-muted/30">
+                                <h4 className="font-semibold flex items-center gap-2">
+                                  <TrendingUp className="h-4 w-4" />
+                                  Images
+                                </h4>
+                                <div className="grid grid-cols-3 gap-2">
+                                  {product.galleryUrls.map(
+                                    (image: string, idx: number) => (
+                                      <img
+                                        key={idx}
+                                        src={image}
+                                        alt={`${product.name} image ${idx + 1}`}
+                                        className="aspect-square w-full rounded-lg border object-contain bg-background"
+                                      />
+                                    ),
+                                  )}
+                                </div>
+                              </Card>
+                            )}
+
+                          {/* Variants */}
+                          {product.variants && product.variants.length > 0 && (
+                            <Card className="p-4 space-y-3 bg-muted/30">
+                              <h4 className="font-semibold flex items-center gap-2">
+                                <Package className="h-4 w-4" />
+                                Variants
+                              </h4>
+                              <div className="space-y-2">
+                                {product.variants.map((variant) => (
+                                  <div
+                                    key={variant.uid}
+                                    className="rounded-lg border bg-background p-3 text-sm"
+                                  >
+                                    <div className="flex items-center justify-between gap-3">
+                                      <span className="font-medium">
+                                        {variant.name}
+                                      </span>
+                                      {variant.isDefault && (
+                                        <Badge variant="secondary">
+                                          Default
+                                        </Badge>
+                                      )}
+                                    </div>
+                                    <div className="mt-2 grid grid-cols-2 gap-2 text-muted-foreground">
+                                      <span>Price: {variant.price}</span>
+                                      <span>Stock: {variant.stock ?? 0}</span>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </Card>
+                          )}
+
+                          {/* Reviews */}
+                          {product.reviews && product.reviews.length > 0 && (
+                            <Card className="p-4 space-y-3 bg-muted/30">
+                              <h4 className="font-semibold flex items-center gap-2">
+                                <Star className="h-4 w-4" />
+                                Reviews
+                              </h4>
+                              <div className="space-y-2">
+                                {product.reviews.slice(0, 3).map((review) => (
+                                  <div
+                                    key={review.uid}
+                                    className="rounded-lg border bg-background p-3 text-sm"
+                                  >
+                                    <div className="flex items-center justify-between gap-3">
+                                      <span className="font-medium">
+                                        {review.title || "Customer review"}
+                                      </span>
+                                      <Badge variant="outline">
+                                        {review.rating}/5
+                                      </Badge>
+                                    </div>
+                                    {review.comment && (
+                                      <p className="mt-2 text-muted-foreground">
+                                        {review.comment}
+                                      </p>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </Card>
+                          )}
                           <p className="text-muted-foreground">Margin</p>
                           <p className="font-semibold text-green-600 dark:text-green-500">
                             {new Decimal(product.price)

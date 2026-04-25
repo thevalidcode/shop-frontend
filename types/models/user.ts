@@ -11,12 +11,11 @@ export interface User {
   image?: string | null;
   fullName?: string | null;
   username: string;
-  apiKey: string;
+  apiKey?: string;
   role: UserRole;
   status: UserStatus;
   balance: string;
   spent: string;
-  createdAt: string;
   timestamp?: string | null;
   lastSeen?: string | null;
   updatedAt: string;

@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   Table,
   TableBody,
@@ -18,6 +20,26 @@ import { Badge } from "@/components/ui/badge";
 import PaymentStatusBadge from "@/components/PaymentStatusBadge";
 import Pagination from "@/components/pagination";
 import { formatDistanceToNow } from "date-fns";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { CheckCircle2, Clock3, MoreHorizontal, XCircle } from "lucide-react";
 
 interface PaymentTableProps {
   payments?: Payment[];
@@ -26,6 +48,11 @@ interface PaymentTableProps {
   page: number;
   pageSize: number;
   totalItems: number;
+  isUpdatingStatus?: boolean;
+  onStatusUpdate?: (
+    paymentUid: string,
+    status: "PENDING" | "SUCCESS" | "FAILED",
+  ) => Promise<void>;
   onPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
 }
@@ -37,11 +64,33 @@ export const PaymentTable = ({
   page,
   pageSize,
   totalItems,
+  isUpdatingStatus,
+  onStatusUpdate,
   onPageChange,
   onPageSizeChange,
 }: PaymentTableProps) => {
   const { userCurrency } = useAppContext();
   const convert = useCurrencyConverter();
+  const [actionTarget, setActionTarget] = useState<{
+    paymentUid: string;
+    status: "PENDING" | "SUCCESS" | "FAILED";
+    currentStatus: "PENDING" | "SUCCESS" | "FAILED";
+  } | null>(null);
+
+  const statusLabel = {
+    PENDING: "Pending",
+    SUCCESS: "Success",
+    FAILED: "Failed",
+  } as const;
+
+  const statusIcon = {
+    PENDING: Clock3,
+    SUCCESS: CheckCircle2,
+    FAILED: XCircle,
+  } as const;
+
+  const isHybridPayment = (payment: Payment) =>
+    Number(payment.amount || 0) !== Number(payment.chargedAmount || 0);
 
   if (isLoading) return <Loading />;
 
@@ -60,6 +109,7 @@ export const PaymentTable = ({
               <TableHead className="text-center">Method</TableHead>
               <TableHead className="text-center">Status</TableHead>
               <TableHead className="text-right">Date</TableHead>
+              <TableHead className="text-center">Actions</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -69,7 +119,7 @@ export const PaymentTable = ({
                 key={payment.id}
                 className={cn(
                   "hover:bg-muted/40 transition-colors",
-                  rowClassName
+                  rowClassName,
                 )}
               >
                 <TableCell className="font-mono text-sm">
@@ -86,34 +136,25 @@ export const PaymentTable = ({
                   </div>
                 </TableCell>
                 <TableCell className="text-center text-sm font-medium">
-                  {
-                    convert(
-                      payment.currency as any,
-                      userCurrency,
-                      payment.amount,
-                      true,
-                      false
-                    ).formatted
-                  }
+                  {Number(payment.amount).toLocaleString()}
                 </TableCell>
                 <TableCell className="text-center text-sm font-medium">
-                  {
-                    convert(
-                      payment.currency as any,
-                      userCurrency,
-                      payment.chargedAmount ?? "0",
-                      true,
-                      false
-                    ).formatted
-                  }
+                  {Number(payment.chargedAmount).toLocaleString()}
                 </TableCell>
                 <TableCell className="text-center">
                   <Badge variant="outline">{payment.currency}</Badge>
                 </TableCell>
                 <TableCell className="text-center">
-                  <Badge variant="outline" className="font-normal">
-                    {payment.method}
-                  </Badge>
+                  <div className="flex flex-col items-center gap-1">
+                    <Badge variant="outline" className="font-normal">
+                      {payment.method}
+                    </Badge>
+                    {isHybridPayment(payment) && (
+                      <Badge variant="secondary" className="font-normal">
+                        Hybrid
+                      </Badge>
+                    )}
+                  </div>
                 </TableCell>
                 <TableCell className="text-center">
                   <PaymentStatusBadge status={payment.status} />
@@ -122,6 +163,51 @@ export const PaymentTable = ({
                   {formatDistanceToNow(new Date(payment.createdAt), {
                     addSuffix: true,
                   })}
+                </TableCell>
+                <TableCell className="text-center">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-8 w-8"
+                        disabled={!onStatusUpdate || isUpdatingStatus}
+                      >
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-44">
+                      <DropdownMenuLabel>Update Status</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      {(
+                        Object.keys(statusLabel) as Array<
+                          "PENDING" | "SUCCESS" | "FAILED"
+                        >
+                      ).map((status) => {
+                        const Icon = statusIcon[status];
+                        const isCurrent = payment.status === status;
+                        return (
+                          <DropdownMenuItem
+                            key={status}
+                            disabled={
+                              isCurrent || !onStatusUpdate || isUpdatingStatus
+                            }
+                            onClick={() =>
+                              setActionTarget({
+                                paymentUid: payment.uid,
+                                status,
+                                currentStatus: payment.status,
+                              })
+                            }
+                          >
+                            <Icon className="h-4 w-4" />
+                            Set {statusLabel[status]}
+                            {isCurrent ? " (Current)" : ""}
+                          </DropdownMenuItem>
+                        );
+                      })}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))}
@@ -145,18 +231,55 @@ export const PaymentTable = ({
                   Payment #{payment.shopScopedId}
                 </p>
                 <p className="text-xl font-bold mt-1">
-                  {
-                    convert(
-                      payment.currency as any,
-                      userCurrency,
-                      payment.chargedAmount ?? "0",
-                      true,
-                      false
-                    ).formatted
-                  }
+                  {Number(payment.chargedAmount).toLocaleString()}
                 </p>
               </div>
-              <PaymentStatusBadge status={payment.status} />
+              <div className="flex items-center gap-2">
+                <PaymentStatusBadge status={payment.status} />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-8 w-8"
+                      disabled={!onStatusUpdate || isUpdatingStatus}
+                    >
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-44">
+                    <DropdownMenuLabel>Update Status</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {(
+                      Object.keys(statusLabel) as Array<
+                        "PENDING" | "SUCCESS" | "FAILED"
+                      >
+                    ).map((status) => {
+                      const Icon = statusIcon[status];
+                      const isCurrent = payment.status === status;
+                      return (
+                        <DropdownMenuItem
+                          key={status}
+                          disabled={
+                            isCurrent || !onStatusUpdate || isUpdatingStatus
+                          }
+                          onClick={() =>
+                            setActionTarget({
+                              paymentUid: payment.uid,
+                              status,
+                              currentStatus: payment.status,
+                            })
+                          }
+                        >
+                          <Icon className="h-4 w-4" />
+                          Set {statusLabel[status]}
+                          {isCurrent ? " (Current)" : ""}
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
 
             <div className="space-y-2 text-sm">
@@ -172,22 +295,21 @@ export const PaymentTable = ({
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Amount</span>
                 <span className="font-medium">
-                  {
-                    convert(
-                      payment.currency as any,
-                      userCurrency,
-                      payment.amount,
-                      true,
-                      false
-                    ).formatted
-                  }
+                  {Number(payment.amount).toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Method</span>
-                <Badge variant="outline" className="font-normal">
-                  {payment.method}
-                </Badge>
+                <div className="flex flex-col items-end gap-1">
+                  <Badge variant="outline" className="font-normal">
+                    {payment.method}
+                  </Badge>
+                  {isHybridPayment(payment) && (
+                    <Badge variant="secondary" className="font-normal">
+                      Hybrid
+                    </Badge>
+                  )}
+                </div>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Date</span>
@@ -201,6 +323,42 @@ export const PaymentTable = ({
           </motion.div>
         ))}
       </div>
+
+      <AlertDialog
+        open={Boolean(actionTarget)}
+        onOpenChange={(open) => {
+          if (!open) setActionTarget(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm payment status update</AlertDialogTitle>
+            <AlertDialogDescription>
+              {actionTarget
+                ? `Change payment from ${statusLabel[actionTarget.currentStatus]} to ${statusLabel[actionTarget.status]}?`
+                : ""}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isUpdatingStatus}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              disabled={isUpdatingStatus || !onStatusUpdate || !actionTarget}
+              onClick={async () => {
+                if (!actionTarget || !onStatusUpdate) return;
+                await onStatusUpdate(
+                  actionTarget.paymentUid,
+                  actionTarget.status,
+                );
+                setActionTarget(null);
+              }}
+            >
+              {isUpdatingStatus ? "Updating..." : "Confirm"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Pagination */}
       {totalItems > 0 && (

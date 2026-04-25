@@ -236,35 +236,35 @@ export const useRequestRefund = () => {
   });
 };
 
-// Update order billing info (user)
-export const useUpdateOrderBilling = () => {
+// Update order shipping info (user)
+export const useUpdateOrderShipping = () => {
   const { api } = useAppContext();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["updateOrderBilling"],
+    mutationKey: ["updateOrderShipping"],
     mutationFn: async ({
       orderUid,
-      billingInfoUid,
+      shippingInfoUid,
     }: {
       orderUid: string;
-      billingInfoUid: string;
+      shippingInfoUid: string;
     }) => {
-      const res = await api.patch(`/orders/${orderUid}/billing`, {
-        billingInfoUid,
+      const res = await api.patch(`/orders/${orderUid}/shipping`, {
+        shippingInfoUid,
       });
-      if (!res.data) throw new Error("Failed to update billing info");
+      if (!res.data) throw new Error("Failed to update shipping information");
       return res.data;
     },
     onSuccess: () => {
-      toast.success("Billing information updated successfully");
+      toast.success("Shipping information updated successfully");
       queryClient.invalidateQueries({ queryKey: ["userOrders"] });
       queryClient.invalidateQueries({ queryKey: ["userOrder"] });
     },
     onError: (error: unknown) => {
       const errorMsg = normalizeApiError(
         error,
-        "Failed to update billing info",
+        "Failed to update shipping information",
       );
       toast.error(errorMsg);
     },

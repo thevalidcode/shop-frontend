@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useGetAllPaymentsForAdmin } from "@/hooks/use-payment";
+import {
+  useGetAllPaymentsForAdmin,
+  useUpdatePaymentStatusByAdmin,
+} from "@/hooks/use-payment";
 import { PaymentFilters } from "@/types";
 import { PaymentStats } from "./PaymentStats";
 import { PaymentFiltersBar } from "./PaymentFiltersBar";
@@ -15,26 +18,28 @@ export function PaymentsContent() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [filters, setFilters] = useState<PaymentFilters & { search?: string }>(
-    {}
+    {},
   );
 
   const { data: paymentsData, isLoading } = useGetAllPaymentsForAdmin(
     page,
-    100, // Fetch max 100 items per request
-    filters
+    pageSize,
+    filters,
+  );
+  const updatePaymentStatus = useUpdatePaymentStatusByAdmin();
+  const handleFiltersChange = useCallback(
+    (nextFilters: PaymentFilters & { search?: string }) => {
+      setPage(1);
+      setFilters(nextFilters);
+    },
+    [],
   );
 
-  const payments = paymentsData || [];
-
-  if (!isLoading && (!payments || payments.length === 0)) {
-    return (
-      <EmptyState
-        icon={CreditCard}
-        title="No Payments Found"
-        description="No payment transactions match your search criteria."
-      />
-    );
-  }
+  const payments = paymentsData?.payments || [];
+  const totalItems = paymentsData?.total || 0;
+  const hasFilters = Boolean(
+    filters.search || filters.status || filters.method,
+  );
 
   return (
     <div className="space-y-6">
@@ -57,23 +62,41 @@ export function PaymentsContent() {
                 </p>
               </div>
 
-              <PaymentFiltersBar onFiltersChange={setFilters} />
+              <PaymentFiltersBar onFiltersChange={handleFiltersChange} />
             </div>
           </CardHeader>
           <CardContent>
-            <PaymentTable
-              payments={payments}
-              isLoading={isLoading}
-              rowClassName="transition-colors duration-150 hover:bg-muted/60 hover:shadow-sm cursor-pointer focus-within:bg-primary/10 focus-within:text-primary"
-              page={page}
-              pageSize={pageSize}
-              totalItems={paymentsData?.length || 0}
-              onPageChange={setPage}
-              onPageSizeChange={(size) => {
-                setPageSize(size);
-                setPage(1);
-              }}
-            />
+            {isLoading || payments.length > 0 ? (
+              <PaymentTable
+                payments={payments}
+                isLoading={isLoading}
+                isUpdatingStatus={updatePaymentStatus.isPending}
+                rowClassName="transition-colors duration-150 hover:bg-muted/60 hover:shadow-sm cursor-pointer focus-within:bg-primary/10 focus-within:text-primary"
+                page={page}
+                pageSize={pageSize}
+                totalItems={totalItems}
+                onPageChange={setPage}
+                onStatusUpdate={(paymentUid, status) =>
+                  updatePaymentStatus.mutateAsync({ paymentUid, status })
+                }
+                onPageSizeChange={(size) => {
+                  setPageSize(size);
+                  setPage(1);
+                }}
+              />
+            ) : (
+              <div className="py-8">
+                <EmptyState
+                  icon={CreditCard}
+                  title={hasFilters ? "No Matching Payments" : "No Payments Found"}
+                  description={
+                    hasFilters
+                      ? "No payment transactions match your current filters. Try changing the search, method, or status filters."
+                      : "No payment transactions have been recorded yet."
+                  }
+                />
+              </div>
+            )}
           </CardContent>
         </Card>
       </motion.div>

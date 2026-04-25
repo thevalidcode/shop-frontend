@@ -1,6 +1,12 @@
 import { CurrencyCode } from "@/lib/currencyConverter";
 
-export type TransactionType = "ORDER_PAYMENT" | "REFERRAL_CREDIT" | "REFUND";
+export type TransactionType =
+  | "ORDER_PAYMENT"
+  | "REFERRAL_CREDIT"
+  | "REFUND"
+  | "WALLET_CREDIT"
+  | "WALLET_DEBIT"
+  | "WALLET_REFUND";
 export type TransactionStatus = "PENDING" | "SUCCESS" | "FAILED";
 
 export interface Transaction {

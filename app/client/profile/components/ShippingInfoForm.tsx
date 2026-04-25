@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PhoneInput } from "@/components/ui/phone-input";
 import {
   Select,
   SelectContent,
@@ -11,17 +12,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  useCreateBillingInfo,
-  useUpdateBillingInfo,
-  useGetBillingInfoByUid,
-} from "@/hooks/use-billing-info";
+  useCreateShippingInfo,
+  useUpdateShippingInfo,
+  useGetShippingInfoByUid,
+} from "@/hooks/use-shipping-info";
 import { useEffect, useState } from "react";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
 import { Country, State, City } from "country-state-city";
 import { ICountry, IState, ICity } from "country-state-city";
 
-export interface BillingFormValues {
+export interface ShippingInfoFormValues {
   uid?: string;
   fullName: string;
   email: string;
@@ -34,14 +33,14 @@ export interface BillingFormValues {
   isDefault?: boolean;
 }
 
-export function BillingInfoForm({
+export function ShippingInfoForm({
   initial,
   onClose,
 }: {
-  initial?: Partial<BillingFormValues>;
+  initial?: Partial<ShippingInfoFormValues>;
   onClose: () => void;
 }) {
-  const [values, setValues] = useState<BillingFormValues>({
+  const [values, setValues] = useState<ShippingInfoFormValues>({
     fullName: "",
     email: "",
     phone: "",
@@ -58,9 +57,9 @@ export function BillingInfoForm({
   const [states, setStates] = useState<IState[]>([]);
   const [cities, setCities] = useState<ICity[]>([]);
 
-  const createBilling = useCreateBillingInfo();
-  const updateBilling = useUpdateBillingInfo();
-  const { data: fetched, isLoading: fetching } = useGetBillingInfoByUid(
+  const createShippingInfo = useCreateShippingInfo();
+  const updateShippingInfo = useUpdateShippingInfo();
+  const { data: fetched, isLoading: fetching } = useGetShippingInfoByUid(
     initial?.uid || "",
   );
 
@@ -117,13 +116,13 @@ export function BillingInfoForm({
     e.preventDefault();
     try {
       if (isEditing && values.uid) {
-        await updateBilling.mutateAsync({ uid: values.uid, ...values });
+        await updateShippingInfo.mutateAsync({ uid: values.uid, ...values });
       } else {
-        await createBilling.mutateAsync(values);
+        await createShippingInfo.mutateAsync(values);
       }
       onClose();
     } catch (error) {
-      console.error("Failed to save billing info:", error);
+      console.error("Failed to save shipping info:", error);
     }
   };
 
@@ -156,11 +155,9 @@ export function BillingInfoForm({
       <div className="grid gap-2">
         <Label>Phone</Label>
         <PhoneInput
-          international
-          defaultCountry={values.country as any}
+          placeholder="Phone number (e.g., +1 234 567 8900)"
           value={values.phone || ""}
-          onChange={(value) => setValues((s) => ({ ...s, phone: value || "" }))}
-          className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          onChange={(e) => setValues((s) => ({ ...s, phone: e.target.value || "" }))}
         />
       </div>
       <div className="grid gap-2">
@@ -264,7 +261,7 @@ export function BillingInfoForm({
         </Button>
         <Button
           type="submit"
-          disabled={createBilling.isPending || updateBilling.isPending}
+          disabled={createShippingInfo.isPending || updateShippingInfo.isPending}
         >
           {isEditing ? "Save" : "Create"}
         </Button>

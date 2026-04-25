@@ -6,9 +6,10 @@ import { Order } from "@/types/models/order";
 
 interface OrderInfoCardProps {
   order: Order;
+  role: "admin" | "client";
 }
 
-export function OrderInfoCard({ order }: OrderInfoCardProps) {
+export function OrderInfoCard({ order, role = "client" }: OrderInfoCardProps) {
   return (
     <Card>
       <CardHeader>
@@ -45,6 +46,53 @@ export function OrderInfoCard({ order }: OrderInfoCardProps) {
               <p className="text-sm font-semibold">
                 {format(new Date(order.deliveredAt), "PPp")}
               </p>
+            </div>
+          </>
+        )}
+        {(order.supplierUid || order.supplierOrderUid) && role === "admin" && (
+          <>
+            <Separator />
+            <div>
+              <p className="text-xs font-medium text-muted-foreground mb-1">
+                Supplier Link
+              </p>
+              <div className="space-y-1 text-sm">
+                {order.supplierUid && (
+                  <p>
+                    <span className="text-muted-foreground">Supplier UID:</span>{" "}
+                    <span className="font-semibold">{order.supplierUid}</span>
+                  </p>
+                )}
+                {order.supplierOrderUid && (
+                  <p>
+                    <span className="text-muted-foreground">
+                      Supplier Order:
+                    </span>{" "}
+                    <span className="font-semibold">
+                      {order.supplierOrderUid}
+                    </span>
+                  </p>
+                )}
+                {order.supplierPrice && (
+                  <p>
+                    <span className="text-muted-foreground">
+                      Supplier Price:
+                    </span>{" "}
+                    <span className="font-semibold">
+                      {order.supplierPrice}
+                      {order.supplierCurrency
+                        ? ` ${order.supplierCurrency}`
+                        : ""}
+                    </span>
+                  </p>
+                )}
+                <p>
+                  <span className="text-muted-foreground">Sync:</span>{" "}
+                  <span className="font-semibold">
+                    {order.syncWithSupplier ? "Enabled" : "Disabled"}
+                  </span>
+                </p>
+              </div>
             </div>
           </>
         )}

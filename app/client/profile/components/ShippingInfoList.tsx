@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 import { EmptyState } from "@/components/empty-state";
 import { Home, Plus, Pencil, Trash, Star } from "lucide-react";
-import { BillingInfo } from "@/types";
+import { ShippingInfo } from "@/types";
 import {
   Dialog,
   DialogContent,
@@ -22,69 +22,69 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { BillingInfoForm } from "./BillingInfoForm";
+import { ShippingInfoForm } from "./ShippingInfoForm";
 import {
-  useDeleteBillingInfo,
-  useGetBillingInfo,
-  useUpdateBillingInfo,
-} from "@/hooks/use-billing-info";
+  useDeleteShippingInfo,
+  useGetShippingInfo,
+  useUpdateShippingInfo,
+} from "@/hooks/use-shipping-info";
 
-export function BillingInfoList() {
-  const { data: billingInfos, isLoading } = useGetBillingInfo();
-  const updateBilling = useUpdateBillingInfo();
-  const deleteBilling = useDeleteBillingInfo();
+export function ShippingInfoList() {
+  const { data: shippingInfos, isLoading } = useGetShippingInfo();
+  const updateShippingInfo = useUpdateShippingInfo();
+  const deleteShippingInfo = useDeleteShippingInfo();
 
   const [open, setOpen] = useState(false);
-  const [edit, setEdit] = useState<BillingInfo | null>(null);
+  const [edit, setEdit] = useState<ShippingInfo | null>(null);
 
   const onCreate = () => {
     setEdit(null);
     setOpen(true);
   };
 
-  const onEdit = (info: BillingInfo) => {
+  const onEdit = (info: ShippingInfo) => {
     setEdit(info);
     setOpen(true);
   };
 
   const onDelete = async (uid: string) => {
-    await deleteBilling.mutateAsync({ uid });
+    await deleteShippingInfo.mutateAsync({ uid });
   };
 
   const onMakeDefault = async (uid: string) => {
-    await updateBilling.mutateAsync({ uid, isDefault: true });
+    await updateShippingInfo.mutateAsync({ uid, isDefault: true });
   };
 
   if (isLoading) {
     return <Card className="p-6">Loading...</Card>;
   }
 
-  if (!billingInfos || billingInfos.length === 0) {
+  if (!shippingInfos || shippingInfos.length === 0) {
     return (
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Billing Information</h3>
+          <h3 className="text-lg font-semibold">Shipping Information</h3>
           <Button onClick={onCreate}>
-            <Plus className="w-4 h-4 mr-2" /> Add Billing Info
+            <Plus className="w-4 h-4 mr-2" /> Add Shipping Info
           </Button>
         </div>
         <EmptyState
           icon={Home}
-          title="No Billing Info"
-          description="Create your billing information to enable invoices and payments."
+          title="No Shipping Info"
+          description="Create your shipping information to enable delivery, invoices, and payments."
         />
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent className="max-w-xl max-h-[90vh] p-0 overflow-y-auto">
             <DialogHeader className="px-6 py-4 border-b">
               <DialogTitle className="text-xl font-semibold">
-                Create Billing Info
+                Create Shipping Info
               </DialogTitle>
               <DialogDescription>
-                Add billing details used for invoices and payments.
+                Add shipping details used for delivery, invoices, and payments.
               </DialogDescription>
             </DialogHeader>
             <div className="px-6 py-4">
-              <BillingInfoForm onClose={() => setOpen(false)} />
+              <ShippingInfoForm onClose={() => setOpen(false)} />
             </div>
           </DialogContent>
         </Dialog>
@@ -95,9 +95,9 @@ export function BillingInfoList() {
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold">Billing Information</h3>
+        <h3 className="text-lg font-semibold">Shipping Information</h3>
         <Button onClick={onCreate}>
-          <Plus className="w-4 h-4 mr-2" /> Add Billing Info
+          <Plus className="w-4 h-4 mr-2" /> Add Shipping Info
         </Button>
       </div>
 
@@ -113,7 +113,7 @@ export function BillingInfoList() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {billingInfos.map((b) => (
+            {shippingInfos.map((b) => (
               <TableRow key={b.uid} className="hover:bg-muted/30">
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-2">
@@ -160,7 +160,7 @@ export function BillingInfoList() {
 
       {/* Mobile cards */}
       <div className="md:hidden grid gap-3">
-        {billingInfos.map((b) => (
+        {shippingInfos.map((b) => (
           <div key={b.uid} className="rounded-lg border p-4">
             <div className="flex items-center justify-between">
               <div className="font-semibold">{b.fullName}</div>
@@ -202,16 +202,16 @@ export function BillingInfoList() {
         <DialogContent className="max-w-xl max-h-[90vh] p-0 overflow-y-auto">
           <DialogHeader className="px-6 py-4 border-b">
             <DialogTitle className="text-xl font-semibold">
-              {edit ? "Edit Billing Info" : "Create Billing Info"}
+              {edit ? "Edit Shipping Info" : "Create Shipping Info"}
             </DialogTitle>
             <DialogDescription>
               {edit
-                ? "Update your billing details."
-                : "Add billing details used for invoices and payments."}
+                ? "Update your shipping details."
+                : "Add shipping details used for invoices and payments."}
             </DialogDescription>
           </DialogHeader>
           <div className="px-6 py-4">
-            <BillingInfoForm
+            <ShippingInfoForm
               initial={
                 edit
                   ? {

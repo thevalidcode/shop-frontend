@@ -15,7 +15,7 @@ export function OrderSummary({
   onPlaceOrder,
   placing,
   disabled,
-  createBillingInfo,
+  createShippingInfo,
   shippingCost,
   shippingCurrency,
 }: {
@@ -25,7 +25,7 @@ export function OrderSummary({
   currency: CurrencyCode;
   onPlaceOrder: () => void;
   placing: boolean;
-  createBillingInfo: () => void;
+  createShippingInfo: () => void;
   disabled?: boolean;
   shippingCost?: number;
   shippingCurrency?: string;
@@ -41,24 +41,28 @@ export function OrderSummary({
     false,
   );
   const displayTax = convert(currency, userCurrency, tax, true, false);
-  
+
   // Convert shipping cost to user currency
-  const displayShipping = shippingCost && shippingCurrency
-    ? convert(
-        shippingCurrency as CurrencyCode,
-        userCurrency,
-        shippingCost,
-        true,
-        false
-      )
-    : null;
+  const displayShipping =
+    shippingCost && shippingCurrency
+      ? convert(
+          shippingCurrency as CurrencyCode,
+          userCurrency,
+          shippingCost,
+          true,
+          false,
+        )
+      : null;
 
   // Calculate final total: subtotal + tax + shipping
   const subtotalDecimal = new Decimal(displaySubtotal.amount);
   const taxDecimal = new Decimal(displayTax.amount);
-  const shippingDecimal = displayShipping ? new Decimal(displayShipping.amount) : new Decimal(0);
-  
+  const shippingDecimal = displayShipping
+    ? new Decimal(displayShipping.amount)
+    : new Decimal(0);
+
   const finalTotal = subtotalDecimal.add(taxDecimal).add(shippingDecimal);
+  console.log(subtotal.toString())
   const symbol = displaySubtotal.symbol;
 
   return (
@@ -94,10 +98,10 @@ export function OrderSummary({
       </div>
       <TooltipComponent
         showTip={!disabled}
-        title="Billing Info Needed"
-        description="Kindly create a biiling information or select an existing one to be able to place an order."
-        ctaClick={createBillingInfo}
-        ctaLabel="Create Billing Info"
+        title="Shipping Info Needed"
+        description="Kindly create a shipping information or select an existing one to be able to place an order."
+        ctaClick={createShippingInfo}
+        ctaLabel="Create Shipping Info"
       >
         <Button
           size="lg"

@@ -19,48 +19,48 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Order } from "@/types/models/order";
-import { BillingInfo } from "@/types";
+import { ShippingInfo } from "@/types";
 
 interface OrderActionDialogsProps {
   order: Order;
-  billingInfos?: BillingInfo[];
+  shippingInfos?: ShippingInfo[];
   cancelDialogOpen: boolean;
   setCancelDialogOpen: (open: boolean) => void;
   refundDialogOpen: boolean;
   setRefundDialogOpen: (open: boolean) => void;
-  billingDialogOpen: boolean;
-  setBillingDialogOpen: (open: boolean) => void;
+  shippingInfoDialogOpen: boolean;
+  setShippingInfoDialogOpen: (open: boolean) => void;
   refundReason: string;
   setRefundReason: (reason: string) => void;
-  selectedBillingUid: string;
-  setSelectedBillingUid: (uid: string) => void;
+  selectedShippingInfoUid: string;
+  setSelectedShippingInfoUid: (uid: string) => void;
   handleCancel: () => void;
   handleRefundRequest: () => void;
-  handleBillingChange: () => void;
+  handleShippingInfoChange: () => void;
   isCanceling: boolean;
   isRefunding: boolean;
-  isUpdatingBilling: boolean;
+  isUpdatingShippingInfo: boolean;
 }
 
 export function OrderActionDialogs({
   order,
-  billingInfos,
+  shippingInfos,
   cancelDialogOpen,
   setCancelDialogOpen,
   refundDialogOpen,
   setRefundDialogOpen,
-  billingDialogOpen,
-  setBillingDialogOpen,
+  shippingInfoDialogOpen,
+  setShippingInfoDialogOpen,
   refundReason,
   setRefundReason,
-  selectedBillingUid,
-  setSelectedBillingUid,
+  selectedShippingInfoUid,
+  setSelectedShippingInfoUid,
   handleCancel,
   handleRefundRequest,
-  handleBillingChange,
+  handleShippingInfoChange,
   isCanceling,
   isRefunding,
-  isUpdatingBilling,
+  isUpdatingShippingInfo,
 }: OrderActionDialogsProps) {
   return (
     <>
@@ -135,40 +135,43 @@ export function OrderActionDialogs({
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Change Billing Info Dialog */}
-      <AlertDialog open={billingDialogOpen} onOpenChange={setBillingDialogOpen}>
+      {/* Change Shipping Information Dialog */}
+      <AlertDialog
+        open={shippingInfoDialogOpen}
+        onOpenChange={setShippingInfoDialogOpen}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Change Billing Information</AlertDialogTitle>
+            <AlertDialogTitle>Change Shipping Information</AlertDialogTitle>
             <AlertDialogDescription>
-              Select a different billing address for this order. The order must
+              Select a different shipping address for this order. The order must
               be in pending, processing, or verifying payment status.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="py-4">
-            <Label htmlFor="billing-select">Select Billing Address</Label>
+            <Label htmlFor="shipping-select">Select Shipping Information</Label>
             <Select
-              value={selectedBillingUid}
-              onValueChange={setSelectedBillingUid}
+              value={selectedShippingInfoUid}
+              onValueChange={setSelectedShippingInfoUid}
             >
-              <SelectTrigger id="billing-select" className="mt-2 w-full">
-                <SelectValue placeholder="Choose billing address" />
+              <SelectTrigger id="shipping-select" className="mt-2 w-full">
+                <SelectValue placeholder="Choose shipping information" />
               </SelectTrigger>
               <SelectContent>
-                {billingInfos?.map((billing) => (
+                {shippingInfos?.map((shipping) => (
                   <SelectItem
-                    key={billing.uid}
-                    value={billing.uid}
-                    disabled={billing.uid === order.billingInfoUid}
+                    key={shipping.uid}
+                    value={shipping.uid}
+                    disabled={shipping.uid === order.shippingInfoUid}
                   >
                     <div className="flex flex-col">
                       <span className="font-semibold">
-                        {billing.fullName}
-                        {billing.uid === order.billingInfoUid && " (Current)"}
-                        {billing.isDefault && " (Default)"}
+                        {shipping.fullName}
+                        {shipping.uid === order.shippingInfoUid && " (Current)"}
+                        {shipping.isDefault && " (Default)"}
                       </span>
                       <span className="text-xs text-muted-foreground">
-                        {billing.city}, {billing.country}
+                        {shipping.city}, {shipping.country}
                       </span>
                     </div>
                   </SelectItem>
@@ -177,20 +180,20 @@ export function OrderActionDialogs({
             </Select>
           </div>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setSelectedBillingUid("")}>
+            <AlertDialogCancel onClick={() => setSelectedShippingInfoUid("")}>
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
-              onClick={handleBillingChange}
-              disabled={!selectedBillingUid || isUpdatingBilling}
+              onClick={handleShippingInfoChange}
+              disabled={!selectedShippingInfoUid || isUpdatingShippingInfo}
             >
-              {isUpdatingBilling ? (
+              {isUpdatingShippingInfo ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   Updating...
                 </>
               ) : (
-                "Update Billing Info"
+                "Update Shipping Information"
               )}
             </AlertDialogAction>
           </AlertDialogFooter>

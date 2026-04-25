@@ -120,6 +120,11 @@ const adminNavigationItems = [
         url: "/admin/shipping",
         icon: Network,
       },
+      {
+        title: "Suppliers",
+        url: "/admin/suppliers",
+        icon: Network,
+      },
       { title: "Settings", url: "/admin/settings", icon: Settings },
     ],
   },

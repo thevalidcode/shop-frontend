@@ -11,6 +11,7 @@ import {
   DollarSignIcon,
   Server,
   ShoppingCartIcon,
+  Wallet as WalletIcon,
   XIcon,
 } from "lucide-react";
 import { useCurrencyConverter } from "@/lib/currencyConverter";
@@ -19,10 +20,13 @@ import { EmptyState } from "@/components/empty-state";
 import { useGetCategories } from "@/hooks/use-category";
 import { CartDrawer } from "../products/components/CartDrawer";
 import { FeatureGate } from "@/components/FeatureGate";
+import { useWalletBalance } from "@/hooks/use-wallet";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function Dashboard() {
   const { data, isLoading } = useGetUserDashboardStatistics();
   const { data: categories } = useGetCategories();
+  const { data: wallet } = useWalletBalance();
 
   const { userCurrency, shopInfo } = useAppContext();
 
@@ -47,6 +51,10 @@ export default function Dashboard() {
 
   const spentFormatted = data?.yourSpent
     ? convert("USD", userCurrency, data.yourSpent, true, false).formatted
+    : "--";
+  const walletFormatted = wallet
+    ? convert(wallet.currency as any, userCurrency, wallet.balance, true, false)
+        .formatted
     : "--";
 
   const metrics = [
@@ -73,6 +81,32 @@ export default function Dashboard() {
   ];
   return (
     <div className="space-y-6 px-3 sm:px-6 pb-8 mt-6">
+      <div className="grid gap-4 lg:grid-cols-[1.5fr_0.9fr]">
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            Dashboard
+          </h1>
+          <p className="text-sm text-muted-foreground max-w-2xl">
+            Overview of orders, payments, and wallet activity for your shop.
+          </p>
+        </div>
+        <Card className="border-border/70 bg-card/80 shadow-sm">
+          <CardContent className="p-4 flex items-center justify-between gap-4">
+            <div>
+              <div className="text-xs uppercase tracking-wide text-muted-foreground">
+                Wallet balance
+              </div>
+              <div className="mt-1 text-2xl font-semibold">
+                {walletFormatted}
+              </div>
+            </div>
+            <div className="rounded-full bg-primary/10 p-3 text-primary">
+              <WalletIcon className="h-6 w-6" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       <MetricsCards
         metrics={metrics.map((m) => ({
           title: m.label,

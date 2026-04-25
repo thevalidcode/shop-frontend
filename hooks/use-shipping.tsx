@@ -366,17 +366,17 @@ interface GetShippingRatesResponse {
 
 export const useGetShippingRates = (
   cartUid: string,
-  billingInfoUid: string,
+  shippingInfoUid: string,
   platform?: ShippingPlatform
 ) => {
   const { api, userInfo } = useAppContext();
 
   return useQuery({
-    queryKey: ["shippingRates", cartUid, billingInfoUid, platform],
+    queryKey: ["shippingRates", cartUid, shippingInfoUid, platform],
     queryFn: async () => {
       const params = new URLSearchParams({
         cartUid,
-        billingInfoUid,
+        shippingInfoUid,
         ...(platform && { platform }),
       });
 
@@ -386,7 +386,7 @@ export const useGetShippingRates = (
       if (!res.data) throw new Error("Failed to fetch shipping rates");
       return res.data;
     },
-    enabled: !!api && !!userInfo?.uid && !!cartUid && !!billingInfoUid,
+    enabled: !!api && !!userInfo?.uid && !!cartUid && !!shippingInfoUid,
   });
 };
 

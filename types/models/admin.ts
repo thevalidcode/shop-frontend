@@ -12,7 +12,7 @@ export interface Admin {
   role: AdminRole;
   status: AdminStatus;
   shopId: number;
-  createdAt: string;
+  timestamp: string;
   updatedAt: string;
   lastSeen: string;
   onboardingCompleted?: boolean;

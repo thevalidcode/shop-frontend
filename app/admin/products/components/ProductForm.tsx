@@ -24,6 +24,7 @@ import ImagePicker, { ImageData } from "../../components/ImagePicker";
 import { useCurrencyConverter } from "@/lib/currencyConverter";
 import { useAppContext } from "@/context/appContext";
 import { FeatureGate } from "@/components/FeatureGate";
+import { Badge } from "@/components/ui/badge";
 
 interface ProductFormProps {
   product?: Product | null;
@@ -45,6 +46,9 @@ export default function ProductForm({
   const { userCurrency, shopInfo } = useAppContext();
 
   const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
+  const isSupplierSynced = Boolean(
+    product?.supplierProductUid && product?.syncWithSupplier,
+  );
 
   const [formData, setFormData] = useState({
     name: product?.name || "",
@@ -156,7 +160,19 @@ export default function ProductForm({
       };
 
       if (product) {
-        await updateProduct({ uid: product.uid, ...submitData });
+        if (isSupplierSynced) {
+          await updateProduct({
+            uid: product.uid,
+            shortDescription: formData.shortDescription,
+            comparePrice: formData.comparePrice || undefined,
+            costPerItem: formData.costPerItem || undefined,
+            trackInventory: formData.trackInventory,
+            allowBackorder: formData.allowBackorder,
+            isFeatured: formData.isFeatured,
+          });
+        } else {
+          await updateProduct({ uid: product.uid, ...submitData });
+        }
       } else {
         await createProduct(submitData);
       }
@@ -168,6 +184,7 @@ export default function ProductForm({
   };
 
   const isPending = isCreating || isUpdating;
+  const lockForSupplierSync = isSupplierSynced;
 
   // Get selected category name for preview
   const selectedCategory = categories?.find(
@@ -181,9 +198,27 @@ export default function ProductForm({
         onSubmit={handleSubmit}
         className="lg:col-span-7 xl:col-span-8 space-y-6"
       >
+        <div className="rounded-xl border bg-muted/20 p-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="secondary">Guided setup</Badge>
+            <span className="text-xs uppercase tracking-wide text-muted-foreground">
+              Clear product creation flow
+            </span>
+          </div>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Fill in product details step by step. Required fields are marked with
+            an asterisk.
+          </p>
+        </div>
+
         {/* Basic Information */}
-        <div className="space-y-4">
-          <h3 className="font-semibold text-base">Basic Information</h3>
+        <div className="space-y-4 rounded-xl border bg-card p-4 sm:p-5">
+          <div>
+            <h3 className="font-semibold text-base">01. Basic Information</h3>
+            <p className="text-sm text-muted-foreground">
+              Start with product name, slug, and descriptions.
+            </p>
+          </div>
 
           <div className="space-y-1.5">
             <Label htmlFor="name">Product Name *</Label>
@@ -193,6 +228,7 @@ export default function ProductForm({
               value={formData.name}
               onChange={handleChange}
               placeholder="Enter product name"
+              disabled={lockForSupplierSync}
             />
             {errors.name && (
               <p className="text-sm text-destructive mt-1">{errors.name}</p>
@@ -207,6 +243,7 @@ export default function ProductForm({
               value={formData.slug}
               onChange={handleChange}
               placeholder="product-slug"
+              disabled={lockForSupplierSync}
             />
             {errors.slug && (
               <p className="text-sm text-destructive mt-1">{errors.slug}</p>
@@ -222,6 +259,7 @@ export default function ProductForm({
               onChange={handleChange}
               placeholder="Brief product description"
               rows={2}
+              disabled={false}
             />
           </div>
 
@@ -234,29 +272,47 @@ export default function ProductForm({
               onChange={handleChange}
               placeholder="Detailed product description"
               rows={4}
+              disabled={lockForSupplierSync}
             />
           </div>
         </div>
 
         {/* Images */}
-        <div className="space-y-4">
-          <h3 className="font-semibold text-base">Product Images</h3>
-          <ImagePicker
-            label="Upload product images"
-            collection="products"
-            multiple={true}
-            maxFiles={10}
-            value={images}
-            onChange={handleImagesChange}
-          />
+        <div className="space-y-4 rounded-xl border bg-card p-4 sm:p-5">
+          <div>
+            <h3 className="font-semibold text-base">02. Product Images</h3>
+            <p className="text-sm text-muted-foreground">
+              Add one or more images to improve product presentation.
+            </p>
+          </div>
+          <div className={lockForSupplierSync ? "pointer-events-none opacity-70" : ""}>
+            <ImagePicker
+              label="Upload product images"
+              collection="products"
+              multiple={true}
+              maxFiles={10}
+              value={images}
+              onChange={handleImagesChange}
+            />
+          </div>
+          {lockForSupplierSync && (
+            <p className="text-xs text-muted-foreground">
+              Images follow supplier sync for this product.
+            </p>
+          )}
           <p className="text-xs text-muted-foreground">
             First image is used as primary; the rest appear in the gallery.
           </p>
         </div>
 
         {/* Pricing */}
-        <div className="space-y-4">
-          <h3 className="font-semibold text-base">Pricing</h3>
+        <div className="space-y-4 rounded-xl border bg-card p-4 sm:p-5">
+          <div>
+            <h3 className="font-semibold text-base">03. Pricing</h3>
+            <p className="text-sm text-muted-foreground">
+              Set your selling price and optional quantity limits.
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <Label htmlFor="price">Price *</Label>
@@ -268,6 +324,7 @@ export default function ProductForm({
                 value={formData.price}
                 onChange={handleChange}
                 placeholder="0.00"
+                disabled={lockForSupplierSync}
               />
               {errors.price && (
                 <p className="text-sm text-destructive mt-1">{errors.price}</p>
@@ -284,6 +341,7 @@ export default function ProductForm({
                 value={formData.comparePrice}
                 onChange={handleChange}
                 placeholder="0.00"
+                disabled={false}
               />
             </div>
           </div>
@@ -298,6 +356,7 @@ export default function ProductForm({
                 value={formData.min}
                 onChange={handleChange}
                 placeholder="0"
+                disabled={lockForSupplierSync}
               />
             </div>
             <div className="space-y-1.5">
@@ -309,14 +368,20 @@ export default function ProductForm({
                 value={formData.max}
                 onChange={handleChange}
                 placeholder="0"
+                disabled={lockForSupplierSync}
               />
             </div>
           </div>
         </div>
 
         {/* Inventory */}
-        <div className="space-y-4">
-          <h3 className="font-semibold text-base">Inventory</h3>
+        <div className="space-y-4 rounded-xl border bg-card p-4 sm:p-5">
+          <div>
+            <h3 className="font-semibold text-base">04. Inventory</h3>
+            <p className="text-sm text-muted-foreground">
+              Control stock tracking, backorders, and SKU.
+            </p>
+          </div>
 
           <div className="flex items-center justify-between">
             <div>
@@ -331,6 +396,7 @@ export default function ProductForm({
               onCheckedChange={(checked) =>
                 setFormData((prev) => ({ ...prev, trackInventory: checked }))
               }
+              disabled={false}
             />
           </div>
 
@@ -345,6 +411,7 @@ export default function ProductForm({
                   value={formData.stock}
                   onChange={handleChange}
                   placeholder="0"
+                  disabled={lockForSupplierSync}
                 />
               </div>
 
@@ -364,6 +431,7 @@ export default function ProductForm({
                       allowBackorder: checked,
                     }))
                   }
+                  disabled={false}
                 />
               </div>
             </>
@@ -377,13 +445,19 @@ export default function ProductForm({
               value={formData.sku}
               onChange={handleChange}
               placeholder="PRODUCT-001"
+              disabled={lockForSupplierSync}
             />
           </div>
         </div>
 
         {/* Organization */}
-        <div className="space-y-4">
-          <h3 className="font-semibold text-base">Organization</h3>
+        <div className="space-y-4 rounded-xl border bg-card p-4 sm:p-5">
+          <div>
+            <h3 className="font-semibold text-base">05. Organization</h3>
+            <p className="text-sm text-muted-foreground">
+              Assign category, status, tags, and featured visibility.
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <Label htmlFor="categoryUid">Category</Label>
@@ -395,6 +469,7 @@ export default function ProductForm({
                 }
                 placeholder="Select category"
                 required
+                disabled={lockForSupplierSync}
               />
             </div>
 
@@ -408,6 +483,7 @@ export default function ProductForm({
                     status: value as ProductStatus,
                   }))
                 }
+                disabled={lockForSupplierSync}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -429,6 +505,7 @@ export default function ProductForm({
               value={formData.tags}
               onChange={handleChange}
               placeholder="tag1, tag2, tag3"
+              disabled={lockForSupplierSync}
             />
           </div>
 
@@ -445,6 +522,7 @@ export default function ProductForm({
               onCheckedChange={(checked) =>
                 setFormData((prev) => ({ ...prev, isFeatured: checked }))
               }
+              disabled={false}
             />
           </div>
         </div>
@@ -466,6 +544,11 @@ export default function ProductForm({
             </Button>
           </FeatureGate>
         </DialogFooter>
+        {lockForSupplierSync && (
+          <p className="text-sm text-muted-foreground">
+            This product is supplier-synced. Editable fields are limited to the non-supplier-managed product data.
+          </p>
+        )}
       </form>
 
       {/* Live Preview Section */}

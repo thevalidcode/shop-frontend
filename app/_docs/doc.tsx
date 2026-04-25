@@ -1,49 +1,6 @@
 import { ChartConfig } from "@/components/ui/chart";
 import { CurrencyCode } from "@/lib/currencyConverter";
 
-export const sortBy = [
-  { value: "default", label: "Sort by default" },
-  { value: "alphabetical", label: "Sort by alphabet" },
-  { value: "id", label: "Sort by id" },
-  { value: "date", label: "Sort by date" },
-];
-
-export const services = [
-  {
-    title: "Instagram Followers",
-    icon: "👥",
-    description: "Get real Instagram followers to boost your social presence",
-    geo: {
-      US: { price: 9.99, delivery: "24-48h" },
-      UK: { price: 8.99, delivery: "24-48h" },
-      EU: { price: 7.99, delivery: "24-48h" },
-      ASIA: { price: 6.99, delivery: "24-48h" },
-    },
-  },
-  {
-    title: "Instagram Likes",
-    icon: "❤️",
-    description: "Increase engagement with authentic Instagram likes",
-    geo: {
-      US: { price: 4.99, delivery: "1-2h" },
-      UK: { price: 4.49, delivery: "1-2h" },
-      EU: { price: 3.99, delivery: "1-2h" },
-      ASIA: { price: 3.49, delivery: "1-2h" },
-    },
-  },
-  {
-    title: "YouTube Comments",
-    icon: "💬",
-    description: "Get meaningful comments on your YouTube videos",
-    geo: {
-      US: { price: 12.99, delivery: "12-24h" },
-      UK: { price: 11.99, delivery: "12-24h" },
-      EU: { price: 10.99, delivery: "12-24h" },
-      ASIA: { price: 9.99, delivery: "12-24h" },
-    },
-  },
-];
-
 export const ordersConfig = {
   orders: {
     label: "Orders",
@@ -126,7 +83,7 @@ export const adminTheme = [
         "--input": "oklch(1 0 0 / 15%)",
         "--ring": "oklch(0.556 0 0)",
         "--chart-1": "oklch(0.488 0.243 264.376)",
-        "--chart-2": "oklch(0.696 0.0.17 162.48)",
+        "--chart-2": "oklch(0.696 0.17 162.48)",
         "--chart-3": "oklch(0.769 0.188 70.08)",
         "--chart-4": "oklch(0.627 0.265 303.9)",
         "--chart-5": "oklch(0.645 0.246 16.439)",
@@ -143,7 +100,7 @@ export const adminTheme = [
   },
   {
     title: "Red",
-    hex: "#FF0000",
+    hex: "#EF4444",
     schema: {
       ":root": {
         "--radius": "0.65rem",
@@ -216,7 +173,7 @@ export const adminTheme = [
   },
   {
     title: "Rose",
-    hex: "#FF00FF",
+    hex: "#F43F5E",
     schema: {
       ":root": {
         "--radius": "0.65rem",
@@ -362,7 +319,7 @@ export const adminTheme = [
   },
   {
     title: "Green",
-    hex: "#00FF00",
+    hex: "#22C55E",
     schema: {
       ":root": {
         "--radius": "0.65rem",
@@ -435,7 +392,7 @@ export const adminTheme = [
   },
   {
     title: "Yellow",
-    hex: "#FFFF00",
+    hex: "#EAB308",
     schema: {
       ":root": {
         "--radius": "0.65rem",
@@ -508,7 +465,7 @@ export const adminTheme = [
   },
   {
     title: "Violet",
-    hex: "#800080",
+    hex: "#8B5CF6",
     schema: {
       ":root": {
         "--radius": "0.65rem",

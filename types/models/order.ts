@@ -1,7 +1,7 @@
 import { CurrencyCode } from "@/lib/currencyConverter";
 import { Product } from "./product";
 import { User } from "./user";
-import { BillingInfo } from "./billing-info";
+import { ShippingInfo } from "./shipping-info";
 import { Payment } from "./payment";
 import { ShipmentAdmin } from "./shipping";
 
@@ -30,16 +30,21 @@ export interface Order {
   shopScopedId: number;
   uid: string;
   orderRef: string;
-  billingInfoUid: string;
+  shippingInfoUid: string;
   totalAmount: string;
   currency: CurrencyCode;
   status: OrderStatus;
   payment: Payment;
   trackingNumber?: string | null;
   notes?: string | null;
+  supplierUid?: string | null;
+  supplierOrderUid?: string | null;
+  supplierPrice?: string | null;
+  supplierCurrency?: CurrencyCode | null;
+  syncWithSupplier?: boolean;
   items: OrderItem[];
   user: User;
-  billingInfo: BillingInfo;
+  shippingInfo: ShippingInfo;
   shopId: number;
   estimatedDelivery?: Date | null;
   deliveredAt?: Date | null;

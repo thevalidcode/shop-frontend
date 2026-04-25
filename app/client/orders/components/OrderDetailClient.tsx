@@ -11,16 +11,16 @@ import {
   useGetUserOrderByUid,
   useCancelOrder,
   useRequestRefund,
-  useUpdateOrderBilling,
+  useUpdateOrderShipping,
 } from "@/hooks/use-order";
-import { useGetBillingInfo } from "@/hooks/use-billing-info";
+import { useGetShippingInfo } from "@/hooks/use-shipping-info";
 import { useGetTrackingEvents } from "@/hooks/use-shipping";
 import { OrderHeader } from "./OrderHeader";
 import { OrderTimeline } from "./OrderTimeline";
 import { OrderItemsList } from "./OrderItemsList";
 import { ShippingAndNotes } from "./ShippingAndNotes";
 import { OrderActions } from "./OrderActions";
-import { BillingInfoCard } from "./BillingInfoCard";
+import { ShippingInfoCard } from "./ShippingInfoCard";
 import { PaymentInfoCard } from "./PaymentInfoCard";
 import { OrderInfoCard } from "./OrderInfoCard";
 import { OrderActionDialogs } from "./OrderActionDialogs";
@@ -34,21 +34,21 @@ interface OrderDetailClientProps {
 export function OrderDetailClient({ orderUid }: OrderDetailClientProps) {
   const router = useRouter();
   const { data: order, isLoading } = useGetUserOrderByUid(orderUid);
-  const { data: billingInfos } = useGetBillingInfo();
+  const { data: shippingInfos } = useGetShippingInfo();
 
   const cancelOrder = useCancelOrder();
   const requestRefund = useRequestRefund();
-  const updateBilling = useUpdateOrderBilling();
+  const updateShippingInfo = useUpdateOrderShipping();
 
   const { data: trackingEvents } = useGetTrackingEvents(
-    order?.shipment?.uid || ""
+    order?.shipment?.uid || "",
   );
 
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [refundDialogOpen, setRefundDialogOpen] = useState(false);
-  const [billingDialogOpen, setBillingDialogOpen] = useState(false);
+  const [shippingInfoDialogOpen, setShippingInfoDialogOpen] = useState(false);
   const [refundReason, setRefundReason] = useState("");
-  const [selectedBillingUid, setSelectedBillingUid] = useState("");
+  const [selectedShippingInfoUid, setSelectedShippingInfoUid] = useState("");
 
   if (isLoading) {
     return <Loading />;
@@ -88,14 +88,14 @@ export function OrderDetailClient({ orderUid }: OrderDetailClientProps) {
     setRefundReason("");
   };
 
-  const handleBillingChange = async () => {
-    if (!selectedBillingUid) return;
-    await updateBilling.mutateAsync({
+  const handleShippingInfoChange = async () => {
+    if (!selectedShippingInfoUid) return;
+    await updateShippingInfo.mutateAsync({
       orderUid: order.uid,
-      billingInfoUid: selectedBillingUid,
+      shippingInfoUid: selectedShippingInfoUid,
     });
-    setBillingDialogOpen(false);
-    setSelectedBillingUid("");
+    setShippingInfoDialogOpen(false);
+    setSelectedShippingInfoUid("");
   };
 
   return (
@@ -110,7 +110,7 @@ export function OrderDetailClient({ orderUid }: OrderDetailClientProps) {
           <div className="lg:col-span-2 space-y-6">
             <OrderTimeline order={order} />
             <OrderItemsList order={order} />
-            
+
             {/* Shipment Tracking Section */}
             {order.shipment && (
               <>
@@ -120,7 +120,7 @@ export function OrderDetailClient({ orderUid }: OrderDetailClientProps) {
                 )}
               </>
             )}
-            
+
             <ShippingAndNotes order={order} />
           </div>
 
@@ -128,40 +128,40 @@ export function OrderDetailClient({ orderUid }: OrderDetailClientProps) {
           <div className="space-y-6">
             <OrderActions
               order={order}
-              billingInfos={billingInfos}
+              shippingInfos={shippingInfos}
               onCancel={() => setCancelDialogOpen(true)}
               onRefund={() => setRefundDialogOpen(true)}
-              onChangeBilling={() => setBillingDialogOpen(true)}
+              onChangeShippingInfo={() => setShippingInfoDialogOpen(true)}
               isCanceling={cancelOrder.isPending}
               isRefunding={requestRefund.isPending}
-              isUpdatingBilling={updateBilling.isPending}
+              isUpdatingShippingInfo={updateShippingInfo.isPending}
             />
-            <BillingInfoCard order={order} />
+            <ShippingInfoCard order={order} />
             <PaymentInfoCard order={order} />
-            <OrderInfoCard order={order} />
+            <OrderInfoCard order={order} role="client" />
           </div>
         </div>
       </Wrapper>
 
       <OrderActionDialogs
         order={order}
-        billingInfos={billingInfos}
+        shippingInfos={shippingInfos}
         cancelDialogOpen={cancelDialogOpen}
         setCancelDialogOpen={setCancelDialogOpen}
         refundDialogOpen={refundDialogOpen}
         setRefundDialogOpen={setRefundDialogOpen}
-        billingDialogOpen={billingDialogOpen}
-        setBillingDialogOpen={setBillingDialogOpen}
+        shippingInfoDialogOpen={shippingInfoDialogOpen}
+        setShippingInfoDialogOpen={setShippingInfoDialogOpen}
         refundReason={refundReason}
         setRefundReason={setRefundReason}
-        selectedBillingUid={selectedBillingUid}
-        setSelectedBillingUid={setSelectedBillingUid}
+        selectedShippingInfoUid={selectedShippingInfoUid}
+        setSelectedShippingInfoUid={setSelectedShippingInfoUid}
         handleCancel={handleCancel}
         handleRefundRequest={handleRefundRequest}
-        handleBillingChange={handleBillingChange}
+        handleShippingInfoChange={handleShippingInfoChange}
         isCanceling={cancelOrder.isPending}
         isRefunding={requestRefund.isPending}
-        isUpdatingBilling={updateBilling.isPending}
+        isUpdatingShippingInfo={updateShippingInfo.isPending}
       />
     </>
   );

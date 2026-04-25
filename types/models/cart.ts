@@ -15,13 +15,13 @@ export interface CartItem {
 
 export interface Cart {
   uid: string;
-  userId: number;
+  userId?: number;
   items: CartItem[];
   subtotal: string;
   tax: string;
   total: string;
   currency: CurrencyCode;
   itemCount: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

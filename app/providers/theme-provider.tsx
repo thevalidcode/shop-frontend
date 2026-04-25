@@ -1,8 +1,9 @@
 "use client";
 
-import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { createContext, useContext, useEffect, useState } from "react";
+import { adminTheme } from "@/app/_docs/doc";
 import { useGetShopDesign, useUpdateShopDesign } from "@/hooks/use-shop";
+import { useAppContext } from "@/context/appContext";
 
 type ThemeSchema = {
   ":root": Record<string, string>;
@@ -15,11 +16,21 @@ type ThemeOption = {
   schema: ThemeSchema;
 };
 
+type ThemeMode = "light" | "dark";
+
 type ThemeContextType = {
   applyTheme: (schema: ThemeOption) => void;
+  theme: ThemeMode;
+  setTheme: (theme: ThemeMode) => void;
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+const defaultTheme = adminTheme[0];
+const THEME_MODE_STORAGE_KEY = "themeMode";
+
+const getThemeStorageKey = (scope: string | number | null | undefined) =>
+  scope ? `selectedTheme:${scope}` : "selectedTheme";
 
 // Apply CSS variables
 const applyThemeStyles = (schema: ThemeSchema, isDark: boolean) => {
@@ -49,79 +60,86 @@ const applyThemeStyles = (schema: ThemeSchema, isDark: boolean) => {
   document.head.appendChild(styleElement);
 };
 
-const loadLocalTheme = () => {
+const loadLocalTheme = (storageKey: string) => {
   if (typeof window === "undefined") return null;
   try {
-    const saved = localStorage.getItem("selectedTheme");
+    const saved = localStorage.getItem(storageKey);
     return saved ? JSON.parse(saved) : null;
   } catch {
     return null;
   }
 };
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [isDark, setIsDark] = useState(false);
+const loadThemeMode = (): ThemeMode => {
+  if (typeof window === "undefined") return "dark";
 
+  const saved = localStorage.getItem(THEME_MODE_STORAGE_KEY);
+  if (saved === "dark" || saved === "light") return saved;
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setThemeState] = useState<ThemeMode>("dark");
+  const isDark = theme === "dark";
+
+  const { shopId, domain } = useAppContext();
   const { data: dbTheme } = useGetShopDesign();
   const updateThemeMutation = useUpdateShopDesign();
+  const storageKey = getThemeStorageKey(shopId ?? domain);
+
+  const setTheme = (nextTheme: ThemeMode) => {
+    setThemeState(nextTheme);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(THEME_MODE_STORAGE_KEY, nextTheme);
+    }
+  };
 
   // MAIN apply function
   const applyTheme = async (theme: ThemeOption) => {
     applyThemeStyles(theme.schema, isDark);
 
-    localStorage.setItem("selectedTheme", JSON.stringify({ ...theme }));
-
-    await updateThemeMutation.mutateAsync({ ...theme });
+    const savedTheme = await updateThemeMutation.mutateAsync({ ...theme });
+    localStorage.setItem(storageKey, JSON.stringify(savedTheme ?? theme));
   };
 
-  // Watch dark/light changes
+  // Initialize mode from localStorage/system preference on mount.
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const darkMode = document.documentElement.classList.contains("dark");
-      setIsDark(darkMode);
-
-      const saved = loadLocalTheme();
-      if (saved?.schema) {
-        applyThemeStyles(saved.schema, darkMode);
-      }
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-
-    return () => observer.disconnect();
+    setThemeState(loadThemeMode());
   }, []);
 
-  // Initial load: localStorage first, then DB
+  // Keep html class in sync with active mode.
   useEffect(() => {
-    const saved = loadLocalTheme();
-    const darkMode = document.documentElement.classList.contains("dark");
+    document.documentElement.classList.toggle("dark", isDark);
+  }, [isDark]);
 
-    setIsDark(darkMode);
+  // Initial load: DB first, then scoped localStorage, then black fallback
+  useEffect(() => {
+    if (!shopId && !domain) return;
 
-    if (saved?.schema) {
-      applyThemeStyles(saved.schema, darkMode);
+    const saved = loadLocalTheme(storageKey);
+
+    if (dbTheme?.schema) {
+      applyThemeStyles(dbTheme.schema, isDark);
+      localStorage.setItem(storageKey, JSON.stringify({ ...dbTheme }));
       return;
     }
 
-    if (dbTheme?.schema) {
-      applyThemeStyles(dbTheme.schema, darkMode);
-      localStorage.setItem("selectedTheme", JSON.stringify({ ...dbTheme }));
+    if (saved?.schema) {
+      applyThemeStyles(saved.schema, isDark);
+      localStorage.setItem(storageKey, JSON.stringify(saved));
+      return;
     }
-  }, [dbTheme]);
+
+    applyThemeStyles(defaultTheme.schema, isDark);
+    localStorage.setItem(storageKey, JSON.stringify({ ...defaultTheme }));
+  }, [dbTheme, domain, isDark, shopId, storageKey]);
 
   return (
-    <ThemeContext.Provider value={{ applyTheme }}>
-      <NextThemesProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem
-        disableTransitionOnChange
-      >
-        {children}
-      </NextThemesProvider>
+    <ThemeContext.Provider value={{ applyTheme, theme, setTheme }}>
+      {children}
     </ThemeContext.Provider>
   );
 }

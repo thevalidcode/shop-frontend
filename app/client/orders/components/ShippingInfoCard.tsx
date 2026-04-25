@@ -3,17 +3,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Order } from "@/types/models/order";
 
-interface BillingInfoCardProps {
+interface ShippingInfoCardProps {
   order: Order;
 }
 
-export function BillingInfoCard({ order }: BillingInfoCardProps) {
+export function ShippingInfoCard({ order }: ShippingInfoCardProps) {
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <User className="w-5 h-5 text-primary" />
-          Billing Information
+          Shipping Information
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -21,7 +21,7 @@ export function BillingInfoCard({ order }: BillingInfoCardProps) {
           <p className="text-xs font-medium text-muted-foreground mb-1.5">
             Full Name
           </p>
-          <p className="font-semibold">{order.billingInfo.fullName}</p>
+          <p className="font-semibold">{order.shippingInfo.fullName}</p>
         </div>
         <Separator />
         <div>
@@ -30,10 +30,10 @@ export function BillingInfoCard({ order }: BillingInfoCardProps) {
           </p>
           <p className="flex items-center gap-2 text-sm font-medium">
             <Mail className="w-4 h-4 text-primary" />
-            {order.billingInfo.email}
+            {order.shippingInfo.email}
           </p>
         </div>
-        {order.billingInfo.phone && (
+        {order.shippingInfo.phone && (
           <>
             <Separator />
             <div>
@@ -42,7 +42,7 @@ export function BillingInfoCard({ order }: BillingInfoCardProps) {
               </p>
               <p className="flex items-center gap-2 text-sm font-medium">
                 <Phone className="w-4 h-4 text-primary" />
-                {order.billingInfo.phone}
+                {order.shippingInfo.phone}
               </p>
             </div>
           </>
@@ -55,12 +55,12 @@ export function BillingInfoCard({ order }: BillingInfoCardProps) {
           <p className="flex items-start gap-2 text-sm font-medium leading-relaxed">
             <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
             <span>
-              {order.billingInfo.address}
+              {order.shippingInfo.address}
               <br />
-              {order.billingInfo.city}, {order.billingInfo.state}{" "}
-              {order.billingInfo.postalCode}
+              {order.shippingInfo.city}, {order.shippingInfo.state}{" "}
+              {order.shippingInfo.postalCode}
               <br />
-              {order.billingInfo.country}
+              {order.shippingInfo.country}
             </span>
           </p>
         </div>

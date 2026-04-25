@@ -1,22 +1,126 @@
-# AI Coding Agent Instructions
+# Copilot Instructions - Shop Frontend
 
-## Architecture Overview
-This is a **static-export multi-tenant e-commerce SaaS** built with Next.js 15 app router. Three distinct sections serve different user types:
-- **Public landing** (`app/(root)`) - Marketing pages, auth flows (public access)
-- **Client dashboard** (`app/client`) - User order management, account, wallet (auth required except `/client/faq`, `/client/blog`, `/client/api-docs`)
-- **Admin panel** (`app/admin`) - Shop configuration, analytics, user/order/product management (admin auth required)
+You are working in `shop-frontend`, a Next.js 15 application for shop storefront and admin management.
 
-### Critical Architectural Patterns
-- **Client-side rendered** - `output: "export"` in `next.config.ts` means ALL pages are `"use client"` with NO server components
-- **Route groups** - Use `(root)`, `(no-layout)` for logical separation without URL paths
-- **Multi-tenancy** - Every data fetch includes `shopId` from `appContext`; stored in localStorage
-- **Auth persistence** - User state persisted to **IndexedDB** (`idb-keyval`) NOT localStorage (see `context/appContext.tsx:96-110`)
-- **Currency precision** - ALL monetary calculations use `Decimal.js` to prevent floating-point errors (see `lib/currencyConverter.ts`)
+## 🛠 Tech Stack
+- **Framework**: Next.js 15 (App Router)
+- **UI Library**: React 19 + Tailwind CSS + shadcn/ui
+- **State Management**: React Query (server state) + Context API (global state)
+- **Networking**: Axios
+- **Notifications**: Sonner (toasts)
+- **Routing**: File-system based (App Router)
+- **Static Export**: `output: "export"` in next.config.ts (ALL pages are "use client")
 
-## Authentication & Authorization
-**Layout-level protection pattern** - NEVER export named components from Next.js layouts:
-```tsx
-// ✅ CORRECT - Internal component, wrapped default export
+## 🏗 Architecture
+
+### Layers
+1. **Pages** (`app/admin/*`, `app/client/*`): Route handlers, compose hooks + components.
+2. **Hooks** (`hooks/use-*.tsx`): React Query wrappers for API calls.
+3. **Components** (`components/`): Reusable, presentational React components.
+4. **Context** (`context/appContext.tsx`): Global app state (shop, user, auth, API client).
+5. **Types** (`types/`): TypeScript definitions (aligned with backend schemas).
+
+### Data Flow
+```
+Page → useCustomHook() → React Query → Axios → Backend API → Cache → Component Render
+```
+
+## 🚨 Critical Rules
+
+### 0. UI Consistency Pre-Check (Mandatory)
+- Before creating new UI, review this frontend's current visual direction on its home and pricing pages.
+- Check existing components before creating new controls:
+  - `components/ui/`
+  - `components/`
+- Prefer extending existing components instead of creating duplicates.
+- Do not use raw/native control implementations when an existing project component already exists for the same behavior.
+
+### 1. Always Use Hooks, Never Direct API Calls
+**WRONG**:
+```typescript
+// Direct axios call
+const res = await api.get(`/products`);
+```
+
+**RIGHT**:
+```typescript
+// Use hook
+const { data: products } = useGetProducts();
+```
+
+### 2. Tenant Isolation via shopId
+Every hook must include `shopId` in:
+- Query keys: `["products", shopId]`
+- Enabled conditions: `enabled: !!shopId`
+- API calls: append to URL if required
+
+```typescript
+const { shopId } = useAppContext();
+return useQuery({
+  queryKey: ["products", shopId],
+  queryFn: async () => api.get(`/products?shopId=${shopId}`),
+  enabled: !!shopId,
+});
+```
+
+### 3. Error Handling Pattern
+**ALWAYS** normalize errors:
+```typescript
+import { normalizeApiError } from "@/utils/normalizeApiErrors";
+
+onError: (error: unknown) => {
+  const message = normalizeApiError(error, "Default message");
+  toast.error(message);
+},
+```
+
+### 4. Cache Invalidation on Mutation
+**ALWAYS** invalidate related caches on success:
+```typescript
+onSuccess: () => {
+  toast.success("Created successfully");
+  queryClient.invalidateQueries({ queryKey: ["products", shopId] });
+},
+```
+
+### 5. Type Safety
+- Import types from `@/types`.
+- Never use `any`.
+- Define new types in `@/types/models/`.
+
+### 6. Component Patterns
+
+**Function Components ONLY**:
+```typescript
+export default function MyComponent() {
+  // ...
+}
+```
+
+**Hooks in Page Components, Not UI Components**:
+```typescript
+// GOOD: Page component using hooks
+export default function AdminProductsPage() {
+  const { data } = useGetProducts();
+  return <ProductList products={data} />;
+}
+
+// GOOD: UI component receiving props
+export function ProductList({ products }: { products: Product[] }) {
+  return <div>{products.map(...)}</div>;
+}
+
+// BAD: UI component using hooks
+export function ProductList() {
+  const { data } = useGetProducts(); // ❌ Wrong layer
+  return <div>{data.map(...)}</div>;
+}
+```
+
+### 7. Layout Components - Export Patterns
+**CORRECT** - Use default export with withAuth HOC:
+```typescript
+// ✅ RIGHT
 function AdminLayoutComponent({ children }: { children: ReactNode }) {
   return <SidebarProvider>...</SidebarProvider>;
 }
@@ -24,128 +128,89 @@ export default withAuth({
   WrappedComponent: AdminLayoutComponent,
   userType: "admin"
 });
+```
 
-// ❌ WRONG - Named export causes Next.js type errors
+**INCORRECT** - Named exports cause Next.js type errors:
+```typescript
+// ❌ WRONG
 export function AdminLayoutComponent() { /* ... */ }
 export default withAuth({ ... });
 ```
 
-Auth flow details:
-- `withAuth` HOC checks `userInfo`/`adminInfo` from `appContext`, redirects to `/auth/signin` or `/admin/auth/signin`
-- During auth loading, shows `<Loading />` component
-- `excludePaths` array bypasses auth for specific routes (e.g., FAQ, blog)
-- Auth state auto-saved to IndexedDB on changes (`appContext.tsx:112-120`)
+## 📋 Feature Implementation Checklist
 
-## Data Fetching with React Query
-Every hook follows this pattern:
-```tsx
-export const useCreateProduct = () => {
-  const { api, shopId } = useAppContext();
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationKey: ["createProduct"],
-    mutationFn: async (data) => {
-      const res = await api.post(`/products`, data);
-      return res.data;
-    },
-    onSuccess: () => {
-      toast.success("Product created successfully");
-      queryClient.invalidateQueries({ queryKey: ["products", shopId] });
-    },
-    onError: (error) => {
-      const errorMsg = normalizeApiError(error, "Default message");
-      toast.error(errorMsg);
-    },
-  });
-};
+Adding a new feature (e.g., "Wishlists"):
+
+1. [ ] **Backend Ready**: Verify endpoint exists. `POST /v1/wishlists`, `GET /v1/wishlists`, etc.
+2. [ ] **Define Type**: Create `types/models/wishlist.ts`.
+3. [ ] **Create Hook**: Create `hooks/use-wishlist.tsx`.
+   - Implement `useGetWishlists()`
+   - Implement `useAddToWishlist()`
+   - Implement `useRemoveFromWishlist()`
+4. [ ] **Create Components** (if needed):
+   - `components/WishlistToggle.tsx`
+   - `components/MyWishlists.tsx`
+5. [ ] **Add to Page**:
+   - Import hook
+   - Import component
+   - Bind callbacks
+6. [ ] **Test**: Verify CRUD operations work end-to-end.
+
+## 🎨 Styling & UI
+
+- **Framework**: Tailwind CSS.
+- **Components**: Use `components/ui/` (shadcn) for primitives.
+- **Custom**: Compose custom components in `components/`.
+- **Responsiveness**: Mobile-first approach.
+- **Dark Mode**: Support via theme-provider (already configured).
+
+## 🔐 Authentication
+
+**Admin Pages**:
+```typescript
+import withAuth from "@/lib/withAuth";
+export default withAuth({
+  WrappedComponent: AdminPage,
+  userType: "admin",
+  excludePaths: ["/signin"],
+})(AdminPageComponent);
 ```
 
-**Key rules:**
-- Query keys MUST include `shopId`: `["products", shopId]`
-- Mutations MUST invalidate related queries
-- Use `normalizeApiError` from `/utils/normalizeApiErrors.ts` for consistent error handling
-- Always show toast feedback (import from `sonner`)
-- Enable queries with: `enabled: !!api && !!shopId`
-
-## Component & UI Patterns
-- **shadcn/ui with CVA** - All UI components in `/components/ui` use `cva` for type-safe variants
-- **Memoization** - Wrap heavy components (sidebars, complex forms) in `memo()` to prevent re-renders
-- **Layout structure** - Admin/client layouts use `<SidebarProvider><MemoizedSidebar /><SidebarInset><TopNav /><Wrapper>...</Wrapper></SidebarInset></SidebarProvider>`
-- **Wrapper component** - Use `<Wrapper className="max-w-[90rem]">` for consistent max-width containers
-
-### UI Development Workflow
-**CRITICAL: Study existing patterns before creating new components**
-1. **Search extensively** - Check `/components` and `/app/**/components` for similar UI patterns
-2. **Reuse first** - If a component exists, use it directly (Button, Card, Dialog, etc.)
-3. **Extract and expand** - If similar logic exists inline, move it to a reusable component in `/components`
-4. **Match patterns** - New components should follow existing structure, styling, and animation patterns
-5. **Check layout files** - Admin/client layouts show sidebar, nav, and wrapper patterns to follow
-
-Example: Before creating a new modal, check existing Dialog usage in admin/client pages. Before custom cards, see how Card component is used throughout the codebase.
-
-## File Organization & Type Safety
-```
-/types/models/*.ts     - Domain models (Product, User, Order, etc.)
-/types/index.ts        - Re-exports for convenient imports
-/hooks/use-*.tsx       - React Query hooks (one per domain)
-/lib/*                 - Pure functions (auth, currency, helpers)
-/context/*             - Global state (appContext only)
-/components/ui/*       - shadcn/ui components
-/app/**                - Next.js routes (all client-side)
+**User Pages**:
+```typescript
+export default withAuth({
+  WrappedComponent: UserPage,
+  userType: "user",
+})(UserPageComponent);
 ```
 
-Reference `API_ROUTES.md` and `API_SCHEMAS_AND_TYPES.md` for backend contract when creating new hooks.
+## 📁 File Naming
 
-## Development Workflow
-```bash
-npm run dev        # Start dev server (port 3000)
-npm run build      # Static export to /out directory
-npm run lint       # ESLint check
-npm run typecheck  # TypeScript validation (no build)
-```
+| Type | Pattern |
+|---|---|
+| Pages | `page.tsx` (lowercase) |
+| Components | `ComponentName.tsx` (PascalCase) |
+| Hooks | `use-feature.tsx` (kebab-case) |
+| Types | `filename.ts` (kebab-case, organized in `types/models/`) |
+| Utilities | `utility-name.ts` (kebab-case) |
 
-**No test suite configured** - Manual testing in browser. Use React Query Devtools (enabled in `provider/queryProvider.tsx`) and network tab for debugging.
+## 🚫 Anti-Patterns
 
-## Currency & Multi-Currency System
-- User currency stored in localStorage as `userCurrency` (defaults to auto-detected from timezone)
-- Live rates fetched on app load, stored in `appContext.rates`
-- Use `useCurrencyConverter()` hook or `convertCurrency()` from `/lib/currencyConverter.ts`
-- ALWAYS use `Decimal.js` for monetary math: `new Decimal(price).mul(quantity)`
+- **Do NOT** call `api` directly from components (use hooks).
+- **Do NOT** hardcode `shopId` (get from context).
+- **Do NOT** use untyped data (use `@/types`).
+- **Do NOT** show errors without normalization.
+- **Do NOT** forget cache invalidation after mutations.
+- **Do NOT** create inline types (define in `types/models/`).
+- **Do NOT** export named components from layouts (use default export).
 
-## Theming System
-**Dynamic theme switching** allows shop owners to customize branding:
-- **CSS Variables** - All colors defined in `app/globals.css` as CSS custom properties
-- **OKLCH color space** - Using modern color format for better perceptual uniformity
-- **Light/Dark modes** - Managed by `next-themes` with `useTheme()` hook
-- **Admin customization** - Shop owners configure themes in `app/admin/settings` (Branding & Theme tab)
-- **Runtime application** - Themes applied via injected `<style>` tags (`applyThemeStyles()` in `branding-theme.tsx`)
+## 🔗 Key Files to Review
 
-Key theme variables structure:
-```css
-:root {
-  --background, --foreground, --primary, --primary-foreground,
-  --secondary, --muted, --accent, --destructive, --border, --input, --ring
-}
-.dark {
-  /* Same variables with dark values */
-}
-```
-
-Access current theme: `const { theme } = useTheme()` (returns "light" or "dark")
-Apply custom brand colors: Use `useThemeContext()` from `app/providers/theme-provider.tsx`
-
-## Common Pitfalls
-1. **Next.js layouts** - Only export `default`, no named exports (causes TypeScript errors)
-2. **Static export limitations** - No `getServerSideProps`, no API routes, no server components
-3. **Auth state** - Lives in IndexedDB, not localStorage (see appContext)
-4. **shopId requirement** - Most queries fail without it; check `enabled: !!shopId`
-5. **Client directive** - Every page/layout needs `"use client"` at top
-
-## Key Files for Reference
-- [context/appContext.tsx](context/appContext.tsx) - Global state, auth, API client setup, currency detection
-- [lib/withAuth.tsx](lib/withAuth.tsx) - HOC pattern for protected routes
-- [hooks/use-product.tsx](hooks/use-product.tsx) - Data fetching example with full mutation/query pattern
-- [lib/currencyConverter.ts](lib/currencyConverter.ts) - Decimal.js precision handling
-- [app/layout.tsx](app/layout.tsx) - Provider nesting order (QueryProvider → AppProvider → ThemeProvider)</content>
-<parameter name="filePath">/Users/mac/Documents/Projects/Shop/.github/copilot-instructions.md
+- `context/appContext.tsx`: Global state, API client setup, IndexedDB persistence.
+- `hooks/use-product.tsx`: Example hook pattern.
+- `app/admin/products/page.tsx`: Example admin page (CRUD).
+- `app/client/products/page.tsx`: Example public page.
+- `components/ProductCard.tsx`: Example component composition.
+- `lib/withAuth.tsx`: Auth HOC pattern.
+- `utils/normalizeApiErrors.ts`: Error handling pattern.
+- `lib/currencyConverter.ts`: Decimal.js for monetary precision.

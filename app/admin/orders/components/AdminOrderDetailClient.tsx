@@ -15,7 +15,7 @@ import { AdminOrderHeader } from "./AdminOrderHeader";
 import { OrderTimeline } from "@/app/client/orders/components/OrderTimeline";
 import { OrderItemsList } from "@/app/client/orders/components/OrderItemsList";
 import { ShippingAndNotes } from "@/app/client/orders/components/ShippingAndNotes";
-import { BillingInfoCard } from "@/app/client/orders/components/BillingInfoCard";
+import { ShippingInfoCard } from "@/app/client/orders/components/ShippingInfoCard";
 import { PaymentInfoCard } from "@/app/client/orders/components/PaymentInfoCard";
 import { OrderInfoCard } from "@/app/client/orders/components/OrderInfoCard";
 import { AdminOrderManagement } from "./AdminOrderManagement";
@@ -134,15 +134,17 @@ export function AdminOrderDetailClient({
             setEstimatedDelivery={setEstimatedDelivery}
             isUpdating={updateOrder.isPending || verifyPayment.isPending}
             onCreateShipment={
-              !order.shipment && !order.deliveredAt && order.status !== "DELIVERED"
+              !order.shipment &&
+              !order.deliveredAt &&
+              order.status !== "DELIVERED"
                 ? () => setShowCreateShipment(true)
                 : undefined
             }
           />
           <CustomerInfoCard order={order} />
-          <BillingInfoCard order={order} />
+          <ShippingInfoCard order={order} />
           <PaymentInfoCard order={order} />
-          <OrderInfoCard order={order} />
+          <OrderInfoCard order={order} role="admin" />
         </div>
       </div>
     </Wrapper>

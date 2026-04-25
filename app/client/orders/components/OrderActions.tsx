@@ -2,28 +2,28 @@ import { XCircle, DollarSign, Edit3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Order } from "@/types/models/order";
-import { BillingInfo } from "@/types";
+import { ShippingInfo } from "@/types";
 
 interface OrderActionsProps {
   order: Order;
-  billingInfos?: BillingInfo[];
+  shippingInfos?: ShippingInfo[];
   onCancel: () => void;
   onRefund: () => void;
-  onChangeBilling: () => void;
+  onChangeShippingInfo: () => void;
   isCanceling: boolean;
   isRefunding: boolean;
-  isUpdatingBilling: boolean;
+  isUpdatingShippingInfo: boolean;
 }
 
 export function OrderActions({
   order,
-  billingInfos,
+  shippingInfos,
   onCancel,
   onRefund,
-  onChangeBilling,
+  onChangeShippingInfo,
   isCanceling,
   isRefunding,
-  isUpdatingBilling,
+  isUpdatingShippingInfo,
 }: OrderActionsProps) {
   const canCancel =
     order.status === "PENDING" ||
@@ -31,7 +31,7 @@ export function OrderActions({
     order.status === "VERIFYING_PAYMENT";
   const canRequestRefund =
     order.status === "DELIVERED" || order.status === "SHIPPED";
-  const canChangeBilling =
+  const canChangeShippingInfo =
     order.status === "PENDING" ||
     order.status === "PROCESSING" ||
     order.status === "VERIFYING_PAYMENT";
@@ -39,7 +39,7 @@ export function OrderActions({
   const hasActions =
     canCancel ||
     canRequestRefund ||
-    (canChangeBilling && billingInfos && billingInfos.length > 1);
+    (canChangeShippingInfo && shippingInfos && shippingInfos.length > 1);
 
   if (!hasActions) return null;
 
@@ -71,15 +71,15 @@ export function OrderActions({
             Request Refund
           </Button>
         )}
-        {canChangeBilling && billingInfos && billingInfos.length > 1 && (
+        {canChangeShippingInfo && shippingInfos && shippingInfos.length > 1 && (
           <Button
             variant="outline"
             className="w-full"
-            onClick={onChangeBilling}
-            disabled={isUpdatingBilling}
+            onClick={onChangeShippingInfo}
+            disabled={isUpdatingShippingInfo}
           >
             <Edit3 className="w-4 h-4 mr-2" />
-            Change Billing Info
+            Change Shipping Information
           </Button>
         )}
       </CardContent>

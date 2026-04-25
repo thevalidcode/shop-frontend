@@ -30,7 +30,10 @@ export function PaymentFiltersBar({ onFiltersChange }: PaymentFiltersBarProps) {
       status: value === "all" ? undefined : (value as any),
     };
     setFilters(newFilters);
-    onFiltersChange({ ...newFilters, search: debouncedSearch || undefined });
+    onFiltersChange({
+      ...newFilters,
+      search: debouncedSearch?.trim() || undefined,
+    });
   };
 
   const handleMethodChange = (value: string) => {
@@ -39,7 +42,10 @@ export function PaymentFiltersBar({ onFiltersChange }: PaymentFiltersBarProps) {
       method: value === "all" ? undefined : (value as any),
     };
     setFilters(newFilters);
-    onFiltersChange({ ...newFilters, search: debouncedSearch || undefined });
+    onFiltersChange({
+      ...newFilters,
+      search: debouncedSearch?.trim() || undefined,
+    });
   };
 
   const handleClearFilters = () => {
@@ -50,8 +56,8 @@ export function PaymentFiltersBar({ onFiltersChange }: PaymentFiltersBarProps) {
 
   // Update filters when search changes
   React.useEffect(() => {
-    onFiltersChange({ ...filters, search: debouncedSearch || undefined });
-  }, [debouncedSearch]);
+    onFiltersChange({ ...filters, search: debouncedSearch?.trim() || undefined });
+  }, [debouncedSearch, filters, onFiltersChange]);
 
   return (
     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
@@ -95,6 +101,7 @@ export function PaymentFiltersBar({ onFiltersChange }: PaymentFiltersBarProps) {
           <SelectItem value="FLUTTERWAVE">Flutterwave</SelectItem>
           <SelectItem value="PAYSTACK">Paystack</SelectItem>
           <SelectItem value="MANUAL">Manual</SelectItem>
+          <SelectItem value="CREDIT">Wallet</SelectItem>
         </SelectContent>
       </Select>
 

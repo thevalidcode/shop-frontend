@@ -12,6 +12,9 @@ import {
   UserCircle,
   Settings,
   ShoppingBag,
+  Wallet,
+  Code2,
+  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,14 +32,6 @@ import Image from "next/image";
 import { del } from "idb-keyval";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Products", href: "/client/products" },
-  { name: "FAQ", href: "/client/faq" },
-  { name: "Blog", href: "/client/blog" },
-  { name: "Support", href: "/client/support" },
-];
-
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -47,6 +42,19 @@ export function Navbar() {
   const isMobile = useIsMobile();
 
   const analyticsAllowed = shopInfo?.features?.analytics ?? false;
+  const apiAccessAllowed = shopInfo?.features?.api_access ?? false;
+
+  const navigation = [
+    { name: "Home", href: "/" },
+    { name: "Products", href: "/client/products" },
+    ...(userInfo ? [{ name: "Add Funds", href: "/client/add-funds" }] : []),
+    ...(apiAccessAllowed
+      ? [{ name: "API Docs", href: "/client/api-docs" }]
+      : []),
+    { name: "FAQ", href: "/client/faq" },
+    { name: "Blog", href: "/client/blog" },
+    { name: "Support", href: "/client/support" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -169,8 +177,8 @@ export function Navbar() {
                   <DropdownMenuItem
                     onClick={() => router.push("/client/profile")}
                   >
-                    <Settings className="w-4 h-4 mr-2" />
-                    Settings
+                    <User className="w-4 h-4 mr-2" />
+                    Profile
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout}>

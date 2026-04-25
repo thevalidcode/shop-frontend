@@ -113,7 +113,7 @@ export default function AdminProfilePage() {
                 @{profile.username}
               </p>
               <p className="mt-1 text-sm text-muted-foreground">
-                Joined {profile.createdAt ? new Date(profile.createdAt).toLocaleDateString() : 'N/A'}
+                Joined {profile.timestamp ? new Date(profile.timestamp).toLocaleDateString() : 'N/A'}
               </p>
 
               <div className="mt-6">

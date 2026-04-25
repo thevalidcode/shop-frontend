@@ -22,6 +22,7 @@ export type ShopFeatures = {
   social_store_order_sync: boolean;
   social_store_service_sync: boolean;
   max_shipping_accounts: number;
+  reselling: boolean;
   [k: string]: any;
 };
 

@@ -20,7 +20,9 @@ export default function PaymentSuccessPage() {
 
   // Fetch payment details using the uid via search
   const { data: payments, isLoading } = useGetPayments(1, 100);
-  const payment = payments?.find(p => p.uid === uid);
+    const payment = uid ? payments?.find(p => p.uid === uid) : null;
+    const isManualPayment = manual === "1" || payment?.method === "MANUAL";
+    const isBalancePayment = payment?.method === "CREDIT";
 
   const handlePrint = useReactToPrint({
     contentRef: receiptRef,
@@ -58,17 +60,17 @@ export default function PaymentSuccessPage() {
                 <CheckCircle2 className="h-10 w-10 text-green-600" />
                 <div>
                   <h1 className="text-2xl font-bold">
-                    {manual ? "Payment Request Submitted" : "Payment Successful"}
+                      {isManualPayment ? "Payment Request Submitted" : "Payment Successful"}
                   </h1>
                   <p className="text-sm text-muted-foreground font-normal">
-                    {manual
+                      {isManualPayment
                       ? "Your payment request is pending verification"
                       : "Your payment has been processed successfully"}
                   </p>
                 </div>
               </div>
               
-              {!manual && payment && (
+                {!isManualPayment && payment && (
                 <div className="flex gap-2">
                   <Button variant="outline" onClick={handlePrint}>
                     <Printer className="mr-2 h-4 w-4" />
@@ -85,7 +87,7 @@ export default function PaymentSuccessPage() {
         </Card>
 
         {/* Receipt or Status Message */}
-        {manual ? (
+          {isManualPayment ? (
           <Card>
             <CardContent className="pt-6">
               <div className="text-center py-8">
@@ -150,7 +152,7 @@ export default function PaymentSuccessPage() {
       </div>
 
       {/* Hidden print version */}
-      {payment && !manual && (
+      {payment && !isManualPayment && (
         <div className="hidden">
           <PaymentReceipt 
             ref={receiptRef}

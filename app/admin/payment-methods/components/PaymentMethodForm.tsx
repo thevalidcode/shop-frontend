@@ -29,7 +29,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAppContext } from "@/context/appContext";
 import { PaymentGatewayFormResponse } from "@/hooks/use-paymentGateway";
 import PaymentMethodFormFields from "./PaymentMethodFormFields";
-import { useCurrencyConverter } from "@/lib/currencyConverter";
 import { FeatureGate } from "@/components/FeatureGate";
 
 interface NewPaymentGateway extends PaymentGateway {
@@ -62,7 +61,7 @@ export default function PaymentMethodForm({
   const [selectedPlatform, setSelectedPlatform] =
     useState<PlatformOption | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
 
   const [form, setForm] = useState<NewPaymentGateway>(
@@ -76,7 +75,9 @@ export default function PaymentMethodForm({
       platform: "STRIPE",
       min: "",
       max: "",
+      currency: userCurrency,
       description: "",
+      content: "",
       webhookUrl: "",
       status: "ACTIVE",
       feePercent: 0,
@@ -85,7 +86,6 @@ export default function PaymentMethodForm({
   );
   const [showSignaturePopup, setShowSignaturePopup] = useState(false);
   const [signature, setSignature] = useState("");
-  const convert = useCurrencyConverter();
 
   const platforms: PlatformOption[] = [
     {
@@ -122,11 +122,12 @@ export default function PaymentMethodForm({
     if (initialData) {
       setForm({
         ...initialData,
-        min: convert("USD", userCurrency, initialData.min ?? "0").amount,
-        max: convert("USD", userCurrency, initialData.max ?? "0").amount,
+        min: initialData.min ?? "0",
+        max: initialData.max ?? "0",
+        currency: initialData.currency || userCurrency,
       } as any);
     }
-  }, [initialData]);
+  }, [initialData, userCurrency]);
 
   // Reset form on open/close
   useEffect(() => {
@@ -141,8 +142,9 @@ export default function PaymentMethodForm({
       setMode("select");
       setSelectedPlatform(null);
       setSearchQuery("");
+      setForm((prev) => ({ ...prev, currency: userCurrency }));
     }
-  }, [open, initialData]);
+  }, [open, initialData, userCurrency]);
 
   const handlePlatformSelect = (platform: PlatformOption) => {
     setSelectedPlatform(platform);
@@ -169,8 +171,10 @@ export default function PaymentMethodForm({
     feePercent: (v) => Number(v),
     min: (v) => Number(v),
     max: (v) => Number(v),
+    currency: (v) => v,
     name: (v) => v,
     description: (v) => v,
+    content: (v) => v,
     secretKey: (v) => v,
     image: (v) => v,
     platform: (v) => v,
@@ -208,15 +212,9 @@ export default function PaymentMethodForm({
           <DialogHeader className="px-6 py-4 border-b">
             <DialogTitle className="flex items-center gap-2">
               {initialData ? (
-                <>
-                  <Pencil className="h-5 w-5 text-blue-500" />
-                  Edit Payment Method
-                </>
+                <>Edit Payment Method</>
               ) : (
-                <>
-                  <Plus className="h-5 w-5 text-green-500" />
-                  Create New Payment Method
-                </>
+                <>Create New Payment Method</>
               )}
             </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
@@ -232,168 +230,171 @@ export default function PaymentMethodForm({
             description="Your subscription must be active to add or modify payment gateways. Please renew your subscription to continue."
             variant="page"
           >
-          {!initialData && (
-            <Tabs
-              value={mode}
-              onValueChange={(value) => handleModeChange(value as DialogMode)}
-              className="w-full"
-            >
-              <div className="px-6 py-2 border-b bg-muted/30">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger
-                    value="select"
-                    className="flex items-center gap-2"
-                  >
-                    <CreditCard className="h-4 w-4" />
-                    Select Gateway
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="manual"
-                    className="flex items-center gap-2"
-                  >
-                    <Settings className="h-4 w-4" />
-                    Manual Entry
-                  </TabsTrigger>
-                </TabsList>
-              </div>
-
-              <TabsContent value="select" className="mt-0">
-                <div className="px-6 py-4 max-h-125 overflow-y-auto">
-                  {/* Search */}
-                  <div className="relative mb-4">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      placeholder="Search payment gateways..."
-                      value={searchQuery}
-                      onChange={(e) => handleSearchChange(e.target.value)}
-                      className="pl-10"
-                    />
-                  </div>
-
-                  {/* Gateway List */}
-                  {filteredPlatforms.length === 0 ? (
-                    <div className="text-center py-8">
-                      <div className="text-muted-foreground mb-2">
-                        No gateways found
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Try adjusting your search or switch to manual entry.
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      {filteredPlatforms.map((platform) => (
-                        <motion.div
-                          key={platform.value}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <Card
-                            className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
-                              selectedPlatform?.value === platform.value
-                                ? "ring-2 ring-primary bg-primary/5"
-                                : "hover:bg-muted/50"
-                            }`}
-                            onClick={() => handlePlatformSelect(platform)}
-                          >
-                            <CardContent className="p-4">
-                              <div className="flex items-center gap-3">
-                                <Avatar className="w-12 h-12 rounded-lg">
-                                  <AvatarImage
-                                    src={platform.image}
-                                    alt={platform.label}
-                                  />
-                                  <AvatarFallback className="rounded-lg">
-                                    <CreditCard className="h-6 w-6" />
-                                  </AvatarFallback>
-                                </Avatar>
-
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center gap-2 mb-1">
-                                    <h3 className="font-semibold text-sm truncate">
-                                      {platform.label}
-                                    </h3>
-                                    {selectedPlatform?.value ===
-                                      platform.value && (
-                                      <CheckCircle className="h-4 w-4 text-primary shrink-0" />
-                                    )}
-                                  </div>
-                                  <p className="text-xs text-muted-foreground line-clamp-1">
-                                    {platform.description}
-                                  </p>
-                                </div>
-
-                                <Badge variant="secondary" className="text-xs">
-                                  Available
-                                </Badge>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </motion.div>
-                      ))}
-                    </div>
-                  )}
-
-                  {selectedPlatform && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      className="mt-4 p-4 bg-primary/5 rounded-lg border border-primary/20"
+            {!initialData && (
+              <Tabs
+                value={mode}
+                onValueChange={(value) => handleModeChange(value as DialogMode)}
+                className="w-full"
+              >
+                <div className="px-6 py-2 border-b bg-muted/30">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger
+                      value="select"
+                      className="flex items-center gap-2"
                     >
-                      <div className="flex items-center gap-3">
-                        <Avatar className="w-10 h-10 rounded-lg">
-                          <AvatarImage
-                            src={selectedPlatform.image}
-                            alt={selectedPlatform.label}
-                          />
-                          <AvatarFallback className="rounded-lg">
-                            <CreditCard className="h-5 w-5" />
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-medium text-sm">
-                            {selectedPlatform.label}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {selectedPlatform.description}
-                          </p>
+                      <CreditCard className="h-4 w-4" />
+                      Select Gateway
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="manual"
+                      className="flex items-center gap-2"
+                    >
+                      <Settings className="h-4 w-4" />
+                      Manual Entry
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
+
+                <TabsContent value="select" className="mt-0">
+                  <div className="px-6 py-4 max-h-180 overflow-y-auto">
+                    {/* Search */}
+                    <div className="relative mb-4">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        placeholder="Search payment gateways..."
+                        value={searchQuery}
+                        onChange={(e) => handleSearchChange(e.target.value)}
+                        className="pl-10"
+                      />
+                    </div>
+
+                    {/* Gateway List */}
+                    {filteredPlatforms.length === 0 ? (
+                      <div className="text-center py-8">
+                        <div className="text-muted-foreground mb-2">
+                          No gateways found
                         </div>
+                        <p className="text-sm text-muted-foreground">
+                          Try adjusting your search or switch to manual entry.
+                        </p>
                       </div>
-                    </motion.div>
-                  )}
-                </div>
-              </TabsContent>
+                    ) : (
+                      <div className="space-y-3">
+                        {filteredPlatforms.map((platform) => (
+                          <motion.div
+                            key={platform.value}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <Card
+                              className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
+                                selectedPlatform?.value === platform.value
+                                  ? "ring-2 ring-primary bg-primary/5"
+                                  : "hover:bg-muted/50"
+                              }`}
+                              onClick={() => handlePlatformSelect(platform)}
+                            >
+                              <CardContent className="p-4">
+                                <div className="flex items-center gap-3">
+                                  <Avatar className="w-12 h-12 rounded-lg">
+                                    <AvatarImage
+                                      src={platform.image}
+                                      alt={platform.label}
+                                    />
+                                    <AvatarFallback className="rounded-lg">
+                                      <CreditCard className="h-6 w-6" />
+                                    </AvatarFallback>
+                                  </Avatar>
 
-              <TabsContent value="manual" className="mt-0">
-                <div className="max-h-125 overflow-y-auto">
-                  <AnimatePresence mode="wait">
-                    <PaymentMethodFormFields
-                      form={form}
-                      isEdit={false}
-                      onSubmit={handleSubmit}
-                      onFieldChange={handleChange}
-                    />
-                  </AnimatePresence>
-                </div>
-              </TabsContent>
-            </Tabs>
-          )}
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <h3 className="font-semibold text-sm truncate">
+                                        {platform.label}
+                                      </h3>
+                                      {selectedPlatform?.value ===
+                                        platform.value && (
+                                        <CheckCircle className="h-4 w-4 text-primary shrink-0" />
+                                      )}
+                                    </div>
+                                    <p className="text-xs text-muted-foreground line-clamp-1">
+                                      {platform.description}
+                                    </p>
+                                  </div>
 
-          {/* Edit Mode - Always Manual */}
-          {initialData && (
-            <div className="max-h-125 overflow-y-auto">
-              <AnimatePresence mode="wait">
-                <PaymentMethodFormFields
-                  form={form}
-                  isEdit={true}
-                  onSubmit={handleSubmit}
-                  onFieldChange={handleChange}
-                />
-              </AnimatePresence>
-            </div>
-          )}
+                                  <Badge
+                                    variant="secondary"
+                                    className="text-xs"
+                                  >
+                                    Available
+                                  </Badge>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
+
+                    {selectedPlatform && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="mt-4 p-4 bg-primary/5 rounded-lg border border-primary/20"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Avatar className="w-10 h-10 rounded-lg">
+                            <AvatarImage
+                              src={selectedPlatform.image}
+                              alt={selectedPlatform.label}
+                            />
+                            <AvatarFallback className="rounded-lg">
+                              <CreditCard className="h-5 w-5" />
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-medium text-sm">
+                              {selectedPlatform.label}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {selectedPlatform.description}
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="manual" className="mt-0">
+                  <div className="max-h-180 overflow-y-auto">
+                    <AnimatePresence mode="wait">
+                      <PaymentMethodFormFields
+                        form={form}
+                        isEdit={false}
+                        onSubmit={handleSubmit}
+                        onFieldChange={handleChange}
+                      />
+                    </AnimatePresence>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            )}
+
+            {/* Edit Mode - Always Manual */}
+            {initialData && (
+              <div className="max-h-180 overflow-y-auto">
+                <AnimatePresence mode="wait">
+                  <PaymentMethodFormFields
+                    form={form}
+                    isEdit={true}
+                    onSubmit={handleSubmit}
+                    onFieldChange={handleChange}
+                  />
+                </AnimatePresence>
+              </div>
+            )}
           </FeatureGate>
         </DialogContent>
       </Dialog>
@@ -428,7 +429,14 @@ export default function PaymentMethodForm({
           </div>
 
           <DialogFooter className="px-6 py-4 border-t">
-            <Button onClick={() => setShowSignaturePopup(false)}>Close</Button>
+            <Button            
+              onClick={() => {
+                setShowSignaturePopup(false);
+                onClose();
+              }}
+            >
+              Close
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

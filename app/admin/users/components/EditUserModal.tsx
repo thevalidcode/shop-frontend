@@ -17,8 +17,8 @@ import { ArrowDown, ArrowUp, Save, X } from "lucide-react";
 import { useCurrencyConverter } from "@/lib/currencyConverter";
 import { useAppContext } from "@/context/appContext";
 import { User } from "@/types";
-import Decimal from "decimal.js";
 import { UpdateUserByAdminProps } from "@/hooks/use-user";
+import { toast } from "sonner";
 
 interface EditUserModalProps {
   open: boolean;
@@ -61,26 +61,40 @@ export default function EditUserModal({
   }, [user]);
 
   const handleSave = () => {
-    let newBalance = new Decimal(form.balance); // Already USD stored
-    const convertedUSDBalance = convert(
-      userCurrency,
-      "USD",
-      balanceChange.toString(),
-      true,
-      true,
-    ).amount;
-    if (balanceAction === "add")
-      newBalance = newBalance.plus(convertedUSDBalance);
-    if (balanceAction === "remove")
-      newBalance = newBalance.minus(convertedUSDBalance);
+    if (balanceAction && balanceChange <= 0) {
+      toast.error("Enter a valid amount for wallet adjustment");
+      return;
+    }
 
-    const updatedUser = {
+    const updatedUser: UpdateUserByAdminProps = {
       username: form.username,
       email: form.email,
       uid: user.uid,
       phone: form.phone || null,
-      balance: newBalance.toString(),
     };
+
+    if (balanceAction && balanceChange > 0) {
+      const adjustmentInUserCurrency = Number(
+        convert(
+          userCurrency,
+          (user.currency || "USD") as any,
+          balanceChange.toString(),
+          false,
+          false,
+        ).amount,
+      );
+
+      if (balanceAction === "remove") {
+        const currentBalance = Number(user.balance || 0);
+        if (adjustmentInUserCurrency > currentBalance) {
+          toast.error("Cannot remove more than current wallet balance");
+          return;
+        }
+      }
+
+      updatedUser.balanceAction = balanceAction === "add" ? "ADD" : "REMOVE";
+      updatedUser.balanceAdjustment = adjustmentInUserCurrency;
+    }
 
     onSave(updatedUser);
     onOpenChange(false);
@@ -134,7 +148,7 @@ export default function EditUserModal({
 
           {/* Phone */}
           <div className="space-y-1.5">
-            \n <Label htmlFor="phone">Phone Number</Label>
+            <Label htmlFor="phone">Phone Number</Label>
             <Input
               id="phone"
               type="tel"
@@ -146,7 +160,6 @@ export default function EditUserModal({
             />
           </div>
 
-          {/* 
           {/* Balance Section */}
           <div className="border rounded-2xl p-4 bg-muted/50 space-y-3">
             <div className="flex items-center justify-between">

@@ -1,13 +1,5 @@
-"use client";
-
-import { AppProvider } from "@/context/appContext";
-import { UseMounted } from "@/lib/mounted";
-import { QueryProvider } from "@/provider/queryProvider";
 import "./globals.css";
-import { ThemeProvider } from "./providers/theme-provider";
-import FaviconSetter from "@/components/FaviconSetter";
-import MadeInValidPanelBanner from "@/components/MadeInValidPanelBanner";
-import CustomToaster from "@/components/CustomToaster";
+import AppProviders from "./app-providers";
 
 export default function RootLayout({
   children,
@@ -15,20 +7,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning className="antialiased">
-        <UseMounted>
-          <QueryProvider>
-            <AppProvider>
-              <ThemeProvider>
-                <FaviconSetter />
-                <CustomToaster />
-                <main>{children}</main>
-                <MadeInValidPanelBanner />
-              </ThemeProvider>
-            </AppProvider>
-          </QueryProvider>
-        </UseMounted>
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased">
+        <AppProviders>
+          <main>{children}</main>
+        </AppProviders>
       </body>
     </html>
   );

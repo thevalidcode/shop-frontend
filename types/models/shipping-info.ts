@@ -1,4 +1,4 @@
-export interface BillingInfo {
+export interface ShippingInfo {
   id: number;
   uid: string;
   userId: number;

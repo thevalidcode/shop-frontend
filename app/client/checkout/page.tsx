@@ -15,18 +15,18 @@ import { EmptyState } from "@/components/empty-state";
 import { Package, CreditCard } from "lucide-react";
 import { useGetCart } from "@/hooks/use-cart";
 import {
-  useGetBillingInfo,
-  useGetDefaultBillingInfo,
-} from "@/hooks/use-billing-info";
+  useGetShippingInfo,
+  useGetDefaultShippingInfo,
+} from "@/hooks/use-shipping-info";
 import {
   useGetShippingMethods,
   useGetShippingRates,
   ShippingRate,
 } from "@/hooks/use-shipping";
-import { BillingInfoForm } from "@/app/client/profile/components/BillingInfoForm";
+import { ShippingInfoForm } from "@/app/client/profile/components/ShippingInfoForm";
 import { toast } from "sonner";
 import { NewOrderHeader } from "./components/NewOrderHeader";
-import { BillingSelector } from "./components/BillingSelector";
+import { ShippingSelector } from "./components/ShippingSelector";
 import { CartItems } from "./components/CartItems";
 import { OrderSummary } from "./components/OrderSummary";
 import { PaymentGatewaySelector } from "./components/PaymentGatewaySelector";
@@ -44,13 +44,13 @@ export default function NewOrderPage() {
 
   const { data: cart } = useGetCart();
 
-  const { data: billingInfos } = useGetBillingInfo();
-  const { data: defaultBilling } = useGetDefaultBillingInfo();
+  const { data: shippingInfos } = useGetShippingInfo();
+  const { data: defaultShippingInfo } = useGetDefaultShippingInfo();
   const { data: shippingMethods } = useGetShippingMethods();
 
   const [notes, setNotes] = useState<string>("");
-  const [billingUid, setBillingUid] = useState<string>("");
-  const [createBillingOpen, setCreateBillingOpen] = useState<boolean>(false);
+  const [shippingInfoUid, setShippingInfoUid] = useState<string>("");
+  const [createShippingInfoOpen, setCreateShippingInfoOpen] = useState<boolean>(false);
   const [showPayment, setShowPayment] = useState(
     params?.get("step") === "payment",
   );
@@ -65,19 +65,19 @@ export default function NewOrderPage() {
     shippingMethods?.hasShipping &&
     shippingMethods.methods.some((m) => m.isPreferred);
 
-  // Fetch shipping rates only when billing info is selected and shipping is available
+  // Fetch shipping rates only when shipping information is selected and shipping is available
   const { data: shippingRatesData, isLoading: loadingRates } =
     useGetShippingRates(
       cart?.uid || "",
-      billingUid,
+      shippingInfoUid,
       undefined, // fetch from all platforms
     );
 
   useEffect(() => {
-    if (defaultBilling?.uid) {
-      setBillingUid((prev) => prev || defaultBilling.uid);
+    if (defaultShippingInfo?.uid) {
+      setShippingInfoUid((prev) => prev || defaultShippingInfo.uid);
     }
-  }, [defaultBilling]);
+  }, [defaultShippingInfo]);
 
   // Auto-select cheapest shipping rate when rates are loaded
   useEffect(() => {
@@ -96,8 +96,8 @@ export default function NewOrderPage() {
     : undefined;
 
   const proceedToPayment = () => {
-    if (!billingUid) {
-      toast.error("Please select billing information.");
+    if (!shippingInfoUid) {
+      toast.error("Please select shipping information.");
       return;
     }
     if (cartEmpty) {
@@ -152,7 +152,7 @@ export default function NewOrderPage() {
       {showPayment ? (
         <PaymentGatewaySelector
           cartUid={cart.uid}
-          billingInfoUid={billingUid}
+          shippingInfoUid={shippingInfoUid}
           notes={notes}
           amount={cart.total}
           currency={userCurrency}
@@ -211,13 +211,13 @@ export default function NewOrderPage() {
             transition={{ duration: 0.25, delay: 0.05 }}
           >
             <div className="space-y-4">
-              <BillingSelector
-                billingInfos={billingInfos}
-                value={billingUid}
-                onChange={setBillingUid}
-                onAddNew={() => setCreateBillingOpen(true)}
+              <ShippingSelector
+                shippingInfos={shippingInfos}
+                value={shippingInfoUid}
+                onChange={setShippingInfoUid}
+                onAddNew={() => setCreateShippingInfoOpen(true)}
               />
-              {hasPreferredShipping && billingUid && (
+              {hasPreferredShipping && shippingInfoUid && (
                 <ShippingRateSelector
                   rates={shippingRatesData?.rates || []}
                   selectedRate={selectedShippingRate}
@@ -232,9 +232,9 @@ export default function NewOrderPage() {
                 currency={cart.currency}
                 total={cart.total}
                 onPlaceOrder={proceedToPayment}
-                createBillingInfo={() => setCreateBillingOpen(true)}
+                createShippingInfo={() => setCreateShippingInfoOpen(true)}
                 placing={false}
-                disabled={!billingUid}
+                disabled={!shippingInfoUid}
                 shippingCost={selectedShippingRate?.cost}
                 shippingCurrency={selectedShippingRate?.currency}
               />
@@ -243,13 +243,13 @@ export default function NewOrderPage() {
         </div>
       )}
 
-      <Dialog open={createBillingOpen} onOpenChange={setCreateBillingOpen}>
+      <Dialog open={createShippingInfoOpen} onOpenChange={setCreateShippingInfoOpen}>
         <DialogContent className="sm:max-w-130">
           <DialogHeader>
-            <DialogTitle>Add Billing Information</DialogTitle>
+            <DialogTitle>Add Shipping Information</DialogTitle>
           </DialogHeader>
           <div className="px-2 py-2">
-            <BillingInfoForm onClose={() => setCreateBillingOpen(false)} />
+            <ShippingInfoForm onClose={() => setCreateShippingInfoOpen(false)} />
           </div>
         </DialogContent>
       </Dialog>

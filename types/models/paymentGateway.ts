@@ -3,7 +3,8 @@ export type PaymentGatewayPlatform =
   | "PAYSTACK"
   | "FLUTTERWAVE"
   | "STRIPE"
-  | "MANUAL";
+  | "MANUAL"
+  | "CREDIT";
 
 export interface PaymentGateway {
   id: number;
@@ -12,6 +13,7 @@ export interface PaymentGateway {
   platform: PaymentGatewayPlatform;
   name: string;
   description?: string | null;
+  content?: string | null;
   secretKey?: string | null;
   webhookUrl?: string | null;
   feePercent?: number;
@@ -21,6 +23,7 @@ export interface PaymentGateway {
   position?: number;
   min?: string | null;
   max?: string | null;
+  currency?: string;
   shopId: number;
 }
 
@@ -39,6 +42,7 @@ export type NewPaymentGateway = Omit<
   uid?: string;
   shopId?: number;
   description?: string;
+  content?: string;
   secretKey?: string;
   webhookUrl?: string;
   min?: string;

@@ -184,6 +184,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem("userCurrency", upper);
   };
 
+  useEffect(() => {
+    if (userInfo?.currency) {
+      setUserCurrency(userInfo.currency);
+    }
+  }, [userInfo?.currency]);
+
   const handleSetUserInfo = async (user: User | null) => {
     // Update state
     setUserInfo(user);

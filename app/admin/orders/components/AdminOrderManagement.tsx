@@ -57,6 +57,9 @@ export function AdminOrderManagement({
   const isVerifyingPayment = order.status === "VERIFYING_PAYMENT";
   const { shopInfo } = useAppContext();
   const isSubscriptionActive = shopInfo?.subscriptionStatus === "ACTIVE";
+    const isSupplierSynced = Boolean(
+      order.supplierOrderUid && order.syncWithSupplier,
+    );
 
   const statusActions = [
     { status: "PENDING", label: "Pending", icon: Clock, color: "yellow" },
@@ -149,7 +152,7 @@ export function AdminOrderManagement({
                     <Button
                       key={action.status}
                       onClick={() => onStatusUpdate(action.status)}
-                      disabled={isUpdating || isActive}
+                      disabled={isUpdating || isActive || isSupplierSynced}
                       variant={isActive ? "default" : "outline"}
                       className={cn(
                         "w-full justify-start text-left h-auto py-3 px-3",
@@ -207,6 +210,7 @@ export function AdminOrderManagement({
                     placeholder={
                       order.trackingNumber || "Enter tracking number"
                     }
+                    disabled={isSupplierSynced}
                     className="mt-1"
                   />
                 </div>
@@ -222,6 +226,7 @@ export function AdminOrderManagement({
                           "w-full justify-start text-left font-normal mt-1",
                           !estimatedDelivery && "text-muted-foreground",
                         )}
+                        disabled={isSupplierSynced}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {estimatedDelivery ? (
@@ -246,7 +251,7 @@ export function AdminOrderManagement({
                 </div>
                 <Button
                   onClick={onTrackingUpdate}
-                  disabled={!trackingNumber || isUpdating}
+                  disabled={!trackingNumber || isUpdating || isSupplierSynced}
                   className="w-full"
                 >
                   {isUpdating ? (
@@ -261,6 +266,11 @@ export function AdminOrderManagement({
                     </>
                   )}
                 </Button>
+                {isSupplierSynced && (
+                  <p className="text-sm text-muted-foreground">
+                    This order is supplier-linked, so manual edits are disabled while syncing is enabled.
+                  </p>
+                )}
               </div>
             </div>
           </>

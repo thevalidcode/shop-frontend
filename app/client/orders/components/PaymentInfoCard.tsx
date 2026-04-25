@@ -13,6 +13,7 @@ const platformLogos: Record<PaymentGatewayPlatform, string> = {
   FLUTTERWAVE: "/images/flutterwave.jpeg",
   STRIPE: "/images/paystack.png",
   MANUAL: "/images/manual-payment.webp",
+  CREDIT: "/images/manual-payment.webp",
 };
 
 interface PaymentInfoCardProps {

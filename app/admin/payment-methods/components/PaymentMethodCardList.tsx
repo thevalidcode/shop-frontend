@@ -38,7 +38,16 @@ const platformLogos: Record<PaymentGatewayPlatform, string> = {
   FLUTTERWAVE: "/images/flutterwave.jpeg",
   STRIPE: "/images/paystack.png", // Using paystack as fallback
   MANUAL: "/images/manual-payment.webp",
+  CREDIT: "/images/manual-payment.webp",
 };
+
+const formatLabel = (value: string) =>
+  value
+    .toLowerCase()
+    .split(/[_\s-]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 
 interface PaymentMethodCardListProps {
   gateways: PaymentGateway[];
@@ -134,13 +143,19 @@ function PaymentMethodCard({
                   variant={gateway.status === "ACTIVE" ? "default" : "secondary"}
                   className="text-xs"
                 >
-                  {gateway.status === "ACTIVE" ? "Active" : "Inactive"}
+                  {formatLabel(gateway.status)}
                 </Badge>
               </div>
 
               {gateway.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {gateway.description.replace(/<[^>]*>/g, "")}
+                <p className="text-sm text-muted-foreground whitespace-pre-wrap break-words line-clamp-3">
+                  {gateway.description}
+                </p>
+              )}
+
+              {gateway.content && (
+                <p className="text-xs text-muted-foreground/90">
+                  HTML content is configured for this gateway.
                 </p>
               )}
 
@@ -154,13 +169,17 @@ function PaymentMethodCard({
                 {gateway.min && (
                   <div className="flex items-center gap-1 text-muted-foreground">
                     <span className="font-medium">Min:</span>
-                    <span>${gateway.min}</span>
+                    <span>
+                      {Number(gateway.min).toLocaleString()} {gateway.currency || "USD"}
+                    </span>
                   </div>
                 )}
                 {gateway.max && (
                   <div className="flex items-center gap-1 text-muted-foreground">
                     <span className="font-medium">Max:</span>
-                    <span>${gateway.max}</span>
+                    <span>
+                      {Number(gateway.max).toLocaleString()} {gateway.currency || "USD"}
+                    </span>
                   </div>
                 )}
               </div>

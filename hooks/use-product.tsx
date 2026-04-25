@@ -105,6 +105,15 @@ interface UpdateProductProps {
   shortDescription?: string;
   price?: string;
   comparePrice?: string;
+  supplierPrice?: string;
+  supplierCurrency?: string | null;
+  supplierProductUid?: string | null;
+  supplierUid?: string | null;
+  syncWithSupplier?: boolean;
+  syncQuantity?: boolean;
+  syncCatAndName?: boolean;
+  marginType?: "percentage" | "fixed" | null;
+  marginValue?: string | null;
   costPerItem?: string;
   images?: string[];
   categoryUid?: string;

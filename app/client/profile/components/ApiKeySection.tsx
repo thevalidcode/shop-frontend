@@ -2,43 +2,39 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { useState } from "react";
 
 interface ApiKeySectionProps {
-  apiKey?: string | null;
-  onRegenerate: (newKey: string) => void;
+  onRegenerate: () => Promise<string>;
+  isRegenerating?: boolean;
 }
 
-export function ApiKeySection({ apiKey, onRegenerate }: ApiKeySectionProps) {
-  const [show, setShow] = useState(false);
+export function ApiKeySection({ onRegenerate, isRegenerating }: ApiKeySectionProps) {
+  const [generatedKey, setGeneratedKey] = useState<string | null>(null);
 
-  const maskedKey = apiKey && apiKey.length > 10 ? apiKey.slice(0, 8) + "********" : "********";
-
-  const regenerateApiKey = () => {
-    const newKey =
-      "sk_live_" + Math.random().toString(36).substring(2, 20) + Date.now().toString(36);
-    onRegenerate(newKey);
+  const regenerateApiKey = async () => {
+    const newKey = await onRegenerate();
+    setGeneratedKey(newKey);
   };
 
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium">API Key</label>
       <div className="flex gap-2">
-        <Input readOnly value={show ? apiKey ?? "" : maskedKey} />
-        <Button type="button" variant="secondary" onClick={() => setShow((v) => !v)}>
-          {show ? (
-            <EyeOff className="mr-1 h-4 w-4" />
-          ) : (
-            <Eye className="mr-1 h-4 w-4" />
-          )}
-          {show ? "Hide" : "Reveal"}
-        </Button>
-        <Button type="button" onClick={regenerateApiKey}>
+        <Input
+          readOnly
+          value={generatedKey || "********"}
+          placeholder="Regenerate to view your new API key once"
+        />
+        <Button type="button" onClick={regenerateApiKey} disabled={isRegenerating}>
           <RefreshCw className="mr-1 h-4 w-4" />
-          Regenerate
+          {isRegenerating ? "Regenerating..." : "Regenerate"}
         </Button>
       </div>
+      <p className="text-xs text-muted-foreground">
+        The API key is only shown once after regeneration. Save it securely.
+      </p>
     </div>
   );
 }

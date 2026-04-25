@@ -4,7 +4,7 @@ import { PaymentGateway } from "./paymentGateway";
 import { Order } from "./order";
 
 export type PaymentStatus = "PENDING" | "SUCCESS" | "FAILED";
-export type PaymentMethod = "PAYSTACK" | "FLUTTERWAVE" | "MANUAL";
+export type PaymentMethod = "PAYSTACK" | "FLUTTERWAVE" | "MANUAL" | "CREDIT";
 
 export interface Payment {
   id: number;

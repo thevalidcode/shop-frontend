@@ -15,6 +15,7 @@ export interface CreatePaymentGatewayProps {
   platform: PaymentGatewayPlatform;
   name: string;
   description?: string | null;
+  content?: string | null;
   publicKey?: string | null;
   secretKey?: string | null;
   feePercent?: number;
@@ -22,6 +23,7 @@ export interface CreatePaymentGatewayProps {
   position?: number;
   min?: string | null;
   max?: string | null;
+  currency?: string;
 }
 
 export interface UpdatePaymentGatewayProps {
@@ -29,6 +31,7 @@ export interface UpdatePaymentGatewayProps {
   platform?: PaymentGatewayPlatform;
   name?: string;
   description?: string | null;
+  content?: string | null;
   publicKey?: string | null;
   secretKey?: string | null;
   feePercent?: number;
@@ -36,6 +39,7 @@ export interface UpdatePaymentGatewayProps {
   position?: number;
   min?: string | null;
   max?: string | null;
+  currency?: string;
 }
 
 // Form response type

@@ -18,7 +18,9 @@ import { motion } from "framer-motion";
 export default function PaymentMethodsPage() {
   const [gateways, setGateways] = useState<PaymentGateway[]>([]);
   const [openForm, setOpenForm] = useState<boolean>(false);
-  const [editingGateway, setEditingGateway] = useState<PaymentGateway | undefined>();
+  const [editingGateway, setEditingGateway] = useState<
+    PaymentGateway | undefined
+  >();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("All");
   const { data: gatewaysData } = useGetAllPaymentGatewaysForAdmins();
@@ -27,23 +29,34 @@ export default function PaymentMethodsPage() {
   const maxPaymentGateways = shopInfo?.features?.payment_gateways ?? 0;
   const canAddMoreGateways = gateways.length < maxPaymentGateways;
 
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+
   const filteredGateways = gateways
     ?.filter((gateway) => {
       // Status filter
       if (statusFilter === "All") return true;
       return gateway.status === statusFilter;
     })
-    .filter(
-      (gateway) =>
-        gateway.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        gateway.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        gateway.platform.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    .filter((gateway) => {
+      if (!normalizedSearch) return true;
+
+      const descriptionText = (gateway.description || "").toLowerCase();
+      const contentText = (gateway.content || "").toLowerCase();
+
+      return (
+        gateway.name.toLowerCase().includes(normalizedSearch) ||
+        descriptionText.includes(normalizedSearch) ||
+        contentText.includes(normalizedSearch) ||
+        gateway.platform.toLowerCase().includes(normalizedSearch)
+      );
+    });
+
+  const hasFilter = statusFilter !== "All" || normalizedSearch.length > 0;
 
   const handleAddClick = () => {
     if (!canAddMoreGateways) {
       toast.error(
-        `You can only add up to ${maxPaymentGateways} payment gateways. Upgrade your plan for more.`
+        `You can only add up to ${maxPaymentGateways} payment gateways. Upgrade your plan for more.`,
       );
       return;
     }
@@ -58,7 +71,9 @@ export default function PaymentMethodsPage() {
 
   useEffect(() => {
     if (gatewaysData) {
-      setGateways(gatewaysData);
+      setGateways(
+        gatewaysData.filter((gateway) => gateway.platform !== "CREDIT"),
+      );
     }
   }, [gatewaysData]);
 
@@ -79,7 +94,7 @@ export default function PaymentMethodsPage() {
           canAddMoreGateways={canAddMoreGateways}
           maxPaymentGateways={maxPaymentGateways}
         />
-        
+
         <EmptyState
           icon={CreditCard}
           title="No Payment Method Found"
@@ -91,7 +106,7 @@ export default function PaymentMethodsPage() {
           featureLabel="Payment gateway limit"
           tooltipDescription={`You've reached the maximum of ${maxPaymentGateways} payment gateways. Upgrade to add more.`}
         />
-        
+
         <PaymentToolbar
           openForm={openForm}
           setOpenForm={setOpenForm}
@@ -119,14 +134,22 @@ export default function PaymentMethodsPage() {
         canAddMoreGateways={canAddMoreGateways}
         maxPaymentGateways={maxPaymentGateways}
       />
-      
+
       <PaymentMethodStats gateways={gateways} />
-      
-      <PaymentMethodCardList
-        gateways={filteredGateways}
-        setGateways={setGateways}
-        onEdit={handleEdit}
-      />
+
+      {filteredGateways.length === 0 && hasFilter ? (
+        <EmptyState
+          icon={CreditCard}
+          title="No payment methods match your filters"
+          description="Try a different search term or reset the status filter."
+        />
+      ) : (
+        <PaymentMethodCardList
+          gateways={filteredGateways}
+          setGateways={setGateways}
+          onEdit={handleEdit}
+        />
+      )}
 
       <PaymentToolbar
         openForm={openForm}
@@ -138,4 +161,3 @@ export default function PaymentMethodsPage() {
     </motion.div>
   );
 }
-

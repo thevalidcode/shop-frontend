@@ -3,18 +3,20 @@
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { useAppContext } from "@/context/appContext";
-import { useUpdateUser } from "@/hooks/use-user";
+import { useRegenerateUserApiKey, useUpdateUser } from "@/hooks/use-user";
 import { useUploadImage } from "@/hooks/use-file";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProfileHeader } from "./components/ProfileHeader";
 import { AccountForm } from "./components/AccountForm";
 import { ApiKeySection } from "./components/ApiKeySection";
-import { BillingInfoList } from "./components/BillingInfoList";
+import { ShippingInfoList } from "./components/ShippingInfoList";
 
 export default function UserProfilePage() {
   const [editing, setEditing] = useState(false);
   const { userCurrency, userInfo, setUserInfo } = useAppContext();
   const { mutateAsync: updateUser, isPending } = useUpdateUser();
+  const { mutateAsync: regenerateApiKey, isPending: isRegeneratingApiKey } =
+    useRegenerateUserApiKey();
   const { mutateAsync: uploadImage, isPending: uploadingImage } =
     useUploadImage();
 
@@ -33,6 +35,7 @@ export default function UserProfilePage() {
       image: userInfo?.image ?? "",
       fullName: userInfo?.fullName ?? "",
       phone: userInfo?.phone ?? null,
+      currency: userCurrency,
     });
     setEditing(false);
   }
@@ -50,7 +53,7 @@ export default function UserProfilePage() {
         <ProfileHeader
           fullName={userInfo.fullName || ""}
           username={userInfo.username}
-          joinedAt={userInfo.createdAt}
+          joinedAt={userInfo.timestamp!}
           imageUrl={userInfo.image}
           editing={editing}
           uploadingImage={uploadingImage}
@@ -62,7 +65,7 @@ export default function UserProfilePage() {
       <Tabs defaultValue="account" className="w-full">
         <TabsList className="bg-muted/50">
           <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="billing">Billing</TabsTrigger>
+          <TabsTrigger value="shipping">Shipping</TabsTrigger>
         </TabsList>
 
         <TabsContent value="account" className="mt-4 space-y-6">
@@ -91,14 +94,14 @@ export default function UserProfilePage() {
 
           <Card className="p-6">
             <ApiKeySection
-              apiKey={userInfo.apiKey}
-              onRegenerate={(newKey) => setUserInfo({ ...userInfo!, apiKey: newKey })}
+              onRegenerate={regenerateApiKey}
+              isRegenerating={isRegeneratingApiKey}
             />
           </Card>
         </TabsContent>
 
-        <TabsContent value="billing" className="mt-4">
-          <BillingInfoList />
+        <TabsContent value="shipping" className="mt-4">
+          <ShippingInfoList />
         </TabsContent>
       </Tabs>
     </div>

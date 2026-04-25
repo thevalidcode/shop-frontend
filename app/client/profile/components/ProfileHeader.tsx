@@ -29,7 +29,7 @@ export function ProfileHeader({
     <div className="flex flex-col gap-8 sm:flex-row">
       <div className="relative h-32 w-32 shrink-0">
         <img
-          src={imageUrl ?? "/images/default-profile.jpg"}
+          src={imageUrl || "/images/default-profile.jpg"}
           alt="Profile"
           className="h-32 w-32 rounded-full object-cover border"
         />

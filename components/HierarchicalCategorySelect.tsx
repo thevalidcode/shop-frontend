@@ -20,6 +20,7 @@ interface HierarchicalCategorySelectProps {
   onValueChange: (value: string) => void;
   placeholder?: string;
   required?: boolean;
+  disabled?: boolean;
 }
 
 export function HierarchicalCategorySelect({
@@ -28,6 +29,7 @@ export function HierarchicalCategorySelect({
   onValueChange,
   placeholder = "Select category",
   required = false,
+  disabled = false,
 }: HierarchicalCategorySelectProps) {
   // Build hierarchical tree structure
   const categoryTree = useMemo(() => {
@@ -97,7 +99,12 @@ export function HierarchicalCategorySelect({
   }, [categoryTree]);
 
   return (
-    <Select value={value} onValueChange={onValueChange} required={required}>
+    <Select
+      value={value}
+      onValueChange={onValueChange}
+      required={required}
+      disabled={disabled}
+    >
       <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

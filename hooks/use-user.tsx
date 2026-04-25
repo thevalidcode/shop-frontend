@@ -31,8 +31,10 @@ export function useCreateUser() {
         password: string;
         shopId: number;
         fullName?: string;
+        phone?: string | null;
       } = {
         email: newUser.email,
+        phone: newUser.phone,
         password: newUser.password,
         shopId: Number(shopId),
         fullName: newUser.fullName,
@@ -182,10 +184,11 @@ interface UpdateUserProps {
   fullName?: string;
   image?: string | null;
   phone?: string | null;
+  currency?: string;
 }
 
 export function useUpdateUser() {
-  const { api, setUserInfo } = useAppContext();
+  const { api, setUserInfo, setUserCurrency } = useAppContext();
 
   return useMutation({
     mutationFn: async (data: UpdateUserProps) => {
@@ -198,9 +201,33 @@ export function useUpdateUser() {
       setUserInfo({
         ...updatedUser.user,
       });
+      if (updatedUser?.user?.currency) {
+        setUserCurrency(updatedUser.user.currency);
+      }
     },
     onError: (error: unknown) => {
       const errorMsg = normalizeApiError(error, "Failed to update user");
+      toast.error(errorMsg);
+    },
+  });
+}
+
+export function useRegenerateUserApiKey() {
+  const { api } = useAppContext();
+
+  return useMutation({
+    mutationFn: async () => {
+      const res = await api.post<{ apiKey: string }>("/users/api-key/regenerate");
+      if (!res.data?.apiKey) {
+        throw new Error("Failed to regenerate API key");
+      }
+      return res.data.apiKey;
+    },
+    onSuccess: () => {
+      toast.success("API key regenerated");
+    },
+    onError: (error: unknown) => {
+      const errorMsg = normalizeApiError(error, "Failed to regenerate API key");
       toast.error(errorMsg);
     },
   });
@@ -212,6 +239,8 @@ export interface UpdateUserByAdminProps {
   email?: string;
   fullName?: string;
   balance?: string;
+  balanceAction?: "ADD" | "REMOVE";
+  balanceAdjustment?: number;
   status?: UserStatus;
   phone?: string | null;
 }
